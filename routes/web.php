@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*Cliente*/
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm'); //Vista Login
+Route::post('/login', [LoginController::class, 'login'])->name('login'); //Login
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');//Logout
+Route::get('/menu', [ClienteController::class, 'index'])->name('index'); //Menu
+Route::get('/registro',[ClienteController::class,'registro'])->name('registro');//Registro
+Route::post('/regitroCliente',[ClienteController::class,'save'])->name('registroCliente');//Guardar Registro
