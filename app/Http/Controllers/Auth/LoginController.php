@@ -32,7 +32,7 @@ class LoginController extends Controller
         ]);
     }
 
-
+    //Cerrar Sesion
     public function logout(Request $request)
     {
         Auth::logout();

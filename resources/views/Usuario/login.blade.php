@@ -1,5 +1,5 @@
 @extends('layauts.base')
-@section('title', 'Usuario Cliente')
+@section('title', 'Usuario')
 @section('content')
 
     <!DOCTYPE html>
@@ -60,11 +60,6 @@
             background-color: #218838;
         }
 
-        .btn-warning {
-            background-color: #ffc107; /* Amarillo */
-            color: white;
-        }
-
         .btn-warning:hover {
             background-color: #e0a800;
         }
@@ -105,21 +100,20 @@
         <img src="{{ asset('images/logo_guash.png') }}" alt="GÜASH Logo">
     </div>
     <h1>Acceder</h1>
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('loginUsuario') }}">
         @csrf
         <div class="form-group">
-            <input type="email" name="correo_cliente" placeholder="Correo" required class="form-control" value="{{ old('correo_cliente') }}">
-            @error('correo_cliente')
+            <input type="text" name="usuario" placeholder="Usuario" required class="form-control" value="{{ old('usuario') }}">
+            @error('usuario')
             <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
-            <input type="password" name="contra_cliente" placeholder="Contraseña" required class="form-control">
+            <input type="password" name="contrasena" placeholder="Contraseña" required class="form-control">
         </div>
         <button type="submit" class="btn btn-success">Iniciar Sesión</button>
         <div class="links">
             <a href="#" class="btn btn-danger">Olvide mi contraseña</a>
-            <a href="/registro" class="btn btn-warning">Registrarme</a>
         </div>
     </form>
 </div>
