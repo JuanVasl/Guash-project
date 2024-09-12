@@ -17,6 +17,10 @@ class ClienteController extends Controller
     {
         return view('Cliente.registro');
     }
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'id_cliente');
+    }
 
     public function save(Request $request)
     {
