@@ -108,7 +108,7 @@
     <form method="POST" action="{{ route('registroCliente') }}">
         @csrf
         <div class="form-group">
-            <input type="text" name="nombre_cliente" placeholder="Nombre" required class="form-control">
+            <input type="text" name="nombre_cliente" placeholder="Nombre completo" required class="form-control">
         </div>
         <div class="form-group">
             <input type="text" name="apellido_cliente" placeholder="Apellidos" required class="form-control">
