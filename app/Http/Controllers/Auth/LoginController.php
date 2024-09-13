@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\cliente;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -22,7 +23,7 @@ class LoginController extends Controller
         $cliente = Cliente::where('correo_cliente', $credentials['correo_cliente'])->first();
 
         // Verificamos si el cliente existe y si la contraseña coincide
-        if ($cliente && $cliente->contra_cliente === $credentials['contra_cliente']) {
+        if ($cliente && Hash::check($credentials['contra_cliente'], $cliente->contra_cliente)) {
             Auth::login($cliente); // Iniciamos sesión con el cliente
             return redirect()->intended('menu'); // Redirige al menu
         }
