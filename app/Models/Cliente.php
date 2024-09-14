@@ -23,5 +23,9 @@ class Cliente extends Authenticatable
     {
         return $this->contra_cliente;
     }
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class, 'id_cliente');
+    }
 
 }
