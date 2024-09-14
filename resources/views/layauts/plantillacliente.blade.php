@@ -24,6 +24,7 @@
             max-width: 400px;
         }
         footer {
+            height: 13vh;
             background-color: black;
         }
         .offcanvas-end {
@@ -106,6 +107,17 @@
 
 </head>
 <body style="background-color: white">
+    <div class="container">
+        <!-- Logotipo y Texto de Bienvenida -->
+        <div class="row mt-5">
+            <div class="col-4 justify-content-center">
+                <img src="{{ asset('images/logo_guash.png') }}" alt="Logotipo" class="img-fluid">
+            </div>
+            <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+                <h2 class="text-center"><strong>Bienvenido(a)</strong></h2>
+                <p class="text-center"><strong>{{ Auth::user()->nombre_cliente }} {{ Auth::user()->apellido_cliente }}</strong></p>
+            </div>
+        </div>
 
 <div class="container">
     @yield('content') <!-- es para que se herede en todas las plantillas-->

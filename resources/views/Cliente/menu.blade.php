@@ -2,19 +2,8 @@
 @section('title', 'Cliente')
 @section('content')
     <div class="container">
-        <!-- Logotipo y Texto de Bienvenida -->
-        <div class="row mb-5">
-            <div class="col-4 justify-content-center">
-                <img src="{{ asset('images/logo_guash.png') }}" alt="Logotipo" class="img-fluid">
-            </div>
-            <div class="col-8 d-flex flex-column justify-content-center align-items-center">
-                <h2 class="text-center"><strong>Bienvenido(a)</strong></h2>
-                <p class="text-center"><strong>{{ Auth::user()->nombre_cliente }} {{ Auth::user()->apellido_cliente }}</strong></p>
-            </div>
-        </div>
-
-        <!-- Título -->
-        <div class="container mt-5">
+            <!-- Título -->
+        <div class="container mt-2">
             <div class="col-12">
                 <h3 class="text-start"><strong>¿Tienes ropa para lavar?</strong></h3>
             </div>
