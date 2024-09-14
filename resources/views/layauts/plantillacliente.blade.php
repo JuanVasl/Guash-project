@@ -27,6 +27,7 @@
             background-color: black;
         }
         .offcanvas-end {
+            max-width: 350px;
             background-color: rgb(217, 217, 217);
         }
         .btn-custom {
