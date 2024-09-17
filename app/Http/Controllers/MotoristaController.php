@@ -11,4 +11,14 @@ class MotoristaController extends Controller
         return view('Motorista.menuMotorista');
     }
 
+    public function entregas()
+    {
+        return view('Motorista.entregasPendientes');
+    }
+
+    public function historial()
+    {
+        return view('Motorista.historialEntregas');
+    }
+
 }

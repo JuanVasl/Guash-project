@@ -43,9 +43,26 @@ Route::get('/usuarioMaster', [UsuarioController::class, 'usuarioMaster'])->name(
 Route::post('/logearse', [UsuarioController::class, 'loginUsuario'])->name('loginUsuario'); //Cliente
 Route::post('/logoutUsuario', [UsuarioController::class, 'logoutUsuario'])->name('logoutUsuario');//Logout
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*Motirsta*/
 Route::get('/menuMoto', [MotoristaController::class, 'indexMotorista'])->name('indexMotorista'); //Vista Motirista
-
+Route::get('/entregas', [MotoristaController::class, 'entregas'])->name('entregas'); //Vista Motirista
+Route::get('/historial', [MotoristaController::class, 'historial'])->name('historial'); //Vista Motirista
 
 
 
