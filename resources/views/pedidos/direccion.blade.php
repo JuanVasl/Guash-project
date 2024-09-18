@@ -13,11 +13,12 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
                 <div class="btn-container mt-4 p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
-                    <form action="{{ route('pedidos.guardar-direcc', $pedido) }}" method="POST">
+                    <form action="{{ route('pedidos.guardar-direcc') }}" method="POST">
                         @csrf
                         <div class="form-group mt-3">
                             <label for="id_tipo_direcc">Tipo de dirección</label>
                             <select name="id_tipo_direcc" id="id_tipo_direcc" class="form-control" required>
+                                <option value="" disabled selected>Seleccione un tipo</option>
                                 @foreach($tiposDireccion as $tipo)
                                     <option value="{{ $tipo->id }}">{{ $tipo->tipo }}</option>
                                 @endforeach
@@ -34,12 +35,13 @@
                         <div class="form-group mt-3">
                             <label for="id_ubicacion">Ubicación</label>
                             <select name="id_ubicacion" id="id_ubicacion" class="form-control" required>
+                                <option value="" disabled selected>Seleccione una ubicación</option>
                                 @foreach($ubicaciones as $ubicacion)
                                     <option value="{{ $ubicacion->id }}">{{ $ubicacion->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Siguiente</button>
+                        <button type="submit" class="btn btn-primary mt-3">Finalizar</button>
                     </form>
                 </div>
             </div>

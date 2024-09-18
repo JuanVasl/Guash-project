@@ -16,6 +16,7 @@ class Pedido extends Model
     ];
 
     // Relaciones con otras tablas
+    // En el modelo Pedido
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'id_cliente');
