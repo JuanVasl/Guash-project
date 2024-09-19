@@ -5,7 +5,7 @@
     <!-- Título -->
     <div class="container mt-2">
         <div class="col-12">
-            <h3 class="text-start"><strong>¿Preparado para trabajar?</strong></h3>
+            <h3 class="text-center"><strong>¿Preparado para trabajar?</strong></h3>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="col-6 d-flex justify-content-center">
-            <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
+            <div class="btn-container p-4" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
                 <a href="/historial" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
                     <div class="d-flex justify-content-center" style="height: 75%;">
                         <img src="https://cdn-icons-png.freepik.com/256/5457/5457874.png" alt="Programar pedido" style="max-width: 100%; max-height: 100%;">

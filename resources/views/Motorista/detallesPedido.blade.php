@@ -4,7 +4,7 @@
 <!-- Título -->
 <div class="container">
     <div class="col-12">
-        <h3 class="text-start"><strong>Detalles de pedido</strong></h3>
+        <h3 class="text-center"><strong>Detalles de pedido</strong></h3>
     </div>
 </div>
 
