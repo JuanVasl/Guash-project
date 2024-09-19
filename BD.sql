@@ -393,7 +393,7 @@ CREATE TABLE `ubicacion` (
 
 LOCK TABLES `ubicacion` WRITE;
 /*!40000 ALTER TABLE `ubicacion` DISABLE KEYS */;
-INSERT INTO `ubicacion` VALUES (1,'Puerto Barrios','PB'),(2,'Santo Tomas','ST');
+INSERT INTO `ubicacion` VALUES (1,'Puerto Barrios','PB'),(2,'Santo Tomás de Castilla','ST');
 /*!40000 ALTER TABLE `ubicacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
