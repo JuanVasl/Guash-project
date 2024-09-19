@@ -1,4 +1,4 @@
-@extends('layauts.base')
+@extends('layauts.plantillaLogin')
 @section('title', 'Usuario')
 @section('content')
 
