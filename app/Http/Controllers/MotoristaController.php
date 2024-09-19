@@ -68,7 +68,30 @@ class MotoristaController extends Controller
 
     public function historial()
     {
-        return view('Motorista.historialEntregas');
+        // Obtener el id del usuario logeado
+        $usuario = Auth::guard('usuarios')->user();
+        $idMotorista = $usuario->id_usuario;
+
+        $entrega = DB::table('pedido')
+            ->join('cliente','pedido.id_cliente', '=', 'cliente.id_cliente')
+            ->join('ubicacion', 'cliente.id_ubicacion', '=', 'ubicacion.id_ubicacion')
+            ->whereIn('pedido.id_estado', [7]) // Filtrar por estados
+            ->where(function($query) use ($idMotorista) { // Filtrar si igual el Id del motorista
+                $query->orWhere('pedido.id_motorista', $idMotorista);
+            })
+            ->select('pedido.*', 'ubicacion.nombre','ubicacion.cod')
+            ->paginate(5);
+
+        return view('Motorista.historialEntregas', compact('entrega'));
+    }
+
+    public function historialDetallesPedido($id_pedido){
+
+        $pedido = Motorista::findOrFail($id_pedido);
+        $cliente = Cliente::where('id_cliente', $pedido->id_cliente)->first();
+        $estados = Estado::where('id_estado', $pedido->id_estado)->first();
+
+        return view('Motorista.historialDetalleEntregas', compact('pedido','cliente','estados'));
     }
 
 }
