@@ -60,12 +60,11 @@ Route::post('/logoutUsuario', [UsuarioController::class, 'logoutUsuario'])->name
 
 
 /*Motirsta*/
-Route::get('/menuMoto', [MotoristaController::class, 'indexMotorista'])->name('indexMotorista'); //Vista Motirista
-Route::get('/entregas', [MotoristaController::class, 'entregas'])->name('entregas'); //Vista Motirista
-Route::get('/historial', [MotoristaController::class, 'historial'])->name('historial'); //Vista Motirista
-
-
-
+Route::get('/menuMoto', [MotoristaController::class, 'indexMotorista'])->name('indexMotorista'); //Menu
+Route::get('/entregas', [MotoristaController::class, 'entregas'])->name('entregas'); //Entregas de Pendientes
+Route::get('/detalles/{id_pedido}', [MotoristaController::class, 'detallesPedido'])->name('detalles'); //Detalles de Pedido
+Route::get('/historial', [MotoristaController::class, 'historial'])->name('historial'); //Historial de entregas
+Route::post('/motorista/cambiarEstado/{id_pedido}', [MotoristaController::class, 'estadoPedido'])->name('estadoPedido');
 
 /*Lavanderia*/
 Route::get('/menuLavan', [LavanderiaController::class, 'indexLavanderia'])->name('indexLavanderia'); //Vista Lavanderia

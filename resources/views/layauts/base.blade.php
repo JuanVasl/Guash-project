@@ -108,6 +108,7 @@
             font-size: 18px;
             text-decoration: none;
         }
+
     </style>
 
 </head>
@@ -126,6 +127,7 @@
 
     <div class="container">
         @yield('content') <!-- es para que se herede en todas las plantillas-->
+        @yield('scripts')
     </div>
     <!-- Footer con Navbar -->
     <footer class="text-center text-lg-start fixed-bottom">
