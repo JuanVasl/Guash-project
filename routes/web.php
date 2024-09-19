@@ -28,12 +28,12 @@ Route::get('/registro',[ClienteController::class,'registro'])->name('registro');
 Route::post('/regitroCliente',[ClienteController::class,'save'])->name('registroCliente');//Guardar Registro
 //Pedidos
 Route::match(['get', 'post'], '/pedidos/iniciar', [PedidoController::class, 'inicioPedido'])->name('pedidos.iniciar');
-Route::get('/pedidos/direcc', [PedidoController::class, 'direccion'])->name('pedidos.direcc');
-Route::post('/pedidos/guardar-direcc', [PedidoController::class, 'guardarDireccion'])->name('pedidos.guardar-direcc');
+Route::get('/pedidos/direcc/{pedido}', [PedidoController::class, 'direccion'])->name('pedidos.direcc');
+Route::post('/pedidos/guardar-direccion/{pedido}', [PedidoController::class, 'guardarDireccion'])->name('pedidos.guardar-direcc');
 Route::get('/pedidos/servicios/{pedido}', [PedidoController::class, 'servicios'])->name('pedidos.servicios');
 Route::post('/pedidos/{pedido}/guardarServicios', [PedidoController::class, 'guardarServicios'])->name('pedidos.guardar-servicios');
 Route::get('/pedidos/{pedido}/resumen', [PedidoController::class, 'resumen'])->name('pedidos.resumen');
-
+Route::delete('/pedidos/{pedido}', [PedidoController::class, 'eliminar'])->name('pedidos.eliminar');
 
 
 

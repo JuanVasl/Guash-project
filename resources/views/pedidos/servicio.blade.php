@@ -19,11 +19,17 @@
                             <select name="id_precio_serv" id="id_precio_serv" class="form-control" required>
                                 <option value="" disabled selected>Seleccione el servicio</option>
                                 @foreach($servicios as $servicio)
-                                    <option value="{{ $servicio->id_precio_serv }}">{{ $servicio->servicio }} - Q.{{ $servicio->precio }}</option>
+                                    <option value="{{ $servicio->id_precio_serv }}">{{ $servicio->servicio }} - Q.{{ $servicio->precio }}/Canasto</option>
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Siguiente</button>
+                        <button type="submit" class="btn btn-success mt-4">Continuar</button>
+                    </form>
+                    <!-- Formulario para eliminar el pedido -->
+                    <form action="{{ route('pedidos.eliminar', $pedido) }}" method="POST" class="mt-2">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Cancelar</button>
                     </form>
                 </div>
             </div>

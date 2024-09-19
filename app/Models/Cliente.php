@@ -28,4 +28,14 @@ class Cliente extends Authenticatable
         return $this->hasMany(Pedido::class, 'id_cliente');
     }
 
+    public function ubicacion()
+    {
+        return $this->belongsTo(Ubicacion::class, 'id_ubicacion', 'id_ubicacion');
+    }
+
+    public function tipoDireccion()
+    {
+        return $this->belongsTo(TipoDireccion::class, 'id_tipo_direcc', 'id_tipo_direcc');
+    }
+
 }

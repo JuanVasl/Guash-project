@@ -19,12 +19,12 @@ class Pedido extends Model
     // En el modelo Pedido
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class, 'id_cliente');
+        return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
     }
 
     public function precioServicio()
     {
-        return $this->belongsTo(PrecioServicio::class, 'id_precio_serv');
+        return $this->belongsTo(PrecioServicio::class, 'id_precio_serv', 'id_precio_serv');
     }
 
     public function estado()

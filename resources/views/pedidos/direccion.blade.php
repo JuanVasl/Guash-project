@@ -13,38 +13,39 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
                 <div class="btn-container mt-4 p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
-                    <form action="{{ route('pedidos.guardar-direcc') }}" method="POST">
+                    <form action="{{ route('pedidos.guardar-direcc', ['pedido' => $pedido->id_pedido]) }}" method="POST">
                         @csrf
                         <div class="form-group mt-3">
                             <label for="id_tipo_direcc">Tipo de dirección</label>
                             <select name="id_tipo_direcc" id="id_tipo_direcc" class="form-control" required>
                                 <option value="" disabled selected>Seleccione un tipo</option>
                                 @foreach($tiposDireccion as $tipo)
-                                    <option value="{{ $tipo->id }}">{{ $tipo->tipo }}</option>
+                                    <option value="{{ $tipo->id_tipo_direcc }}">{{ $tipo->tipo }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group mt-3">
                             <label for="direccion">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control" required>
+                            <input type="text" name="direccion" id="direccion" value="{{ old('direccion', $cliente->direccion) }}" class="form-control" required>
                         </div>
                         <div class="form-group mt-3">
                             <label for="referencia">Referencia</label>
-                            <input type="text" name="referencia" id="referencia" class="form-control" required>
+                            <input type="text" name="referencia" id="referencia" value="{{ old('referencia', $cliente->referencia) }} " class="form-control" required>
                         </div>
                         <div class="form-group mt-3">
                             <label for="id_ubicacion">Ubicación</label>
                             <select name="id_ubicacion" id="id_ubicacion" class="form-control" required>
                                 <option value="" disabled selected>Seleccione una ubicación</option>
                                 @foreach($ubicaciones as $ubicacion)
-                                    <option value="{{ $ubicacion->id }}">{{ $ubicacion->nombre }}</option>
+                                    <option value="{{ $ubicacion->id_ubicacion }}">{{ $ubicacion->nombre }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-3">Finalizar</button>
+                        <button type="submit" class="btn btn-success mt-3">Finalizar</button>
                     </form>
+                    <!-- Botón para retroceder a la vista de servicios -->
+                    <a href="{{ route('pedidos.servicios', ['pedido' => $pedido->id_pedido]) }}" class="btn btn-danger mt-3">Retroceder</a>
                 </div>
             </div>
         </div>
-    </div>
 @endsection

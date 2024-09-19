@@ -25,21 +25,31 @@ class PedidoController extends Controller
                 'id_estado' => 1,
             ]);
 
-            return redirect()->route('pedidos.servicios', $pedido);
         }
+        return redirect()->route('pedidos.servicios', $pedido);
     }
-    public function direccion()
+    public function direccion($pedido)
     {
+        // Obtener el pedido usando el id_pedido
+        $pedido = Pedido::findOrFail($pedido);
+
+        // Obtener el id_cliente desde el pedido
+        $id_cliente = $pedido->id_cliente;
+
+        // Obtener el cliente usando el id_cliente
+        $cliente = Cliente::findOrFail($id_cliente);
+
+        // Obtener los tipos de dirección y ubicaciones
         $tiposDireccion = TipoDireccion::orderBy('id_tipo_direcc', 'asc')->get();
         $ubicaciones = Ubicacion::orderBy('id_ubicacion', 'asc')->get();
 
-        $cliente = Auth::user();
-
-        return view('pedidos.direccion', compact('tiposDireccion', 'ubicaciones', 'cliente'));
+        // Retornar la vista con los datos necesarios
+        return view('pedidos.direccion', compact('tiposDireccion', 'ubicaciones', 'cliente', 'pedido'));
     }
 
-    public function guardarDireccion(Request $request)
+    public function guardarDireccion(Request $request, $pedido)
     {
+        // Validar los campos recibidos del formulario
         $request->validate([
             'id_tipo_direcc' => 'required|exists:tipo_direcc,id_tipo_direcc',
             'direccion' => 'required|string',
@@ -47,8 +57,16 @@ class PedidoController extends Controller
             'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion'
         ]);
 
-        $cliente = auth()->user();
+        // Obtener el pedido a partir del parámetro $pedido
+        $pedido = Pedido::findOrFail($pedido);
 
+        // Obtener el id_cliente desde el pedido
+        $id_cliente = $pedido->id_cliente;
+
+        // Buscar el cliente usando el id_cliente
+        $cliente = Cliente::findOrFail($id_cliente);
+
+        // Actualizar los campos del cliente
         $cliente->update([
             'id_ubicacion' => $request->id_ubicacion,
             'direccion' => $request->direccion,
@@ -56,12 +74,15 @@ class PedidoController extends Controller
             'id_tipo_direcc' => $request->id_tipo_direcc
         ]);
 
-        return redirect()->route('menu')->with('success', 'Dirección actualizada con éxito.');
+        return redirect()->route('pedidos.resumen',$pedido);
     }
 
     public function servicios(Pedido $pedido)
     {
-        $servicios = PrecioServicio::orderBy('id_precio_serv', 'asc')->get();
+        // Filtrar los servicios que tengan vigencia = 1
+        $servicios = PrecioServicio::where('vigencia', 1)
+            ->orderBy('id_precio_serv', 'asc')
+            ->get();
         return view('pedidos.servicio', compact('pedido', 'servicios'));
     }
 
@@ -75,12 +96,21 @@ class PedidoController extends Controller
 
         $pedido->save();
 
-        return redirect()->route('pedidos.direcc');
+        return redirect()->route('pedidos.direcc', ['pedido' => $pedido->id_pedido]);
     }
 
     public function resumen(Pedido $pedido)
     {
+        // Cargar las relaciones del cliente y su ubicación para este pedido
+        $pedido->load('cliente.ubicacion', 'precioServicio');
+
         return view('pedidos.resumen', compact('pedido'));
+    }
+
+    public function eliminar(Pedido $pedido)
+    {
+        $pedido->delete();  // Elimina el pedido de la base de datos
+        return redirect()->route('index');
     }
 
 }
