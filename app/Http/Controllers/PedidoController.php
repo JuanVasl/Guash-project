@@ -9,16 +9,15 @@ use App\Models\Ubicacion;
 use App\Models\PrecioServicio;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PedidoController extends Controller
 {
     public function inicioPedido(Request $request)
     {
         if ($request->isMethod('post')) {
-            // Lógica para manejar solicitud POST
             $fecha = Carbon::now('America/Guatemala');
             $idCliente = auth()->user()->id_cliente;
-
             $pedido = Pedido::create([
                 'fecha' => $fecha,
                 'id_cliente' => $idCliente,
@@ -26,66 +25,92 @@ class PedidoController extends Controller
                 'id_estado' => 1,
             ]);
 
-            return redirect()->route('pedidos.direcc', $pedido);
         }
+        return redirect()->route('pedidos.servicios', $pedido);
     }
-    public function direccion(Pedido $pedido)
+    public function direccion($pedido)
     {
-        $tiposDireccion = TipoDireccion::all();
-        $ubicaciones = Ubicacion::all();
+        // Obtener el pedido usando el id_pedido
+        $pedido = Pedido::findOrFail($pedido);
 
-        return view('pedidos.direccion', compact('pedido', 'tiposDireccion', 'ubicaciones'));
+        // Obtener el id_cliente desde el pedido
+        $id_cliente = $pedido->id_cliente;
+
+        // Obtener el cliente usando el id_cliente
+        $cliente = Cliente::findOrFail($id_cliente);
+
+        // Obtener los tipos de dirección y ubicaciones
+        $tiposDireccion = TipoDireccion::orderBy('id_tipo_direcc', 'asc')->get();
+        $ubicaciones = Ubicacion::orderBy('id_ubicacion', 'asc')->get();
+
+        // Retornar la vista con los datos necesarios
+        return view('pedidos.direccion', compact('tiposDireccion', 'ubicaciones', 'cliente', 'pedido'));
     }
 
-    public function guardarDireccion(Request $request, Pedido $pedido)
+    public function guardarDireccion(Request $request, $pedido)
     {
+        // Validar los campos recibidos del formulario
         $request->validate([
             'id_tipo_direcc' => 'required|exists:tipo_direcc,id_tipo_direcc',
             'direccion' => 'required|string',
             'referencia' => 'required|string',
             'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion'
         ]);
-        $clienteId = $pedido->cliente->id;
 
-        $this->actualizarDireccionCliente($clienteId, $request->all());
+        // Obtener el pedido a partir del parámetro $pedido
+        $pedido = Pedido::findOrFail($pedido);
 
-        return redirect()->route('pedidos.servicios', $pedido);
-    }
+        // Obtener el id_cliente desde el pedido
+        $id_cliente = $pedido->id_cliente;
 
-    public function actualizarDireccionCliente($clienteId, $datosDireccion, $pedido)
-    {
-        $cliente = Cliente::find($clienteId);
+        // Buscar el cliente usando el id_cliente
+        $cliente = Cliente::findOrFail($id_cliente);
 
-        if ($cliente) {
-            $cliente->update($datosDireccion);
-        } else {
-            // Manejar el caso en que el cliente no se encuentre
-            return redirect()->back()->withErrors(['cliente' => 'Cliente no encontrado']);
-        }
+        // Actualizar los campos del cliente
+        $cliente->update([
+            'id_ubicacion' => $request->id_ubicacion,
+            'direccion' => $request->direccion,
+            'referencia' => $request->referencia,
+            'id_tipo_direcc' => $request->id_tipo_direcc
+        ]);
 
-        return redirect()->route('pedidos.servicios', $pedido);
+        return redirect()->route('pedidos.resumen',$pedido);
     }
 
     public function servicios(Pedido $pedido)
     {
-        $servicios = PrecioServicio::all();
+        // Filtrar los servicios que tengan vigencia = 1
+        $servicios = PrecioServicio::where('vigencia', 1)
+            ->orderBy('id_precio_serv', 'asc')
+            ->get();
         return view('pedidos.servicio', compact('pedido', 'servicios'));
     }
 
     public function guardarServicios(Request $request, Pedido $pedido)
     {
         $request->validate([
-            'id_precio_serv' => 'required|exists:precio_servicio,id'
+            'id_precio_serv' => 'required|exists:precio_servicio,id_precio_serv',
         ]);
 
-        $pedido->update($request->only('id_precio_serv'));
+        $pedido->id_precio_serv = $request->id_precio_serv;
 
-        return redirect()->route('pedidos.resumen', $pedido);
+        $pedido->save();
+
+        return redirect()->route('pedidos.direcc', ['pedido' => $pedido->id_pedido]);
     }
 
     public function resumen(Pedido $pedido)
     {
+        // Cargar las relaciones del cliente y su ubicación para este pedido
+        $pedido->load('cliente.ubicacion', 'precioServicio');
+
         return view('pedidos.resumen', compact('pedido'));
+    }
+
+    public function eliminar(Pedido $pedido)
+    {
+        $pedido->delete();  // Elimina el pedido de la base de datos
+        return redirect()->route('index');
     }
 
 }
