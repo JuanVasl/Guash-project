@@ -30,21 +30,16 @@ class PedidoController extends Controller
     }
     public function direccion($pedido)
     {
-        // Obtener el pedido usando el id_pedido
         $pedido = Pedido::findOrFail($pedido);
-
-        // Obtener el id_cliente desde el pedido
-        $id_cliente = $pedido->id_cliente;
-
-        // Obtener el cliente usando el id_cliente
-        $cliente = Cliente::findOrFail($id_cliente);
-
-        // Obtener los tipos de dirección y ubicaciones
+        $cliente = Cliente::findOrFail($pedido->id_cliente);
         $tiposDireccion = TipoDireccion::orderBy('id_tipo_direcc', 'asc')->get();
         $ubicaciones = Ubicacion::orderBy('id_ubicacion', 'asc')->get();
 
-        // Retornar la vista con los datos necesarios
-        return view('pedidos.direccion', compact('tiposDireccion', 'ubicaciones', 'cliente', 'pedido'));
+        // Obtener los valores actuales
+        $tipo_direccion_actual = $cliente->id_tipo_direcc;
+        $ubicacion_actual = $cliente->id_ubicacion;
+
+        return view('pedidos.direccion', compact('tiposDireccion', 'ubicaciones', 'cliente', 'pedido', 'tipo_direccion_actual', 'ubicacion_actual'));
     }
 
     public function guardarDireccion(Request $request, $pedido)
