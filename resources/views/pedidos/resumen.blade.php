@@ -24,7 +24,7 @@
                             <p><strong>Fecha y hora:</strong></p>
                         </div>
                         <div class="col-6">
-                            <p>{{ $pedido->fecha }}</p>
+                            <p>{{ \Carbon\Carbon::parse($pedido->fecha)->format('d/m/Y H:i') }}</p>
                         </div>
 
                         <div class="col-6 text-end">

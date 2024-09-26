@@ -28,14 +28,17 @@
             </div>
             <div class="col-6 d-flex justify-content-center">
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
-                    <a href="#" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
-                        <div class="d-flex justify-content-center" style="height: 75%;">
-                            <img src="https://cdn-icons-png.freepik.com/256/3652/3652267.png" alt="Programar pedido" style="max-width: 100%; max-height: 100%;">
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
-                            <p class="mt-5 text-center"><strong>Programar pedido</strong></p>
-                        </div>
-                    </a>
+                    <form action="{{ route('pedidos.iniciarProgramacion') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
+                            <div class="d-flex justify-content-center" style="height: 75%;">
+                                <img src="https://cdn-icons-png.freepik.com/256/3652/3652267.png" alt="Programar Pedido" style="max-width: 100%; max-height: 100%;">
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
+                                <p class="mt-5 text-center"><strong>Programar pedido</strong></p>
+                            </div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

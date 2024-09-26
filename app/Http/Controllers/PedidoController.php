@@ -154,6 +154,34 @@ class PedidoController extends Controller
         return view('pedidos.detalle', compact('pedido'));
     }
 
+    public function iniciarProgramacion(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $idCliente = auth()->user()->id_cliente;
+            $pedido = Pedido::create([
+                'id_cliente' => $idCliente,
+                'programado' => 1,
+                'id_estado' => 1,
+            ]);
+        }
+        return redirect()->route('pedidos.programar', $pedido);
+    }
 
+    public function programar(Pedido $pedido)
+    {
+        return view('pedidos.programar', compact('pedido'));
+    }
 
+    public function guardarProgramacion(Request $request, Pedido $pedido)
+    {
+        $request->validate([
+            'fecha_programada' => 'required|date|after:now',
+        ]);
+
+        $pedido->update([
+            'fecha' => $request->fecha_programada,
+        ]);
+
+        return redirect()->route('pedidos.servicios', $pedido);
+    }
 }
