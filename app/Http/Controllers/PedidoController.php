@@ -96,7 +96,6 @@ class PedidoController extends Controller
 
     public function resumen(Pedido $pedido)
     {
-        // Cargar las relaciones del cliente y su ubicación para este pedido
         $pedido->load('cliente.ubicacion', 'precioServicio');
 
         return view('pedidos.resumen', compact('pedido'));
@@ -107,5 +106,54 @@ class PedidoController extends Controller
         $pedido->delete();  // Elimina el pedido de la base de datos
         return redirect()->route('index');
     }
+    public function historialPedidos(Request $request)
+    {
+        // Obtener el ID del cliente autenticado
+        $clienteId = Auth::guard('web')->id(); // Obtiene el ID del cliente autenticado
+
+        // Inicializa la consulta
+        $pedidosQuery = Pedido::where('id_cliente', $clienteId);
+
+        // Filtrar por fecha si se proporciona
+        if ($request->filled('fecha')) {
+            $fecha = $request->input('fecha');
+            $pedidosQuery->whereDate('fecha', $fecha);
+        }
+
+        // Filtrar por estado si se proporciona
+        if ($request->filled('estado')) {
+            $estado = $request->input('estado');
+            $pedidosQuery->where('id_estado', $estado);
+        }
+
+        // Obtener todos los pedidos del cliente autenticado ordenados por fecha descendente
+        $pedidos = $pedidosQuery
+            ->orderBy('fecha', 'desc')
+            ->with('precioServicio', 'estado') // Carga anticipada de relaciones
+            ->paginate(4); // Paginación
+
+        return view('pedidos.historial', compact('pedidos'));
+    }
+
+    public function detallePedido($id_pedido)
+    {
+        // Obtener el ID del cliente autenticado
+        $clienteId = Auth::guard('web')->id();
+
+        // Obtener el pedido específico del cliente autenticado
+        $pedido = Pedido::where('id_cliente', $clienteId)
+            ->where('id_pedido', $id_pedido)
+            ->with(['precioServicio', 'estado']) // Carga anticipada de relaciones
+            ->first();
+
+        // Verificar si el pedido existe
+        if (!$pedido) {
+            return redirect()->route('pedidos.historial')->with('error', 'Pedido no encontrado.');
+        }
+
+        return view('pedidos.detalle', compact('pedido'));
+    }
+
+
 
 }

@@ -3,29 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GUASH-@yield('title')</title> <!--nombre de la pagina-->
+    <title>GUASH-@yield('title')</title>
 
-    <!--Booptstrap se agrega manualmente-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <style>
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
+            flex-direction: column;
+            min-height: 100vh;
             margin: 0;
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
+        }
+        .main-content {
+            flex: 1;
+            padding-bottom: 15vh; /* Ajusta este valor según la altura de tu footer */
         }
         .container {
             text-align: center;
             width: 100%;
             max-width: 400px;
+            margin: auto;
         }
         footer {
-            height: 13vh;
+            height: 11vh;
             background-color: black;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
         .offcanvas-end {
             max-width: 350px;
@@ -60,18 +66,18 @@
             padding: 20px;
         }
         .offcanvas-header .image-container {
-            flex: 1; /* 1/3 del espacio */
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .offcanvas-header img {
-            width: 90px; /* Ajusta el tamaño de la imagen */
+            width: 90px;
             height: 90px;
             border-radius: 50%;
         }
         .offcanvas-header .data-container {
-            flex: 2; /* 2/3 del espacio */
+            flex: 2;
             color: white;
             display: flex;
             flex-direction: column;
@@ -104,12 +110,12 @@
             text-decoration: none;
         }
     </style>
-
 </head>
-<body style="background-color: white">
+<body>
+<div class="main-content">
     <div class="container">
         <!-- Logotipo y Texto de Bienvenida -->
-        <div class="row mt-5">
+        <div class="row">
             <div class="col-4 justify-content-center">
                 <img src="{{ asset('images/logo_guash.png') }}" alt="Logotipo" class="img-fluid">
             </div>
@@ -119,11 +125,12 @@
             </div>
         </div>
 
-<div class="container">
-    @yield('content') <!-- es para que se herede en todas las plantillas-->
+        @yield('content')
+    </div>
 </div>
+
 <!-- Footer con Navbar -->
-<footer class="text-center text-lg-start fixed-bottom">
+<footer class="text-center text-lg-start">
     <div class="container">
         <nav class="navbar navbar-light">
             <div class="container-fluid justify-content-center">
@@ -163,8 +170,6 @@
             <p><strong>+502 {{ Auth::user()->tele_cliente }}</strong></p>
             <p><strong>{{ Auth::user()->correo_cliente }}</strong></p>
         </div>
-        <!-- Botón de cierre del Offcanvas -->
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
     <!-- Offcanvas body -->
@@ -197,10 +202,8 @@
         </form>
         <br>
         <p>Versión 1.0.3</p>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

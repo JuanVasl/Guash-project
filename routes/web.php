@@ -34,8 +34,8 @@ Route::get('/pedidos/servicios/{pedido}', [PedidoController::class, 'servicios']
 Route::post('/pedidos/{pedido}/guardarServicios', [PedidoController::class, 'guardarServicios'])->name('pedidos.guardar-servicios');
 Route::get('/pedidos/{pedido}/resumen', [PedidoController::class, 'resumen'])->name('pedidos.resumen');
 Route::delete('/pedidos/{pedido}', [PedidoController::class, 'eliminar'])->name('pedidos.eliminar');
-
-
+Route::get('/pedidos/historial', [PedidoController::class, 'historialPedidos'])->name('pedidos.historial');
+Route::get('/pedidos/{id_pedido}/detalle', [PedidoController::class, 'detallePedido'])->name('pedidos.detalle');
 
 /*Usuario*/
 Route::get('/loginUsuario', [UsuarioController::class, 'vistaLogin'])->name('vistaLogin'); //Vista Usuario
