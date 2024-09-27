@@ -236,7 +236,7 @@ DROP TABLE IF EXISTS `pedido`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pedido` (
   `id_pedido` int NOT NULL AUTO_INCREMENT,
-  `fecha` datetime(2) NOT NULL,
+  `fecha` datetime(2) DEFAULT NULL,
   `id_cliente` int NOT NULL,
   `programado` int NOT NULL,
   `cant_canasto` int DEFAULT NULL,

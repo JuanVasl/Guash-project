@@ -30,21 +30,16 @@ class PedidoController extends Controller
     }
     public function direccion($pedido)
     {
-        // Obtener el pedido usando el id_pedido
         $pedido = Pedido::findOrFail($pedido);
-
-        // Obtener el id_cliente desde el pedido
-        $id_cliente = $pedido->id_cliente;
-
-        // Obtener el cliente usando el id_cliente
-        $cliente = Cliente::findOrFail($id_cliente);
-
-        // Obtener los tipos de dirección y ubicaciones
+        $cliente = Cliente::findOrFail($pedido->id_cliente);
         $tiposDireccion = TipoDireccion::orderBy('id_tipo_direcc', 'asc')->get();
         $ubicaciones = Ubicacion::orderBy('id_ubicacion', 'asc')->get();
 
-        // Retornar la vista con los datos necesarios
-        return view('pedidos.direccion', compact('tiposDireccion', 'ubicaciones', 'cliente', 'pedido'));
+        // Obtener los valores actuales
+        $tipo_direccion_actual = $cliente->id_tipo_direcc;
+        $ubicacion_actual = $cliente->id_ubicacion;
+
+        return view('pedidos.direccion', compact('tiposDireccion', 'ubicaciones', 'cliente', 'pedido', 'tipo_direccion_actual', 'ubicacion_actual'));
     }
 
     public function guardarDireccion(Request $request, $pedido)
@@ -101,7 +96,6 @@ class PedidoController extends Controller
 
     public function resumen(Pedido $pedido)
     {
-        // Cargar las relaciones del cliente y su ubicación para este pedido
         $pedido->load('cliente.ubicacion', 'precioServicio');
 
         return view('pedidos.resumen', compact('pedido'));
@@ -112,5 +106,82 @@ class PedidoController extends Controller
         $pedido->delete();  // Elimina el pedido de la base de datos
         return redirect()->route('index');
     }
+    public function historialPedidos(Request $request)
+    {
+        // Obtener el ID del cliente autenticado
+        $clienteId = Auth::guard('web')->id(); // Obtiene el ID del cliente autenticado
 
+        // Inicializa la consulta
+        $pedidosQuery = Pedido::where('id_cliente', $clienteId);
+
+        // Filtrar por fecha si se proporciona
+        if ($request->filled('fecha')) {
+            $fecha = $request->input('fecha');
+            $pedidosQuery->whereDate('fecha', $fecha);
+        }
+
+        // Filtrar por estado si se proporciona
+        if ($request->filled('estado')) {
+            $estado = $request->input('estado');
+            $pedidosQuery->where('id_estado', $estado);
+        }
+
+        // Obtener todos los pedidos del cliente autenticado ordenados por fecha descendente
+        $pedidos = $pedidosQuery
+            ->orderBy('fecha', 'desc')
+            ->with('precioServicio', 'estado') // Carga anticipada de relaciones
+            ->paginate(4); // Paginación
+
+        return view('pedidos.historial', compact('pedidos'));
+    }
+
+    public function detallePedido($id_pedido)
+    {
+        // Obtener el ID del cliente autenticado
+        $clienteId = Auth::guard('web')->id();
+
+        // Obtener el pedido específico del cliente autenticado
+        $pedido = Pedido::where('id_cliente', $clienteId)
+            ->where('id_pedido', $id_pedido)
+            ->with(['precioServicio', 'estado']) // Carga anticipada de relaciones
+            ->first();
+
+        // Verificar si el pedido existe
+        if (!$pedido) {
+            return redirect()->route('pedidos.historial')->with('error', 'Pedido no encontrado.');
+        }
+
+        return view('pedidos.detalle', compact('pedido'));
+    }
+
+    public function iniciarProgramacion(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $idCliente = auth()->user()->id_cliente;
+            $pedido = Pedido::create([
+                'id_cliente' => $idCliente,
+                'programado' => 1,
+                'id_estado' => 1,
+            ]);
+        }
+        return redirect()->route('pedidos.programar', $pedido);
+    }
+
+    public function programar(Pedido $pedido)
+    {
+        return view('pedidos.programar', compact('pedido'));
+    }
+
+    public function guardarProgramacion(Request $request, Pedido $pedido)
+    {
+        $request->validate([
+            'fecha_programada' => 'required|date|after:now',
+        ]);
+
+        $pedido->update([
+            'fecha' => $request->fecha_programada,
+        ]);
+
+        return redirect()->route('pedidos.servicios', $pedido);
+    }
 }

@@ -22,6 +22,7 @@
                                     <option value="{{ $servicio->id_precio_serv }}">{{ $servicio->servicio }} - Q.{{ $servicio->precio }}/Canasto</option>
                                 @endforeach
                             </select>
+                            <p class="mt-1"><strong>El precio final esta sujeto a cantidad de canastos.</strong></p>
                         </div>
                         <button type="submit" class="btn btn-success mt-4">Continuar</button>
                     </form>
