@@ -23,18 +23,23 @@ class MotoristaController extends Controller
         $idMotorista = $usuario->id_usuario;
 
         $entrega = DB::table('pedido')
-            ->join('cliente','pedido.id_cliente', '=', 'cliente.id_cliente')
+            ->join('cliente', 'pedido.id_cliente', '=', 'cliente.id_cliente')
             ->join('ubicacion', 'cliente.id_ubicacion', '=', 'ubicacion.id_ubicacion')
-            ->whereIn('pedido.id_estado', [1, 9, 15]) // Filtrar por estados
-            ->where(function($query) use ($idMotorista) { // Filtrar si es null o igual el Id del motorista
-                $query->whereNull('pedido.id_motorista')
-                    ->orWhere('pedido.id_motorista', $idMotorista);
+            ->where(function($query) use ($idMotorista) {
+                // Condiciones para los estados de los pedidos
+                $query->whereIn('pedido.id_estado', [1, 9]) // Mostrar todos los de estado 1 y 9
+                ->orWhere(function($query) use ($idMotorista) {
+                    // Para el estado 15, solo mostrar si el id_motorista es igual al logeado
+                    $query->where('pedido.id_estado', 15)
+                        ->where('pedido.id_motorista', $idMotorista);
+                });
             })
-            ->select('pedido.*', 'ubicacion.nombre','ubicacion.cod')
+            ->select('pedido.*', 'ubicacion.nombre', 'ubicacion.cod')
             ->paginate(5);
 
         return view('Motorista.entregasPendientes', compact('entrega'));
     }
+
 
     public function detallesPedido($id_pedido){
 
