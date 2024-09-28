@@ -37,6 +37,9 @@ Route::delete('/pedidos/{pedido}', [PedidoController::class, 'eliminar'])->name(
 
 
 
+
+
+
 /*Usuario*/
 Route::get('/loginUsuario', [UsuarioController::class, 'vistaLogin'])->name('vistaLogin'); //Vista Usuario
 Route::get('/usuarioMaster', [UsuarioController::class, 'usuarioMaster'])->name('usuarioMaster'); //Vista Usuario
@@ -59,7 +62,7 @@ Route::post('/logoutUsuario', [UsuarioController::class, 'logoutUsuario'])->name
 
 
 
-/*Motirsta*/
+/*Motorista*/
 Route::get('/menuMoto', [MotoristaController::class, 'indexMotorista'])->name('indexMotorista'); //Menu
 Route::get('/entregas', [MotoristaController::class, 'entregas'])->name('entregas'); //Entregas de Pendientes
 Route::post('/motorista/cambiarEstado/{id_pedido}', [MotoristaController::class, 'estadoPedido'])->name('estadoPedido'); //Detalles de Pedido
@@ -67,7 +70,9 @@ Route::get('/detalles/{id_pedido}', [MotoristaController::class, 'detallesPedido
 Route::get('/historial', [MotoristaController::class, 'historial'])->name('historial'); //Historial de entregas
 Route::get('/motorista/detalle/{id_pedido}', [MotoristaController::class, 'historialDetallesPedido'])->name('detallesHistorial');//Detalle de historial de entregas
 
-
 /*Lavanderia*/
 Route::get('/menuLavan', [LavanderiaController::class, 'indexLavanderia'])->name('indexLavanderia'); //Vista Lavanderia
 Route::get('/menuAdmin', [LavanderiaController::class, 'indexAdministrador'])->name('menuAdmin'); //Vista Administrador
+Route::get('/pedidos', [LavanderiaController::class, 'pedidos'])->name('pedidos'); //Pedidos en Espera
+Route::get('/detallesPedido/{id_pedido}', [LavanderiaController::class, 'detallesPedido'])->name('detallesPedido'); //Vista Detalles de Pedido
+Route::post('/lavanderia/cambiarEstado/{id_pedido}', [LavanderiaController::class, 'estadoPedido'])->name('estadoPedido'); //Detalles de Pedido
