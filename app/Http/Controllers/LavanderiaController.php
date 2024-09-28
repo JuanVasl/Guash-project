@@ -65,5 +65,14 @@ class LavanderiaController extends Controller
         // Redirigir a la misma vista del pedido con el estado actualizado
         return redirect()->route('detallesPedido', $pedido->id_pedido);
     }
+
+    public function calcularCanastos($id_pedido)
+{
+    // Lógica para manejar el pedido con el id proporcionado
+    $pedido = Pedido::findOrFail($id_pedido); // Ejemplo de cómo obtener el pedido
+    return view('Lavanderia.calcularCanastos', compact('pedido'));
+}
+
+
     
 }
