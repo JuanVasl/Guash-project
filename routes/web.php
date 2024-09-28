@@ -26,6 +26,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');//Log
 Route::get('/menu', [ClienteController::class, 'index'])->name('index'); //Menu
 Route::get('/registro',[ClienteController::class,'registro'])->name('registro');//Registro
 Route::post('/regitroCliente',[ClienteController::class,'save'])->name('registroCliente');//Guardar Registro
+
 //Pedidos
 Route::match(['get', 'post'], '/pedidos/iniciar', [PedidoController::class, 'inicioPedido'])->name('pedidos.iniciar');
 Route::get('/pedidos/direcc/{pedido}', [PedidoController::class, 'direccion'])->name('pedidos.direcc');
@@ -34,33 +35,17 @@ Route::get('/pedidos/servicios/{pedido}', [PedidoController::class, 'servicios']
 Route::post('/pedidos/{pedido}/guardarServicios', [PedidoController::class, 'guardarServicios'])->name('pedidos.guardar-servicios');
 Route::get('/pedidos/{pedido}/resumen', [PedidoController::class, 'resumen'])->name('pedidos.resumen');
 Route::delete('/pedidos/{pedido}', [PedidoController::class, 'eliminar'])->name('pedidos.eliminar');
-
-
-
-
-
+Route::get('/pedidos/historial', [PedidoController::class, 'historialPedidos'])->name('pedidos.historial');
+Route::get('/pedidos/{id_pedido}/detalle', [PedidoController::class, 'detallePedido'])->name('pedidos.detalle');
+Route::post('/pedidos/iniciar-programacion', [PedidoController::class, 'iniciarProgramacion'])->name('pedidos.iniciarProgramacion');
+Route::get('/pedidos/{pedido}/programar', [PedidoController::class, 'programar'])->name('pedidos.programar');
+Route::post('/pedidos/{pedido}/programar', [PedidoController::class, 'guardarProgramacion'])->name('pedidos.guardarProgramacion');
 
 /*Usuario*/
 Route::get('/loginUsuario', [UsuarioController::class, 'vistaLogin'])->name('vistaLogin'); //Vista Usuario
 Route::get('/usuarioMaster', [UsuarioController::class, 'usuarioMaster'])->name('usuarioMaster'); //Vista Usuario
 Route::post('/logearse', [UsuarioController::class, 'loginUsuario'])->name('loginUsuario'); //Cliente
 Route::post('/logoutUsuario', [UsuarioController::class, 'logoutUsuario'])->name('logoutUsuario');//Logout
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*Motorista*/
 Route::get('/menuMoto', [MotoristaController::class, 'indexMotorista'])->name('indexMotorista'); //Menu
