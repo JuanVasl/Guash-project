@@ -12,7 +12,7 @@
         <div class="col-12 d-flex justify-content-center">
             <div class="btn-container mt-4 p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
                 <div class="text-center">
-                    <h5><strong>{{ $pedido->id_pedido }} - {{ \Carbon\Carbon::parse($pedido->fecha)->format('d/m/y') }}</strong></h5>
+                    <h5><strong>{{ $pedido->id_pedido }} - {{ \Carbon\Carbon::parse($pedido->fecha)->format('d/m/Y H:i') }}</strong></h5>
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <label><strong>Dirección:</strong></label>

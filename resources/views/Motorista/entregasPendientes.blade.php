@@ -16,7 +16,7 @@
                     @foreach($entrega as $entregas)
                         <tr>
                             <td>{{$entregas->id_pedido}}</td>
-                            <td>{{ \Carbon\Carbon::parse($entregas->fecha)->format('H:i') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($entregas->fecha)->format('d/m/Y H:i') }}</td>
                             <td>{{$entregas->nombre}}</td>
                             <td>{{$entregas->cod}}</td>
                             <td>
