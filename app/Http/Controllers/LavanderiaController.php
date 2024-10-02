@@ -41,11 +41,11 @@ class LavanderiaController extends Controller
 
     public function detallesPedido($id_pedido){
 
-        $pedido = Pedido::findOrFail($id_pedido); 
+        $pedido = Pedido::findOrFail($id_pedido);
         $cliente = Cliente::where('id_cliente', $pedido->id_cliente)->first();
         $servicios = PrecioServicio::where('id_precio_serv', $pedido->id_precio_serv)->first();
         $estados = Estado::where('id_estado', $pedido->id_estado)->first();
- 
+
         return view('Lavanderia.detallesPedido', compact('pedido','cliente','servicios','estados'));
     }
 
@@ -53,7 +53,7 @@ class LavanderiaController extends Controller
     {
         // Encuentra el pedido por su ID
         $pedido = Pedido::findOrFail($id_pedido); // Asegúrate de usar el modelo correcto
-    
+
         // Cambiar el estado según el botón presionado
         if ($request->has('estado')) {
             $pedido->id_estado = $request->estado; // Cambia el estado
@@ -61,7 +61,7 @@ class LavanderiaController extends Controller
             $pedido->id_motorista = $usuario->id_usuario; // Guarda el ID del usuario logeado
             $pedido->save(); // Guarda los cambios
         }
-    
+
         // Redirigir a la misma vista del pedido con el estado actualizado
         return redirect()->route('detallesPedido', $pedido->id_pedido);
     }
@@ -74,5 +74,34 @@ class LavanderiaController extends Controller
 }
 
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Menu de Contabilidad para Lavanderia
+public function menuContabilidad()
+    {
+        return view('Lavanderia.contabilidad');
+    }
+
+
+
 }
