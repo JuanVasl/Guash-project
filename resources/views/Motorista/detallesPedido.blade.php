@@ -39,12 +39,21 @@
                     <button type="submit" name="estado" value="15" class="btn btn-success">Aceptar</button>
                     <a href="/entregas" class="btn btn-danger mt-2">Retroceder</a>
                 </div>
-                @elseif ($pedido->id_estado == 15) <!-- Estado cuando el motorista está en camino -->
-                <div class="links mt-3">
-                    <button type="submit" name="estado" value="7" class="btn btn-success"
-                            id="btnRecolectado" >Recolectado</button>
-                    <button type="submit" name="estado" value="9" class="btn btn-danger mt-2">No recolectado</button>
-                </div>
+                @elseif ($pedido->id_estado == 15)
+                    <!-- Estado cuando el motorista está en camino -->
+                    <div class="links mt-3">
+                        @if ($pedido->id_lavandero != null)
+                            <!-- Si id_lavandero NO es nulo, muestra solo el botón Finalizar -->
+                            <button type="submit" name="estado" value="7" class="btn btn-success"
+                                    id="btnFinalizar">Finalizar Pedido</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-danger mt-2">No Entregado</button>
+                        @else
+                            <!-- Si id_lavandero es nulo, muestra los botones Recolectado y No recolectado -->
+                            <button type="submit" name="estado" value="2" class="btn btn-success"
+                                    id="btnRecolectado">Recolectado</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-danger mt-2">No recolectado</button>
+                        @endif
+                    </div>
                 @endif
             </form>
         </div>
@@ -59,8 +68,29 @@
             console.log('Form Data:', Array.from(formData.entries()));
 
             const isRecolectado = event.submitter && event.submitter.id === 'btnRecolectado';
+            const isFinalizar = event.submitter && event.submitter.id === 'btnFinalizar';
 
             if (isRecolectado) {
+                event.preventDefault();
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pedido Recolectado',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    // Asegúrate de que el estado se envíe correctamente
+                    const estadoInput = document.createElement('input');
+                    estadoInput.type = 'hidden';
+                    estadoInput.name = 'estado';
+                    estadoInput.value = '2'; // Valor para "Recolectado"
+                    event.target.appendChild(estadoInput);
+
+                    this.submit();
+                });
+            }
+
+            if (isFinalizar) {
                 event.preventDefault();
 
                 Swal.fire({
@@ -73,7 +103,7 @@
                     const estadoInput = document.createElement('input');
                     estadoInput.type = 'hidden';
                     estadoInput.name = 'estado';
-                    estadoInput.value = '7'; // Valor para "Recolectado"
+                    estadoInput.value = '7'; // Valor para "Finalizado"
                     event.target.appendChild(estadoInput);
 
                     this.submit();

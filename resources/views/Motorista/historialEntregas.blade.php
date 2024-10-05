@@ -20,7 +20,8 @@
                             <td>{{$entregas->nombre}}</td>
                             <td>{{$entregas->cod}}</td>
                             <td>
-                                <a href="{{ route('detallesHistorial', $entregas->id_pedido) }}" style="color: gray">
+                                <a href="{{ route('detallesHistorial', ['id_pedido' => $entregas->id_pedido, 'id_motorista' => $entregas->id_motorista]) }}"
+                                   style="color: gray">
                                     <i class="fas fa-angle-double-right"></i>
                                 </a>
                             </td>

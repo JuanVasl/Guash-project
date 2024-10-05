@@ -53,7 +53,7 @@ Route::get('/entregas', [MotoristaController::class, 'entregas'])->name('entrega
 Route::post('/motorista/cambiarEstado/{id_pedido}', [MotoristaController::class, 'estadoPedido'])->name('estadoPedido'); //Detalles de Pedido
 Route::get('/detalles/{id_pedido}', [MotoristaController::class, 'detallesPedido'])->name('detalles'); //Vista Detalles de Pedido
 Route::get('/historial', [MotoristaController::class, 'historial'])->name('historial'); //Historial de entregas
-Route::get('/motorista/detalle/{id_pedido}', [MotoristaController::class, 'historialDetallesPedido'])->name('detallesHistorial');//Detalle de historial de entregas
+Route::get('/motorista/detalle/{id_pedido}/{id_motorista}', [MotoristaController::class, 'historialDetallesPedido'])->name('detallesHistorial');//Detalle de historial de entregas
 
 /*Lavanderia*/
 Route::get('/menuLavan', [LavanderiaController::class, 'indexLavanderia'])->name('indexLavanderia'); //Vista Lavanderia
