@@ -10,38 +10,6 @@
             </div>
         </div>
 
-        <!-- Primera Linea de Botones-->
-        <div class="row mb-3 mt-3">
-            <div class="col-6 d-flex justify-content-center">
-                <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
-                    <form action=" " method="GET">
-                        @csrf
-                        <button type="submit" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
-                            <div class="d-flex justify-content-center" style="height: 75%;">
-                                <img src="https://cdn-icons-png.flaticon.com/128/1570/1570887.png" style="max-width: 100%; max-height: 100%;">
-
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
-                                <p class="mt-5 text-center"><strong>Cierre del día</strong></p>
-                            </div>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="col-6 d-flex justify-content-center">
-                <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
-                    <a href=" " class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
-                        <div class="d-flex justify-content-center" style="height: 75%;">
-                            <img src="https://cdn-icons-png.flaticon.com/128/10789/10789448.png" style="max-width: 100%; max-height: 100%;">
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
-                            <p class="mt-5 text-center"><strong>Historico de Cierre</strong></p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
         <!-- Segunta Linea de Botones-->
         <div class="row mb-3 mt-3">
             <div class="col-6 d-flex justify-content-center">
@@ -50,7 +18,7 @@
                         @csrf
                         <button type="submit" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
                             <div class="d-flex justify-content-center" style="height: 75%;">
-                                <img src="https://cdn-icons-png.flaticon.com/128/4623/4623155.png"  style="max-width: 100%; max-height: 100%;">
+                                <img src="https://cdn-icons-png.flaticon.com/128/1748/1748971.png"  style="max-width: 100%; max-height: 100%;">
 
                             </div>
                             <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
@@ -64,10 +32,42 @@
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
                     <a href=" " class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
                         <div class="d-flex justify-content-center" style="height: 75%;">
-                            <img src="https://cdn-icons-png.flaticon.com/128/9656/9656844.png" style="max-width: 100%; max-height: 100%;">
+                            <img src="https://cdn-icons-png.flaticon.com/128/1652/1652752.png" style="max-width: 100%; max-height: 100%;">
                         </div>
                         <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
                             <p class="mt-5 text-center"><strong>Consumos</strong></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Primera Linea de Botones-->
+        <div class="row mb-3 mt-3">
+            <div class="col-6 d-flex justify-content-center">
+                <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
+                    <form action=" " method="GET">
+                        @csrf
+                        <button type="submit" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
+                            <div class="d-flex justify-content-center" style="height: 75%;">
+                                <img src="https://cdn-icons-png.flaticon.com/128/2942/2942269.png" style="max-width: 100%; max-height: 100%;">
+
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
+                                <p class="mt-5 text-center"><strong>Cierre del día</strong></p>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+                <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
+                    <a href=" " class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
+                        <div class="d-flex justify-content-center" style="height: 75%;">
+                            <img src="https://cdn-icons-png.flaticon.com/128/3908/3908575.png" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
+                            <p class="mt-5 text-center"><strong>Historico de Cierre</strong></p>
                         </div>
                     </a>
                 </div>
