@@ -84,9 +84,9 @@ class LavanderiaController extends Controller
     $lavadora = DB::table('maquina')
         ->join('estado', 'maquina.estado_id_estado', '=', 'estado.id_estado')
         ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id_tipo')
-        ->whereIn('maquina.id_maquina', [1]) // Filtrar por estados
+        ->where('maquina.id_tipo', 1) // Mostrar solo las lavadoras (id_tipo = 1)
         ->select('maquina.id_maquina', 'estado.estado', 'capacidad')
-        ->paginate(5);
+        ->paginate(3);
 
     return view('Lavanderia.lavadoras', compact('lavadora'));
 }
