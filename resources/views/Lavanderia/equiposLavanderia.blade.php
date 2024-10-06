@@ -28,23 +28,25 @@
                 </div>
             </div>
 
-            <!-- Boton de Secadora-->
             <div class="col-6 d-flex justify-content-center">
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
-                    <a href="https://www.google.com/travel/flights?hl=es" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
+                <form action="{{ route('secadoras') }}" method="GET">
+                @csrf 
+                    <button type="submit" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
                         <div class="d-flex justify-content-center" style="height: 75%;">
-                            <img src="https://cdn-icons-png.flaticon.com/128/17393/17393708.png" alt="Secadoras" style="max-width: 100%; max-height: 100%;">
+                            <img src="https://cdn-icons-png.flaticon.com/128/17393/17393708.png" alt="Lavadoras" style="max-width: 100%; max-height: 100%;">
                         </div>
                         <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
                             <p class="mt-5 text-center"><strong>Secadoras</strong></p>
                         </div>
-                    </a>
-                </div>     
-            </div>
+                    </button>
+                </form>
+            </div>     
         </div>
+    </div>
 
         <a href="/menuAdmin" class="btn btn-danger">Cancelar</a>
-
+        
     </div>
     
 
