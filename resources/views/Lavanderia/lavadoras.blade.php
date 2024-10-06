@@ -36,7 +36,7 @@
     </div>
     <br>
     <div class="links">
-        <a href="" class="btn btn-success">Agregar</a>
+        <a href="/equiposLavanderia/lavadoras/create" class="btn btn-success">Agregar</a>
         <a href="/menuAdmin" class="btn btn-danger">Cancelar</a>
     </div>
 </div>
