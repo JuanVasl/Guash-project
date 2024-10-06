@@ -43,6 +43,8 @@
             </div>
         </div>
 
+        <a href="/menuAdmin" class="btn btn-danger">Cancelar</a>
+
     </div>
     
 

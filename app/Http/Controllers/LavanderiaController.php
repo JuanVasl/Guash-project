@@ -7,6 +7,7 @@ use App\Models\Estado;
 use App\Models\Lavanderia;
 use App\Models\Pedido;
 use App\Models\PrecioServicio;
+use App\Models\Maquina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,18 +79,77 @@ class LavanderiaController extends Controller
     return view('Lavanderia.equiposLavanderia');
 }
 
-
     public function lavadoras()
 {
     $lavadora = DB::table('maquina')
         ->join('estado', 'maquina.estado_id_estado', '=', 'estado.id_estado')
         ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id_tipo')
-        ->whereIn('maquina.id_maquina', [1]) // Filtrar por estados
+        ->where('maquina.id_tipo', 1) // Mostrar solo las lavadoras (id_tipo = 1)
         ->select('maquina.id_maquina', 'estado.estado', 'capacidad')
-        ->paginate(5);
+        ->paginate(3);
 
     return view('Lavanderia.lavadoras', compact('lavadora'));
 }
+
+public function createLavadora() {
+    return view('Lavanderia.crearLavadora');
+}
+
+public function saveLavadora(Request $request   ) {
+    // Validación del formulario
+    $request->validate([
+        'modelo' => 'required|string|max:45',
+        'marca' => 'required|string|max:45',
+        'serie' => 'required|string|max:45',
+        'capacidad' => 'required|integer',
+    ]);
+
+    // Crear una nueva lavadora en la base de datos
+    $lavadora = Maquina::create([
+        'id_tipo' => 1, // Valor fijo
+        'modelo' => $request->modelo,
+        'marca' => $request->marca,
+        'serie' => $request->serie,
+        'capacidad' => $request->capacidad,
+        'estado_id_estado' => 10, // Valor fijo
+    ]);
+
+    return redirect()->back();
+
+}
+
+    public function detalleLavadoras($id)
+{
+    $lavadora = DB::table('maquina')
+        ->join('estado', 'maquina.estado_id_estado', '=', 'estado.id_estado')
+        ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id_tipo')
+        ->where('maquina.id_maquina', $id)
+        ->select('maquina.*', 'estado.estado as nombre_estado')
+        ->first();
+
+    // Posibles estados para la lavadora
+    $estados = DB::table('estado')->whereIn('id_estado', [10, 12, 13, 14])->get();
+
+    return view('Lavanderia.detalleLavadoras', compact('lavadora', 'estados'));
+}
+
+    public function actualizarEstadoLavadora(Request $request, $id)
+{
+    // Validar el estado
+    $request->validate([
+        'estado_id_estado' => 'required|integer|exists:estado,id_estado',
+    ]);
+
+    // Actualizar el estado de la lavadora
+    DB::table('maquina')
+        ->where('id_maquina', $id)
+        ->update(['estado_id_estado' => $request->estado_id_estado]);
+
+    return redirect()->back()->with('success', 'El estado de la lavadora ha sido actualizado correctamente.');
+}
+
+
+
 
 
 
