@@ -62,8 +62,10 @@ Route::get('/pedidos', [LavanderiaController::class, 'pedidos'])->name('pedidos'
 Route::get('/detallesPedido/{id_pedido}', [LavanderiaController::class, 'detallesPedido'])->name('detallesPedido'); //Vista Detalles de Pedido
 Route::post('/lavanderia/cambiarEstado/{id_pedido}', [LavanderiaController::class, 'estadoPedido'])->name('estadoPedido'); //Estado del Pedido
 Route::get('/calcularCanastos/{id_pedido}', [LavanderiaController::class, 'calcularCanastos'])->name('calcularCanastos'); //Vista Detalles de Canastos
-
-
+Route::get('/equiposLavanderia', [LavanderiaController::class, 'equiposLavanderia'])->name('equiposLavanderia'); //Vista Detalles de Equipos Lavanderia
+Route::get('/equiposLavanderia/lavadoras', [LavanderiaController::class, 'lavadoras'])->name('lavadoras'); //Vista de Lavadoras
+Route::post('/equiposLavanderia/lavadoras/new', [LavanderiaController::class, 'newlavadora'])->name('newlavadora'); //Vista de Crear lavadora
+Route::get('/equiposLavanderia/secadoras', [LavanderiaController::class, 'secadoras'])->name('secadoras'); //Vista de Secadoras
 
 
 

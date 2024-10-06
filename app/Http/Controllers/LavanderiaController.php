@@ -73,8 +73,23 @@ class LavanderiaController extends Controller
     return view('Lavanderia.calcularCanastos', compact('pedido'));
 }
 
+    public function equiposLavanderia()
+{
+    return view('Lavanderia.equiposLavanderia');
+}
 
 
+    public function lavadoras()
+{
+    $lavadora = DB::table('maquina')
+        ->join('estado', 'maquina.estado_id_estado', '=', 'estado.id_estado')
+        ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id_tipo')
+        ->whereIn('maquina.id_maquina', [1]) // Filtrar por estados
+        ->select('maquina.id_maquina', 'estado.estado', 'capacidad')
+        ->paginate(5);
+
+    return view('Lavanderia.lavadoras', compact('lavadora'));
+}
 
 
 
