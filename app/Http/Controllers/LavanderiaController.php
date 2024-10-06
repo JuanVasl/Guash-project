@@ -223,6 +223,82 @@ public function saveSecadora(Request $request   ) {
     return redirect()->back()->with('success', 'El estado de la Secadora ha sido actualizado correctamente.');
 }
 
+//Funcion para asignar equipos
+
+public function asignarEquipo($id_pedido)
+{
+    // Obtener el pedido y su tipo de servicio
+    $pedido = Pedido::find($id_pedido);
+    
+    // Filtrar las máquinas por estado disponible (por ejemplo, estado_id_estado = 10 es 'disponible')
+    $lavadorasDisponibles = Maquina::where('id_tipo', 1)
+                        ->where('estado_id_estado', 10)
+                        ->get();
+                        
+    $secadorasDisponibles = Maquina::where('id_tipo', 2)
+                        ->where('estado_id_estado', 10)
+                        ->get();
+    
+    // Determinar qué vista y qué datos enviar
+    if ($pedido->tipo_servicio == 'lavado') {
+        // Solo permitir la selección de lavadora
+        return view('Lavanderia.asignarLavadora', compact('lavadorasDisponibles', 'pedido'));
+    } elseif ($pedido->tipo_servicio == 'secado') {
+        // Solo permitir la selección de secadora
+        return view('Lavanderia.asignarSecadora', compact('secadorasDisponibles', 'pedido'));
+    } else {
+        // Permitir la selección de lavadora y secadora
+        return view('Lavanderia.asignarLavadoraSecadora', compact('lavadorasDisponibles', 'secadorasDisponibles', 'pedido'));
+    }
+}
+
+public function guardarAsignacionLavadora(Request $request, $id_pedido)
+{
+    // Validar la entrada
+    $request->validate([
+        'id_lavadora' => 'required|exists:maquina,id_maquina',
+    ]);
+
+    // Obtener el pedido y asignar la lavadora
+    $pedido = Pedido::findOrFail($id_pedido);
+    $pedido->id_lavadora = $request->id_lavadora; // Asegúrate de que existe el campo en tu modelo Pedido
+    $pedido->save();
+
+    return redirect()->route('pedidos')->with('success', 'Lavadora asignada correctamente.');
+}
+
+public function guardarAsignacionSecadora(Request $request, $id_pedido)
+{
+    // Validar la entrada
+    $request->validate([
+        'id_secadora' => 'required|exists:maquina,id_maquina',
+    ]);
+
+    // Obtener el pedido y asignar la secadora
+    $pedido = Pedido::findOrFail($id_pedido);
+    $pedido->id_secadora = $request->id_secadora; // Asegúrate de que existe el campo en tu modelo Pedido
+    $pedido->save();
+
+    return redirect()->route('pedidos')->with('success', 'Secadora asignada correctamente.');
+}
+
+public function guardarAsignacionLavadoraSecadora(Request $request, $id_pedido)
+{
+    // Validar la entrada
+    $request->validate([
+        'id_lavadora' => 'required|exists:maquina,id_maquina',
+        'id_secadora' => 'required|exists:maquina,id_maquina',
+    ]);
+
+    // Obtener el pedido y asignar la lavadora y secadora
+    $pedido = Pedido::findOrFail($id_pedido);
+    $pedido->id_lavadora = $request->id_lavadora; // Asegúrate de que existe el campo en tu modelo Pedido
+    $pedido->id_secadora = $request->id_secadora; // Asegúrate de que existe el campo en tu modelo Pedido
+    $pedido->save();
+
+    // Redirigir a la vista de confirmación del lavado
+    return view('Lavanderia.lavadoCompletado', compact('pedido'));
+}
 
 
 

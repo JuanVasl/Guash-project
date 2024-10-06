@@ -78,5 +78,11 @@ Route::post('/equiposLavanderia/secadoras/create/save', [LavanderiaController::c
 Route::get('/secadoras/{id}', [LavanderiaController::class, 'detalleSecadoras'])->name('detalleSecadoras');
 Route::post('/secadoras/{id}/actualizar', [LavanderiaController::class, 'actualizarEstadoSecadora'])->name('actualizarEstadoSecadora');
 
+//Asignar equipos
+Route::get('/asignar/equipo/{id_pedido}', [LavanderiaController::class, 'asignarEquipo'])->name('asignar.equipo');
+Route::post('/asignar/lavadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionLavadora'])->name('guardarAsignacionLavadora');
+Route::post('/asignar/secadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionSecadora'])->name('guardarAsignacionSecadora');
+Route::post('/asignar/lavadora-secadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionLavadoraSecadora'])->name('guardarAsignacionLavadoraSecadora');
+
 
 Route::get('/menuAdmin/Conta', [LavanderiaController::class, 'menuContabilidad'])->name('Conta'); //Vista de Contabilidad

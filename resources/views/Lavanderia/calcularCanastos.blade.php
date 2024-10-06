@@ -26,7 +26,7 @@
     <!-- Botones de acción -->
     <div class="col-12 d-flex justify-content-center mt-4">
         <div class="links d-flex flex-column align-items-center">
-            <button class="btn btn-success mb-2" style="width: 200px;">Asignar Equipo</button>
+            <a href="{{ route('asignar.equipo', $pedido->id_pedido) }}" class="btn btn-success mb-2" style="width: 200px;">Asignar Equipo</a>
             <a href="/pedidos" class="btn btn-danger" style="width: 200px;">Retroceder</a>
         </div>
     </div>
