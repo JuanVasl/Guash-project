@@ -66,6 +66,8 @@ Route::get('/equiposLavanderia', [LavanderiaController::class, 'equiposLavanderi
 Route::get('/equiposLavanderia/lavadoras', [LavanderiaController::class, 'lavadoras'])->name('lavadoras'); //Vista de Lavadoras
 Route::get('/equiposLavanderia/lavadoras/create', [LavanderiaController::class, 'createLavadora'])->name('lavadora.create');
 Route::post('/equiposLavanderia/lavadoras/create/save', [LavanderiaController::class, 'saveLavadora'])->name('lavadora.save');
+Route::get('/lavadoras/{id}', [LavanderiaController::class, 'detalleLavadoras'])->name('detalleLavadoras');
+Route::post('/lavadoras/{id}/actualizar', [LavanderiaController::class, 'actualizarEstadoLavadora'])->name('actualizarEstadoLavadora');
 
 
 Route::get('/equiposLavanderia/secadoras', [LavanderiaController::class, 'secadoras'])->name('secadoras'); //Vista de Secadoras

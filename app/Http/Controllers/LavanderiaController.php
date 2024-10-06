@@ -118,6 +118,38 @@ public function saveLavadora(Request $request   ) {
 
 }
 
+    public function detalleLavadoras($id)
+{
+    $lavadora = DB::table('maquina')
+        ->join('estado', 'maquina.estado_id_estado', '=', 'estado.id_estado')
+        ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id_tipo')
+        ->where('maquina.id_maquina', $id)
+        ->select('maquina.*', 'estado.estado as nombre_estado')
+        ->first();
+
+    // Posibles estados para la lavadora
+    $estados = DB::table('estado')->whereIn('id_estado', [10, 12, 13, 14])->get();
+
+    return view('Lavanderia.detalleLavadoras', compact('lavadora', 'estados'));
+}
+
+    public function actualizarEstadoLavadora(Request $request, $id)
+{
+    // Validar el estado
+    $request->validate([
+        'estado_id_estado' => 'required|integer|exists:estado,id_estado',
+    ]);
+
+    // Actualizar el estado de la lavadora
+    DB::table('maquina')
+        ->where('id_maquina', $id)
+        ->update(['estado_id_estado' => $request->estado_id_estado]);
+
+    return redirect()->back()->with('success', 'El estado de la lavadora ha sido actualizado correctamente.');
+}
+
+
+
 
 
 

@@ -24,6 +24,9 @@
                             <td>{{$lavadoras->estado}}</td>
                             <td>{{$lavadoras->capacidad}}</td>
                             <td>
+                                <a href="{{ route('detalleLavadoras', $lavadoras->id_maquina) }}" style="color: gray">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -37,7 +40,7 @@
     <br>
     <div class="links">
         <a href="/equiposLavanderia/lavadoras/create" class="btn btn-success">Agregar</a>
-        <a href="/menuAdmin" class="btn btn-danger">Cancelar</a>
+        <a href="/equiposLavanderia" class="btn btn-danger">Cancelar</a>
     </div>
 </div>
 @endsection
