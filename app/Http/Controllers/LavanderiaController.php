@@ -79,6 +79,8 @@ class LavanderiaController extends Controller
     return view('Lavanderia.equiposLavanderia');
 }
 
+// Funcion de Lavadoras
+
     public function lavadoras()
 {
     $lavadora = DB::table('maquina')
@@ -148,9 +150,78 @@ public function saveLavadora(Request $request   ) {
     return redirect()->back()->with('success', 'El estado de la lavadora ha sido actualizado correctamente.');
 }
 
+//Funcion de Secadoras
 
+public function secadoras()
+{
+    $secadora = DB::table('maquina')
+        ->join('estado', 'maquina.estado_id_estado', '=', 'estado.id_estado')
+        ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id_tipo')
+        ->where('maquina.id_tipo', 2) // Mostrar solo las lavadoras (id_tipo = 1)
+        ->select('maquina.id_maquina', 'estado.estado', 'capacidad')
+        ->paginate(3);
 
+    return view('Lavanderia.secadoras', compact('secadora'));
+}
 
+public function createSecadora() {
+
+    return view('Lavanderia.crearSecadora');
+
+}
+
+public function saveSecadora(Request $request   ) {
+    // Validación del formulario
+    $request->validate([
+        'modelo' => 'required|string|max:45',
+        'marca' => 'required|string|max:45',
+        'serie' => 'required|string|max:45',
+        'capacidad' => 'required|integer',
+    ]);
+
+    // Crear una nueva Secadora en la base de datos
+    $lavadora = Maquina::create([
+        'id_tipo' => 2, // Valor fijo
+        'modelo' => $request->modelo,
+        'marca' => $request->marca,
+        'serie' => $request->serie,
+        'capacidad' => $request->capacidad,
+        'estado_id_estado' => 10, // Valor fijo
+    ]);
+
+    return redirect()->back();
+
+}
+
+    public function detalleSecadoras($id)
+{
+    $secadora = DB::table('maquina')
+        ->join('estado', 'maquina.estado_id_estado', '=', 'estado.id_estado')
+        ->join('tipo_maquina', 'maquina.id_tipo', '=', 'tipo_maquina.id_tipo')
+        ->where('maquina.id_maquina', $id)
+        ->select('maquina.*', 'estado.estado as nombre_estado')
+        ->first();
+
+    // Posibles estados para la Secadora
+    $estados = DB::table('estado')->whereIn('id_estado', [10, 12, 13, 14])->get();
+
+    return view('Lavanderia.detalleSecadoras', compact('secadora', 'estados'));
+}
+
+    public function actualizarEstadoSecadora(Request $request, $id)
+{
+    // Validar el estado
+    $request->validate([
+        'estado_id_estado' => 'required|integer|exists:estado,id_estado',
+    ]);
+
+    // Actualizar el estado de la Secadora
+    DB::table('maquina')
+        ->where('id_maquina', $id)
+        ->update(['estado_id_estado' => $request->estado_id_estado]);
+
+    return redirect()->back()->with('success', 'El estado de la Secadora ha sido actualizado correctamente.');
+}
 
 
 
