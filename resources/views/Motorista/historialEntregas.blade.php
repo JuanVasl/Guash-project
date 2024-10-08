@@ -20,7 +20,8 @@
                             <td>{{$entregas->nombre}}</td>
                             <td>{{$entregas->cod}}</td>
                             <td>
-                                <a href="{{ route('detallesHistorial', $entregas->id_pedido) }}" style="color: gray">
+                                <a href="{{ route('detallesHistorial', ['id_historial' => $entregas->id_historial]) }}"
+                                   style="color: gray">
                                     <i class="fas fa-angle-double-right"></i>
                                 </a>
                             </td>
@@ -39,3 +40,4 @@
     </div>
     </div>
 @endsection
+

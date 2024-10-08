@@ -23,12 +23,12 @@
                     <p>{{ $cliente->nombre_cliente }} {{ $cliente->apellido_cliente }}</p>
                 </div>
                 <div class="form-group d-flex justify-content-center ">
-                    <label><strong>Teléfono:</strong></label>
-                    <p>{{ $cliente->tele_cliente }}</p>
+                    <label><strong>Fecha de finalizado:</strong></label>
+                    <p>{{ \Carbon\Carbon::parse($historial->fecha)->format('d/m/Y H:i') }}</p>
                 </div>
                 <div class="form-group d-flex justify-content-center">
                     <label><strong>Estado:</strong></label>
-                    <p>{{ $estados->estado }}</p>
+                    <p>{{ $historial->accion_realizada }}</p>
                 </div>
 
                 <form>
