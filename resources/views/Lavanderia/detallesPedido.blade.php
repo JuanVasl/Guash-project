@@ -18,19 +18,19 @@
                 <label><strong>Dirección:</strong></label>
                 <p>{{ $cliente->direccion }} {{ $cliente->referencia }}</p>
             </div>
-            <div class="form-group d-flex justify-content-center">
+            <div class="form-group d-flex justify-content-start">
                 <label><strong>Cliente:</strong></label>
                 <p>{{ $cliente->nombre_cliente }} {{ $cliente->apellido_cliente }}</p>
             </div>
-            <div class="form-group d-flex justify-content-center ">
+            <div class="form-group d-flex justify-content-start" >
                 <label><strong>Teléfono:</strong></label>
                 <p>{{ $cliente->tele_cliente }}</p>
             </div>
-            <div class="form-group d-flex justify-content-center">
+            <div class="form-group d-flex justify-content-start">
                 <label><strong>Servicio:</strong></label>
                 <p>{{ $servicios->servicio }}</p>
             </div>
-            <div class="form-group d-flex justify-content-center">
+            <div class="form-group d-flex justify-content-start">
                 <label><strong>Estado:</strong></label>
                 <p>{{ $estados->estado }}</p>
             </div>
