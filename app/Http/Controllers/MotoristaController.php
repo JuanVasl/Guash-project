@@ -41,7 +41,7 @@ class MotoristaController extends Controller
     }
 
 
-    public function detallesPedido($id_pedido){
+    public function detallesPedidoMotorista($id_pedido){
 
         $pedido = Motorista::findOrFail($id_pedido);
         $cliente = Cliente::where('id_cliente', $pedido->id_cliente)->first();
@@ -50,7 +50,7 @@ class MotoristaController extends Controller
         return view('Motorista.detallesPedido', compact('pedido','cliente','estados'));
     }
 
-    public function estadoPedido(Request $request, $id_pedido)
+    public function estadoPedidoMotorista(Request $request, $id_pedido)
     {
         $pedido = Motorista::findOrFail($id_pedido);
 
@@ -62,11 +62,13 @@ class MotoristaController extends Controller
 
         // Redirigir a la vista correspondiente según el estado
         if ($request->estado == 15) {
-            return redirect()->route('detalles', $pedido->id_pedido); // Refresca la vista
+            return redirect()->route('detalles', ['id_pedido' => $id_pedido]);// Refresca la vista
         } elseif ($request->estado == 9) {
             return redirect('/entregas'); // Redirige a entregas
-        } elseif ($request->estado == 7) {
-            return redirect('/historial'); // Cambia a la vista que desees
+        } elseif ($request->estado == 2) {
+            return redirect('/historial');
+        }elseif ($request->estado == 7) {
+            return redirect('/historial');
         }
     }
 
@@ -77,26 +79,32 @@ class MotoristaController extends Controller
         $usuario = Auth::guard('usuarios')->user();
         $idMotorista = $usuario->id_usuario;
 
-        $entrega = DB::table('pedido')
-            ->join('cliente','pedido.id_cliente', '=', 'cliente.id_cliente')
+        $entrega = DB::table('motorista_historial')
+            ->join('pedido', 'motorista_historial.id_pedido', '=', 'pedido.id_pedido')
+            ->join('cliente', 'pedido.id_cliente', '=', 'cliente.id_cliente')
             ->join('ubicacion', 'cliente.id_ubicacion', '=', 'ubicacion.id_ubicacion')
-            ->whereIn('pedido.id_estado', [7]) // Filtrar por estados
-            ->where(function($query) use ($idMotorista) { // Filtrar si igual el Id del motorista
-                $query->orWhere('pedido.id_motorista', $idMotorista);
-            })
-            ->select('pedido.*', 'ubicacion.nombre','ubicacion.cod')
+            ->where('motorista_historial.id_motorista', $idMotorista) // Filtrar por el id del motorista
+            ->select('motorista_historial.*', 'pedido.*', 'ubicacion.nombre', 'ubicacion.cod')
             ->paginate(5);
 
         return view('Motorista.historialEntregas', compact('entrega'));
     }
 
-    public function historialDetallesPedido($id_pedido){
+    public function historialDetallesPedido($id_historial){
 
-        $pedido = Motorista::findOrFail($id_pedido);
+        $historial = DB::table('motorista_historial')
+            ->where('id_historial', $id_historial)
+            ->first();
+
+        if (!$historial) {
+            return redirect()->back()->with('error', 'Historial no encontrado.');
+        }
+
+        $pedido = Motorista::findOrFail($historial->id_pedido);
         $cliente = Cliente::where('id_cliente', $pedido->id_cliente)->first();
         $estados = Estado::where('id_estado', $pedido->id_estado)->first();
 
-        return view('Motorista.historialDetalleEntregas', compact('pedido','cliente','estados'));
+        return view('Motorista.historialDetalleEntregas', compact('pedido', 'cliente', 'estados', 'historial'));
     }
 
 }
