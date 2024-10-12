@@ -4,7 +4,7 @@
 <!-- Título -->
 <div class="container">
     <div class="col-12">
-        <h3 class="text-center"><strong>Pedidos en Espera</strong></h3>
+        <h3 class="text-center"><strong>Pedidos en Espera lav</strong></h3>
     </div>
 </div>
     <div class="row">
