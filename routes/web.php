@@ -81,9 +81,9 @@ Route::post('/secadoras/{id}/actualizar', [LavanderiaController::class, 'actuali
 
 //Asignar equipo en el pedido
 Route::get('/asignar-equipos/{id_pedido}', [LavanderiaController::class, 'asignarEquipos'])->name('asignar.equipos'); // Vista para asignar el equipo
-Route::post('/guardar-asignacion/{id_pedido}', [LavanderiaController::class, 'guardarAsignacion'])->name('guardar.asignacion'); //Guardamos la asignación
-
-
+Route::post('/guardar-asignacion-lavadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionLavadora'])->name('guardar.asignacionLavadora'); // Guardamos la asignación de lavadora
+Route::post('/guardar-asignacion-secadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionSecadora'])->name('guardar.asignacionSecadora'); // Guardamos la asignación de secadora
+Route::post('/guardar-asignacion-lavadora-secadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionLavadoraSecadora'])->name('guardar.asignacionLavadoraSecadora'); // Guardamos la asignación de lavadora y secadora
 
 
 // Rutas para asignar equipos según el precio del servicio

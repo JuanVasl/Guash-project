@@ -10,6 +10,7 @@ class Maquina extends Model
     use HasFactory;
 
     protected $table = 'maquina';
+    protected $primaryKey = 'id_maquina';
 
     // Deshabilitar timestamps
     public $timestamps = false;

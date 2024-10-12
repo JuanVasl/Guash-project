@@ -1,24 +1,21 @@
 @extends('layauts.base')
-
 @section('title', 'Asignar Secadora')
-
 @section('content')
+
 <div class="container">
-    <h4>Asignar Secadora a Pedido: {{ $pedido->id_pedido }}</h4>
-    
-    <form action="{{ route('guardarAsignacionSecadora', $pedido->id_pedido) }}" method="POST">
+    <h3>Asignar Secadora para el Pedido {{ $pedido->id_pedido }}</h3>
+    <form action="{{ route('guardar.asignacionSecadora', $pedido->id_pedido) }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="secadora">Seleccione una Secadora:</label>
-            <select name="id_secadora" id="secadora" class="form-control">
-                @foreach($secadorasDisponibles as $secadora)
-                    <option value="{{ $secadora->id_maquina }}">{{ $secadora->modelo }} (Capacidad: {{ $secadora->capacidad }})</option>
+            <label for="id_secadora">Seleccionar Secadora:</label>
+            <select name="id_maquina" id="id_secadora" required> <!-- Cambié el nombre a 'id_maquina' -->
+                <option value="">Seleccionar secadora...</option> <!-- Opción por defecto -->
+                @foreach ($secadora as $secadoras)
+                    <option value="{{ $secadoras->id_maquina }}">SEC{{ $secadoras->id_maquina }} - {{ $secadoras->marca }} - {{ $secadoras->capacidad }}LBS</option>
                 @endforeach
             </select>
         </div>
-        
-        <button type="submit" class="btn btn-primary">Asignar Secadora</button>
-        <a href="{{ route('pedidos') }}" class="btn btn-danger">Retroceder</a>
+        <button type="submit" class="btn btn-primary mt-2">Asignar secadora</button>
     </form>
 </div>
 @endsection

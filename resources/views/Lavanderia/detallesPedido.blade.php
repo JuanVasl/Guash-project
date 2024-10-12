@@ -63,7 +63,7 @@
                         </div>
                     @else <!-- Mostrar botón de Asignar Equipos si ya se han calculado canastos -->
                         <div class="links mt-1">
-                            <a href="{{ route('asignarEquipos', ['id_pedido' => $pedido->id_pedido]) }}" class="btn btn-primary">Asignar Equipos</a>
+                            <a href="{{ route('asignar.equipos', ['id_pedido' => $pedido->id_pedido]) }}" class="btn btn-primary">Asignar Equipos</a>
                             <a href="/pedidos" class="btn btn-danger">Retroceder</a>
                         </div>
                     @endif
