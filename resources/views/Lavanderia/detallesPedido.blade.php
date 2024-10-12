@@ -22,7 +22,7 @@
                 <label><strong>Cliente:</strong></label>
                 <p>{{ $cliente->nombre_cliente }} {{ $cliente->apellido_cliente }}</p>
             </div>
-            <div class="form-group d-flex justify-content-start" >
+            <div class="form-group d-flex justify-content-start">
                 <label><strong>Teléfono:</strong></label>
                 <p>{{ $cliente->tele_cliente }}</p>
             </div>
@@ -38,13 +38,63 @@
             <div class="form-group d-flex justify-content-start">
                 <label><strong>Canastos:</strong></label>
                 <p>{{ $pedido->cant_canasto }}</p>
+                <!-- Espacio adicional -->
+                <span style="margin: 0 15px;"></span> <!-- Ajusta el margen según sea necesario -->
+                <label><strong>Total del Servicio:</strong></label>
+                <p>{{ $servicios->moneda ?? 'Q' }}{{ $pedido->total_servicio }}</p> <!-- Si manejas una moneda, se puede ajustar -->
             </div>
 
-            <!-- Mostrar total del servicio -->
-            <div class="form-group d-flex justify-content-start">
-                <label><strong>Total del Servicio:</strong></label>
-                <p> {{ $servicios->moneda ?? 'Q' }}{{ $pedido->total_servicio }}</p> <!-- Si manejas una moneda, se puede ajustar -->
-            </div>
+            <!-- Mostrar Lavadora o Secadora asignada -->
+            @if ($pedido->id_precio_serv == 1) <!-- Si es Lavado -->
+                <div class="form-group d-flex justify-content-start">
+                    <label><strong>Lavadora Asignada:</strong></label>
+                    <p>{{ $lavadoraAsignada->marca ?? 'No asignada' }} (LAV {{ $lavadoraAsignada->id_maquina ?? '-' }})</p>
+                </div>
+                @if ($lavadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
+                    <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="estado" value="4">
+                        <button type="submit" class="btn btn-success mt-2">Comenzar Lavado</button>
+                    </form>
+                @endif
+            @elseif ($pedido->id_precio_serv == 2) <!-- Si es Secado -->
+                <div class="form-group d-flex justify-content-start">
+                    <label><strong>Secadora Asignada:</strong></label>
+                    <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (ID: {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
+                </div>
+                @if ($secadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
+                    <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="estado" value="4">
+                        <button type="submit" class="btn btn-success mt-2">Comenzar Secado</button>
+                    </form>
+                @endif
+            @elseif ($pedido->id_precio_serv == 3) <!-- Si es Lavado y Secado -->
+                <div class="form-group d-flex justify-content-start">
+                    <label><strong>Lavadora Asignada:</strong></label>
+                    <p>{{ $lavadoraAsignada->marca ?? 'No asignada' }} (ID: {{ $lavadoraAsignada->id_maquina ?? '-' }})</p>
+                </div>
+                <div class="form-group d-flex justify-content-start">
+                    <label><strong>Secadora Asignada:</strong></label>
+                    <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (ID: {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
+                </div>
+                @if ($lavadoraAsignada && $secadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
+                    <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="estado" value="4">
+                        <button type="submit" class="btn btn-success mt-2">Comenzar Lavado y Secado</button>
+                    </form>
+                @endif
+            @endif
+
+            <!-- Nuevo botón para cambiar el estado a 6 -->
+            @if ($pedido->id_estado == 4) <!-- Si el estado es 4 -->
+                <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST" class="mt-3">
+                    @csrf
+                    <input type="hidden" name="estado" value="6">
+                    <button type="submit" class="btn btn-warning">Terminar Servicio</button>
+                </form>
+            @endif
 
             <form id="estadoPedidoForm" action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
                 @csrf

@@ -40,15 +40,36 @@ class LavanderiaController extends Controller
         return view('Lavanderia.pedidosespera', compact('pedido'));
     }
 
-    public function detallesPedido($id_pedido){
-
+    public function detallesPedido($id_pedido)
+    {
+        // Obtener el pedido por ID
         $pedido = Pedido::findOrFail($id_pedido);
+
+        // Obtener el cliente y el servicio
         $cliente = Cliente::where('id_cliente', $pedido->id_cliente)->first();
         $servicios = PrecioServicio::where('id_precio_serv', $pedido->id_precio_serv)->first();
         $estados = Estado::where('id_estado', $pedido->id_estado)->first();
 
-        return view('Lavanderia.detallesPedido', compact('pedido','cliente','servicios','estados'));
+        // Obtener la lavadora asignada
+        $lavadoraAsignada = DB::table('asignacion_maquina')
+            ->join('maquina', 'asignacion_maquina.id_maquina', '=', 'maquina.id_maquina')
+            ->where('asignacion_maquina.id_pedido', $pedido->id_pedido)
+            ->where('maquina.id_tipo', 1) // Cambia a la ID correspondiente para Lavadora
+            ->select('maquina.id_maquina', 'maquina.marca', 'maquina.capacidad')
+            ->first();
+
+        // Obtener la secadora asignada
+        $secadoraAsignada = DB::table('asignacion_maquina')
+            ->join('maquina', 'asignacion_maquina.id_maquina', '=', 'maquina.id_maquina')
+            ->where('asignacion_maquina.id_pedido', $pedido->id_pedido)
+            ->where('maquina.id_tipo', 2) // Cambia a la ID correspondiente para Secadora
+            ->select('maquina.id_maquina', 'maquina.marca', 'maquina.capacidad')
+            ->first();
+
+        // Pasar las máquinas asignadas a la vista
+        return view('Lavanderia.detallesPedido', compact('pedido', 'cliente', 'servicios', 'estados', 'lavadoraAsignada', 'secadoraAsignada'));
     }
+
 
     public function estadoPedido(Request $request, $id_pedido)
     {
