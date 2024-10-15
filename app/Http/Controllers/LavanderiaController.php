@@ -74,13 +74,13 @@ class LavanderiaController extends Controller
     public function estadoPedido(Request $request, $id_pedido)
     {
         // Encuentra el pedido por su ID
-        $pedido = Pedido::findOrFail($id_pedido); // Asegúrate de usar el modelo correcto
+        $pedido = Pedido::findOrFail($id_pedido);
 
         // Cambiar el estado según el botón presionado
         if ($request->has('estado')) {
             $pedido->id_estado = $request->estado; // Cambia el estado
             $usuario = Auth::guard('usuarios')->user(); // Obtiene los datos del usuario logeado
-            $pedido->id_motorista = $usuario->id_usuario; // Guarda el ID del usuario logeado
+            $pedido->id_lavandero = $usuario->id_usuario; // Guarda el ID del usuario logeado
             $pedido->save(); // Guarda los cambios
         }
 
