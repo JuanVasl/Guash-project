@@ -27,7 +27,7 @@ class MotoristaController extends Controller
             ->join('ubicacion', 'cliente.id_ubicacion', '=', 'ubicacion.id_ubicacion')
             ->where(function($query) use ($idMotorista) {
                 // Condiciones para los estados de los pedidos
-                $query->whereIn('pedido.id_estado', [1, 9]) // Mostrar todos los de estado 1 y 9
+                $query->whereIn('pedido.id_estado', [1, 6, 9]) // Mostrar todos los de estado 1 y 9
                 ->orWhere(function($query) use ($idMotorista) {
                     // Para el estado 15, solo mostrar si el id_motorista es igual al logeado
                     $query->where('pedido.id_estado', 15)
