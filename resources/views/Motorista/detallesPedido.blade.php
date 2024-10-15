@@ -34,7 +34,7 @@
 
             <form id="estadoPedidoForm" action="{{ route('estadoPedidoMotorista', $pedido->id_pedido) }}" method="POST">
                 @csrf
-                @if ($pedido->id_estado == 1|| $pedido->id_estado == 9) <!-- Estado inicial -->
+                @if ($pedido->id_estado == 1 || $pedido->id_estado == 6 || $pedido->id_estado == 9) <!-- Estado inicial -->
                 <div class="links mt-3">
                     <button type="submit" name="estado" value="15" class="btn btn-success">Aceptar</button>
                     <a href="/entregas" class="btn btn-danger mt-2">Retroceder</a>
