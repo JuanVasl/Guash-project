@@ -17,6 +17,7 @@
                 <!-- Cantidad de canastos -->
                 <p>Cantidad de canastos</p>
                 <div class="quantity-container d-flex justify-content-center align-items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/128/1819/1819017.png" alt="" style="width: 50px;">
                     <button type="button" class="btn btn-light btn-decrease" style="font-size: 20px;">-</button>
                     <span class="mx-3" style="font-size: 20px;" id="cantidadCanastos">1</span>
                     <button type="button" class="btn btn-light btn-increase" style="font-size: 20px;">+</button>
