@@ -309,7 +309,7 @@ public function guardarAsignacionLavadora(Request $request, $id_pedido) {
     // Guardar la nueva asignación de la lavadora
     DB::table('asignacion_maquina')->insert([
         'id_pedido' => $id_pedido,
-        'id_maquina' => $request->id_maquina // Asegúrate que aquí recibas el id correcto
+        'id_maquina' => $request->id_maquina
     ]);
 
     return redirect()->route('detallesPedido', $id_pedido)->with('success', 'Lavadora asignada exitosamente.');
@@ -320,7 +320,7 @@ public function guardarAsignacionSecadora(Request $request, $id_pedido) {
 
     // Validar que se haya seleccionado una secadora
     $request->validate([
-        'id_secadora' => 'required|exists:maquina,id_maquina',
+        'id_maquina' => 'required|exists:maquina,id_maquina',
     ]);
 
     // Eliminar cualquier asignación anterior de secadora para este pedido
@@ -333,7 +333,7 @@ public function guardarAsignacionSecadora(Request $request, $id_pedido) {
     // Guardar la nueva asignación de la secadora
     DB::table('asignacion_maquina')->insert([
         'id_pedido' => $id_pedido,
-        'id_maquina' => $request->id_secadora,
+        'id_maquina' => $request->id_maquina
     ]);
 
     return redirect()->route('detallesPedido', $id_pedido)->with('success', 'Secadora asignada exitosamente.');

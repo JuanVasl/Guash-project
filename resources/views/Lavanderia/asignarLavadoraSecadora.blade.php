@@ -5,10 +5,10 @@
 @section('content')
 <div class="container">
     <h4>Asignar Lavadora y Secadora a Pedido: {{ $pedido->id_pedido }}</h4>
-    
+
     <form action="{{ route('guardarAsignacionLavadoraSecadora', $pedido->id_pedido) }}" method="POST">
         @csrf
-        
+
         <div class="form-group">
             <label for="lavadora">Seleccione una Lavadora:</label>
             <select name="id_lavadora" id="lavadora" class="form-control">
@@ -26,7 +26,7 @@
                 @endforeach
             </select>
         </div>
-        
+
         <button type="submit" class="btn btn-primary">Iniciar Lavado</button>
         <a href="{{ route('pedidos') }}" class="btn btn-danger">Retroceder</a>
     </form>
