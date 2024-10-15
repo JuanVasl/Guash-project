@@ -279,8 +279,6 @@ public function asignarEquipos($id_pedido) {
     $lavadora = DB::table('maquina')->where('maquina.id_tipo', 1)->get(); // 1 para Lavadora
     $secadora = DB::table('maquina')->where('maquina.id_tipo', 2)->get(); // 2 para Secadora
 
-
-
     switch ($pedido->id_precio_serv) {
         case 1: // Asignar Lavadora
             return view('Lavanderia.asignarLavadora', compact('pedido', 'lavadora'));
@@ -301,7 +299,14 @@ public function guardarAsignacionLavadora(Request $request, $id_pedido) {
         'id_maquina' => 'required|exists:maquina,id_maquina',
     ]);
 
-    // Guardar la asignación de la máquina
+    // Eliminar cualquier asignación anterior de lavadora para este pedido
+    DB::table('asignacion_maquina')
+        ->where('id_pedido', $id_pedido)
+        ->whereIn('id_maquina', function($query) {
+            $query->select('id_maquina')->from('maquina')->where('id_tipo', 1); // Solo lavadoras
+        })->delete();
+
+    // Guardar la nueva asignación de la lavadora
     DB::table('asignacion_maquina')->insert([
         'id_pedido' => $id_pedido,
         'id_maquina' => $request->id_maquina // Asegúrate que aquí recibas el id correcto
@@ -318,7 +323,14 @@ public function guardarAsignacionSecadora(Request $request, $id_pedido) {
         'id_secadora' => 'required|exists:maquina,id_maquina',
     ]);
 
-    // Guardar la asignación de la secadora
+    // Eliminar cualquier asignación anterior de secadora para este pedido
+    DB::table('asignacion_maquina')
+        ->where('id_pedido', $id_pedido)
+        ->whereIn('id_maquina', function($query) {
+            $query->select('id_maquina')->from('maquina')->where('id_tipo', 2); // Solo secadoras
+        })->delete();
+
+    // Guardar la nueva asignación de la secadora
     DB::table('asignacion_maquina')->insert([
         'id_pedido' => $id_pedido,
         'id_maquina' => $request->id_secadora,
@@ -336,13 +348,20 @@ public function guardarAsignacionLavadoraSecadora(Request $request, $id_pedido) 
         'id_secadora' => 'required|exists:maquina,id_maquina',
     ]);
 
-    // Guardar la asignación de la lavadora
+    // Eliminar cualquier asignación anterior de lavadora y secadora para este pedido
+    DB::table('asignacion_maquina')
+        ->where('id_pedido', $id_pedido)
+        ->whereIn('id_maquina', function($query) {
+            $query->select('id_maquina')->from('maquina')->whereIn('id_tipo', [1, 2]); // Lavadoras y secadoras
+        })->delete();
+
+    // Guardar la nueva asignación de la lavadora
     DB::table('asignacion_maquina')->insert([
         'id_pedido' => $id_pedido,
         'id_maquina' => $request->id_lavadora,
     ]);
 
-    // Guardar la asignación de la secadora
+    // Guardar la nueva asignación de la secadora
     DB::table('asignacion_maquina')->insert([
         'id_pedido' => $id_pedido,
         'id_maquina' => $request->id_secadora,
@@ -352,8 +371,8 @@ public function guardarAsignacionLavadoraSecadora(Request $request, $id_pedido) 
 }
 
 
-//Menu de Contabilidad para Lavanderia
-public function menuContabilidad(){
+    //Menu de Contabilidad para Lavanderia
+    public function menuContabilidad(){
         return view('Lavanderia.contabilidad');
     }
 
