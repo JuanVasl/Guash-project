@@ -62,11 +62,11 @@
                     <label><strong>Secadora:</strong></label>
                     <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (SEC {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
                 </div>
-                @if ($secadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
+                @if ($secadoraAsignada && $pedido->id_estado != 5 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
                     <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="estado" value="4">
-                        <button type="submit" class="btn btn-success mt-2">Comenzar Secado</button>
+                        <input type="hidden" name="estado" value="5">
+                        <button type="submit" class="btn btn-success mt-2">Comenzar Secados</button>
                     </form>
                 @endif
             @elseif ($pedido->id_precio_serv == 3) <!-- Si es Lavado y Secado -->
@@ -78,19 +78,31 @@
                     <label><strong>Secadora:</strong></label>
                     <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (SEC {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
                 </div>
-                @if ($lavadoraAsignada && $secadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
+
+                <!-- Lógica para mostrar botones según el estado -->
+                @if ($lavadoraAsignada && $pedido->id_estado == 3) <!-- Si el estado es 3, mostrar Comenzar Lavado -->
                     <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
                         @csrf
                         <input type="hidden" name="estado" value="4">
-                        <button type="submit" class="btn btn-success mt-2">Comenzar Lavado y Secado</button>
+                        <button type="submit" class="btn btn-success mt-2">Comenzar Lavado</button>
+                    </form>
+                @elseif ($secadoraAsignada && $pedido->id_estado == 4) <!-- Si el estado es 4, mostrar Comenzar Secado -->
+                    <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="estado" value="5">
+                        <button type="submit" class="btn btn-success mt-2">Comenzar Secado</button>
                     </form>
                 @endif
             @endif
 
-            <!-- Nuevo botón para cambiar el estado a 6 -->
-            @if ($pedido->id_estado == 4) <!-- Si el estado es 4 -->
+            <!-- Finalizar servicio -->
+            @if (
+                    ($pedido->id_precio_serv == 1 && $pedido->id_estado == 4) ||  // Lavado, estado 4
+                    ($pedido->id_precio_serv == 2 && $pedido->id_estado == 5) ||  // Secado, estado 5
+                    ($pedido->id_precio_serv == 3 && $pedido->id_estado == 5)     // Lavado y Secado, estado 5
+                )
                 <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST" class="mt-3">
-                    @csrf
+                @csrf
                     <input type="hidden" name="estado" value="6">
                     <button type="submit" class="btn btn-warning">Terminar Servicio</button>
                 </form>
@@ -113,7 +125,7 @@
                         </div>
                     @else <!-- Mostrar botón de Asignar Equipos si ya se han calculado canastos -->
                         <div class="links mt-1">
-                             <!-- Verificar si ya tiene asignado un equipo -->
+                            <!-- Verificar si ya tiene asignado un equipo -->
                             @if($lavadoraAsignada || $secadoraAsignada)
                                 <a href="{{ route('asignar.equipos', ['id_pedido' => $pedido->id_pedido]) }}" class="btn btn-warning">Cambiar Equipo</a>
                              @else
@@ -131,5 +143,4 @@
         </div>
     </div>
 </div>
-
 @endsection
