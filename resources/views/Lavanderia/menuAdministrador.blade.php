@@ -51,7 +51,7 @@
                     <a href="https://www.youtube.com/" class="btn w-100">
                         <div class="d-flex align-items-center justify-content-center">
                             <img src="https://cdn-icons-png.flaticon.com/128/11689/11689919.png" alt="Cierres Contables" style="width: 80px; height: 80px; margin-right: 10px;">
-                            <h3><strong>Cierres Contables</strong></h3>
+                            <h3><strong>Contabilidad</strong></h3>
                         </div>
                     </a>
                 </div>

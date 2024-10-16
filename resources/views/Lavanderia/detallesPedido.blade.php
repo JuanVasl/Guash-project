@@ -47,7 +47,7 @@
             <!-- Mostrar Lavadora o Secadora asignada -->
             @if ($pedido->id_precio_serv == 1) <!-- Si es Lavado -->
                 <div class="form-group d-flex justify-content-start">
-                    <label><strong>Lavadora Asignada:</strong></label>
+                    <label><strong>Lavadora:</strong></label>
                     <p>{{ $lavadoraAsignada->marca ?? 'No asignada' }} (LAV {{ $lavadoraAsignada->id_maquina ?? '-' }})</p>
                 </div>
                 @if ($lavadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
@@ -59,8 +59,8 @@
                 @endif
             @elseif ($pedido->id_precio_serv == 2) <!-- Si es Secado -->
                 <div class="form-group d-flex justify-content-start">
-                    <label><strong>Secadora Asignada:</strong></label>
-                    <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (ID: {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
+                    <label><strong>Secadora:</strong></label>
+                    <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (SEC {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
                 </div>
                 @if ($secadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
                     <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
@@ -71,12 +71,12 @@
                 @endif
             @elseif ($pedido->id_precio_serv == 3) <!-- Si es Lavado y Secado -->
                 <div class="form-group d-flex justify-content-start">
-                    <label><strong>Lavadora Asignada:</strong></label>
-                    <p>{{ $lavadoraAsignada->marca ?? 'No asignada' }} (ID: {{ $lavadoraAsignada->id_maquina ?? '-' }})</p>
+                    <label><strong>Lavadora:</strong></label>
+                    <p>{{ $lavadoraAsignada->marca ?? 'No asignada' }} (LAV {{ $lavadoraAsignada->id_maquina ?? '-' }})</p>
                 </div>
                 <div class="form-group d-flex justify-content-start">
-                    <label><strong>Secadora Asignada:</strong></label>
-                    <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (ID: {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
+                    <label><strong>Secadora:</strong></label>
+                    <p>{{ $secadoraAsignada->marca ?? 'No asignada' }} (SEC {{ $secadoraAsignada->id_maquina ?? '-' }})</p>
                 </div>
                 @if ($lavadoraAsignada && $secadoraAsignada && $pedido->id_estado != 4 && $pedido->id_estado != 6) <!-- Solo mostrar si no está en estado 4 o 6 -->
                     <form action="{{ route('estadoPedido', $pedido->id_pedido) }}" method="POST">
@@ -113,7 +113,12 @@
                         </div>
                     @else <!-- Mostrar botón de Asignar Equipos si ya se han calculado canastos -->
                         <div class="links mt-1">
-                            <a href="{{ route('asignar.equipos', ['id_pedido' => $pedido->id_pedido]) }}" class="btn btn-primary">Asignar Equipos</a>
+                             <!-- Verificar si ya tiene asignado un equipo -->
+                            @if($lavadoraAsignada || $secadoraAsignada)
+                                <a href="{{ route('asignar.equipos', ['id_pedido' => $pedido->id_pedido]) }}" class="btn btn-warning">Cambiar Equipo</a>
+                             @else
+                                <a href="{{ route('asignar.equipos', ['id_pedido' => $pedido->id_pedido]) }}" class="btn btn-primary">Asignar Equipos</a>
+                            @endif
                             <a href="/pedidos" class="btn btn-danger">Retroceder</a>
                         </div>
                     @endif
