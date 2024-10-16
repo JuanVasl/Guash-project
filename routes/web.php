@@ -85,11 +85,4 @@ Route::post('/guardar-asignacion-lavadora/{id_pedido}', [LavanderiaController::c
 Route::post('/guardar-asignacion-secadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionSecadora'])->name('guardar.asignacionSecadora'); // Guardamos la asignación de secadora
 Route::post('/guardar-asignacion-lavadora-secadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionLavadoraSecadora'])->name('guardar.asignacionLavadoraSecadora'); // Guardamos la asignación de lavadora y secadora
 
-
-// Rutas para asignar equipos según el precio del servicio
-//Route::get('/lavanderia/asignar-lavadora', [LavanderiaController::class, 'guardarAsignacionLavadora'])->name('Lavanderia.asignarLavadora');
-//Route::get('/lavanderia/asignar-secadora', [LavanderiaController::class, 'guardarAsignacionSecadora'])->name('Lavanderia.asignarSecadora');
-//Route::get('/lavanderia/asignar-lavadora-secadora', [LavanderiaController::class, 'guardarAsignacionLavadoraSecadora'])->name('Lavanderia.asignarLavadoraSecadora');
-
-
 Route::get('/menuAdmin/Conta', [LavanderiaController::class, 'menuContabilidad'])->name('Conta'); //Vista de Contabilidad
