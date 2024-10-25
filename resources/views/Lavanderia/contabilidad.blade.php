@@ -6,11 +6,11 @@
             <!-- Título -->
         <div class="container mt-2">
             <div class="col-12">
-                <h3 class="text-start"><strong>Seleccione una Opción</strong></h3>
+                <h3 class="text-start"><strong>Contabilidad</strong></h3>
             </div>
         </div>
 
-        <!-- Segunta Linea de Botones-->
+        <!-- Primera Linea de Botones-->
         <div class="row mb-3 mt-3">
             <div class="col-6 d-flex justify-content-center">
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <!-- Primera Linea de Botones-->
+        <!-- Segunda Linea de Botones-->
         <div class="row mb-3 mt-3">
             <div class="col-6 d-flex justify-content-center">
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
@@ -74,5 +74,6 @@
             </div>
         </div>
 
+        <a href="/menuAdmin" class="btn btn-danger">Regresar</a>
 
 @endsection
