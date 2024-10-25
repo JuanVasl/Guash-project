@@ -61,6 +61,7 @@ Route::get('/menuAdmin', [LavanderiaController::class, 'indexAdministrador'])->n
 Route::get('/pedidos', [LavanderiaController::class, 'pedidos'])->name('pedidos'); //Pedidos en Espera
 Route::get('/detallesPedido/{id_pedido}', [LavanderiaController::class, 'detallesPedido'])->name('detallesPedido'); //Vista Detalles de Pedido
 Route::post('/lavanderia/cambiarEstado/{id_pedido}', [LavanderiaController::class, 'estadoPedido'])->name('estadoPedido'); //Estado del Pedido
+Route::get('/menuLavan/historial-pedidos', [LavanderiaController::class, 'historialPedidos'])->name('historial.pedidos'); //Vista de historial de pedidos
 Route::get('/calcularCanastos/{id_pedido}', [LavanderiaController::class, 'calcularCanastos'])->name('calcularCanastos'); //Vista Detalles de Canastos
 Route::post('/guardar-canastos/{id_pedido}', [LavanderiaController::class, 'guardarCanastos'])->name('guardar.canastos'); //guardamos los canastos en BD
 Route::get('/equiposLavanderia', [LavanderiaController::class, 'equiposLavanderia'])->name('equiposLavanderia'); //Vista Detalles de Equipos Lavanderia

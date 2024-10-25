@@ -362,9 +362,20 @@ public function guardarAsignacionLavadoraSecadora(Request $request, $id_pedido) 
     ]);
 
     return redirect()->route('detallesPedido', $id_pedido)->with('success', 'Lavadora y Secadora asignadas exitosamente.');
-}
+    }
 
+    public function historialPedidos(Request $request){
+        // Obtener la fecha de la solicitud o usar la fecha de hoy por defecto
+        $fecha = $request->input('fecha', now()->format('Y-m-d'));
 
+        // Obtener los pedidos con estado 7 y la fecha proporcionada, y aplicar paginación de 5 pedidos por página
+        $pedidos = Pedido::where('id_estado', 7)
+                        ->whereDate('fecha', $fecha)
+                        ->paginate(5);  // Paginación de 5 elementos por página
+
+        // Pasar los pedidos y la fecha actual a la vista
+        return view('Lavanderia.Historial.historialPedidos', compact('pedidos', 'fecha'));
+    }
 
     //Menu de Contabilidad para Lavanderia
     public function menuContabilidad(){

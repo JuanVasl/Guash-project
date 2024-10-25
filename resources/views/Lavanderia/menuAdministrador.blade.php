@@ -30,7 +30,7 @@
 
             <div class="col-6 d-flex justify-content-center">
                 <div class="btn-container p-1" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
-                    <form action="{{ route('pedidos') }}" method="GET">
+                    <form action="{{ route('historial.pedidos') }}" method="GET">
                         @csrf
                         <button type="submit" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
                             <div class="d-flex justify-content-center" style="height: 75%;">
