@@ -7,7 +7,7 @@
         <h3 class="text-center"><strong>Historial de Pedidos</strong></h3>
     </div>
 
-     <!-- Formulario para seleccionar la fecha y filtrar -->
+    <!-- Formulario para seleccionar la fecha y filtrar -->
     <div class="col-12 mt-4">
         <form action="{{ route('historial.pedidos') }}" method="GET" class="row justify-content-center">
             <div class="col-12">
@@ -21,6 +21,7 @@
             </div>
         </form>
     </div>
+
     <!-- Tabla con los pedidos filtrados -->
     <div class="table-responsive mt-4">
         <table class="table table-striped">
@@ -28,19 +29,27 @@
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
+                    <th>Servicio</th>
                     <th>Total</th>
+                    <th>📂</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($pedidos as $pedido)
                     <tr>
                         <td>{{ $pedido->id_pedido }}</td>
-                        <td>{{ $pedido->cliente->nombre_cliente }} {{ $pedido->cliente->apellido_cliente }}</td>
+                        <td>{{ $pedido->cliente->nombre_cliente }}</td>
+                        <td>{{ $pedido->precioServicio->servicio }}</td>
                         <td>Q{{ $pedido->total_servicio }}</td>
+                        <td>
+                            <a href="{{ route('detalle.pedidoHistorico', $pedido->id_pedido) }}" style="color: gray">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="3" class="text-center">🔍No se encontro pedidos.</td>
+                        <td colspan="5" class="text-center">ℹ No se encontraron pedidos.</td> <!-- Ajustar colspan -->
                     </tr>
                 @endforelse
             </tbody>
@@ -53,6 +62,7 @@
     </div>
 </div>
 
-<a href="/menuAdmin" class="btn btn-danger">Reresar</a>
+<a href="/menuAdmin" class="btn btn-danger">Regresar</a>
 
 @endsection
+
