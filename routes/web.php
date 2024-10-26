@@ -5,6 +5,7 @@ use App\Http\Controllers\LavanderiaController;
 use App\Http\Controllers\MotoristaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\CierreDiarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -92,3 +93,8 @@ Route::get('/menuAdmin/Conta', [LavanderiaController::class, 'menuContabilidad']
 //Reporteria
 Route::get('/Conta/Insumos', [LavanderiaController::class, 'insumos'])->name('inventario.insumos');
 Route::post('/Conta/Insumos/{id}/agregar', [LavanderiaController::class, 'agregarCantidad'])->name('inventario.agregarCantidad');
+Route::get('/Conta/cierre-diario', [CierreDiarioController::class, 'index'])->name('cierre_diario.index');
+Route::post('/Conta/cierre-diario', [CierreDiarioController::class, 'store'])->name('cierre_diario.store');
+Route::get('/Conta/cierre-diario/historico', [CierreDiarioController::class, 'historico'])->name('cierre_diario.historico');
+Route::get('/Conta/cierre-diario/historico/{id}', [CierreDiarioController::class, 'detalle'])->name('cierre_diario.detalle');
+
