@@ -8,6 +8,7 @@ use App\Models\Lavanderia;
 use App\Models\Pedido;
 use App\Models\PrecioServicio;
 use App\Models\Maquina;
+use App\Models\Insumo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -293,26 +294,42 @@ public function asignarEquipos($id_pedido) {
 
 public function guardarAsignacionLavadora(Request $request, $id_pedido) {
     $pedido = Pedido::findOrFail($id_pedido);
+    $cantCanastos = $pedido->cant_canastos;
 
-    // Validar que se haya seleccionado una lavadora
+    // Validación de lavadora
     $request->validate([
         'id_maquina' => 'required|exists:maquina,id_maquina',
     ]);
 
-    // Eliminar cualquier asignación anterior de lavadora para este pedido
+    // Eliminar asignación previa de lavadora
     DB::table('asignacion_maquina')
         ->where('id_pedido', $id_pedido)
         ->whereIn('id_maquina', function($query) {
-            $query->select('id_maquina')->from('maquina')->where('id_tipo', 1); // Solo lavadoras
+            $query->select('id_maquina')->from('maquina')->where('id_tipo', 1);
         })->delete();
 
-    // Guardar la nueva asignación de la lavadora
+    // Insertar asignación de lavadora
     DB::table('asignacion_maquina')->insert([
         'id_pedido' => $id_pedido,
         'id_maquina' => $request->id_maquina
     ]);
 
-    return redirect()->route('detallesPedido', $id_pedido)->with('success', 'Lavadora asignada exitosamente.');
+    // Verificar y restar insumos
+    $detergente = Insumo::where('nombre_insumo', 'Detergente')->first();
+    $detergenteConsumido = $cantCanastos;
+
+    if ($detergente->cantidad_disponible < $detergenteConsumido) {
+        return redirect()->route('detallesPedido', $id_pedido)->withErrors('No hay suficiente detergente disponible.');
+    }
+
+    // Actualizar insumos y el pedido
+    $detergente->cantidad_disponible -= $detergenteConsumido;
+    $detergente->save();
+
+    $pedido->detergente = $detergenteConsumido;
+    $pedido->save();
+
+    return redirect()->route('detallesPedido', $id_pedido)->with('success', 'Lavadora asignada y consumo de detergente registrado.');
 }
 
 public function guardarAsignacionSecadora(Request $request, $id_pedido) {
@@ -341,28 +358,49 @@ public function guardarAsignacionSecadora(Request $request, $id_pedido) {
 
 public function guardarAsignacionLavadoraSecadora(Request $request, $id_pedido) {
     $pedido = Pedido::findOrFail($id_pedido);
+    $cantCanastos = $pedido->cant_canastos;
 
-    // Validar que se hayan seleccionado tanto lavadora como secadora
+    // Validación de lavadora y secadora
     $request->validate([
         'id_lavadora' => 'required|exists:maquina,id_maquina',
         'id_secadora' => 'required|exists:maquina,id_maquina',
     ]);
 
-    // Eliminar cualquier asignación anterior de lavadora y secadora para este pedido
+    // Eliminar asignación previa de lavadora y secadora
     DB::table('asignacion_maquina')
         ->where('id_pedido', $id_pedido)
         ->whereIn('id_maquina', function($query) {
-            $query->select('id_maquina')->from('maquina')->whereIn('id_tipo', [1, 2]); // Lavadoras y secadoras
+            $query->select('id_maquina')->from('maquina')->whereIn('id_tipo', [1, 2]);
         })->delete();
 
-    // Guardar la nueva asignación de la lavadora y la secadora
+    // Insertar asignación de lavadora y secadora
     DB::table('asignacion_maquina')->insert([
-        ['id_pedido' => $id_pedido, 'id_maquina' => $request->id_lavadora], // Lavadora
-        ['id_pedido' => $id_pedido, 'id_maquina' => $request->id_secadora], // Secadora
+        ['id_pedido' => $id_pedido, 'id_maquina' => $request->id_lavadora],
+        ['id_pedido' => $id_pedido, 'id_maquina' => $request->id_secadora],
     ]);
 
-    return redirect()->route('detallesPedido', $id_pedido)->with('success', 'Lavadora y Secadora asignadas exitosamente.');
+    // Verificar y restar insumos
+    $detergente = Insumo::where('nombre_insumo', 'Detergente')->first();
+    $suavizante = Insumo::where('nombre_insumo', 'Suavizante')->first();
+    $detergenteConsumido = $cantCanastos;  // Asumimos 1 copa por canasto
+    $suavizanteConsumido = $cantCanastos;
+
+    if ($detergente->cantidad_disponible < $detergenteConsumido || $suavizante->cantidad_disponible < $suavizanteConsumido) {
+        return redirect()->route('detallesPedido', $id_pedido)->withErrors('No hay suficiente detergente o suavizante disponible.');
     }
+
+    // Actualizar insumos y el pedido
+    $detergente->cantidad_disponible -= $detergenteConsumido;
+    $detergente->save();
+    $suavizante->cantidad_disponible -= $suavizanteConsumido;
+    $suavizante->save();
+
+    $pedido->detergente = $detergenteConsumido;
+    $pedido->suavizante = $suavizanteConsumido;
+    $pedido->save();
+
+    return redirect()->route('detallesPedido', $id_pedido)->with('success', 'Lavadora y Secadora asignadas y consumo de insumos registrado.');
+}
 
     public function historialPedidos(Request $request){
         // Obtener la fecha de la solicitud o usar la fecha de hoy por defecto
@@ -395,6 +433,27 @@ public function guardarAsignacionLavadoraSecadora(Request $request, $id_pedido) 
         return view('Lavanderia.Contabilidad.contabilidad');
     }
 
+    //Reporteria
+    public function insumos()
+    {
+        // Obtener todos los insumos
+        $insumos = Insumo::all();
 
+        return view('Lavanderia.Contabilidad.insumos', compact('insumos'));
+    }
+
+    // Método para agregar cantidad a un insumo específico
+    public function agregarCantidad(Request $request, $id)
+    {
+        $insumo = Insumo::findOrFail($id);
+        $cantidadAgregar = $request->input('cantidad');
+
+        // Incrementar la cantidad disponible
+        $insumo->cantidad_disponible += $cantidadAgregar;
+        $insumo->save();
+
+        session()->flash('success', 'Cantidad agregada correctamente');
+        return redirect()->route('inventario.insumos');
+    }
 
 }
