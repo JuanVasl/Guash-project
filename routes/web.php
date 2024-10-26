@@ -5,6 +5,7 @@ use App\Http\Controllers\LavanderiaController;
 use App\Http\Controllers\MotoristaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\CierreDiarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -61,6 +62,8 @@ Route::get('/menuAdmin', [LavanderiaController::class, 'indexAdministrador'])->n
 Route::get('/pedidos', [LavanderiaController::class, 'pedidos'])->name('pedidos'); //Pedidos en Espera
 Route::get('/detallesPedido/{id_pedido}', [LavanderiaController::class, 'detallesPedido'])->name('detallesPedido'); //Vista Detalles de Pedido
 Route::post('/lavanderia/cambiarEstado/{id_pedido}', [LavanderiaController::class, 'estadoPedido'])->name('estadoPedido'); //Estado del Pedido
+Route::get('/menuLavan/historial-pedidos', [LavanderiaController::class, 'historialPedidos'])->name('historial.pedidos'); //Vista de historial de pedidos
+Route::get('/menuLavan/historial-pedidos/pedido/{id}', [LavanderiaController::class, 'detallePedidoHistorico'])->name('detalle.pedidoHistorico');
 Route::get('/calcularCanastos/{id_pedido}', [LavanderiaController::class, 'calcularCanastos'])->name('calcularCanastos'); //Vista Detalles de Canastos
 Route::post('/guardar-canastos/{id_pedido}', [LavanderiaController::class, 'guardarCanastos'])->name('guardar.canastos'); //guardamos los canastos en BD
 Route::get('/equiposLavanderia', [LavanderiaController::class, 'equiposLavanderia'])->name('equiposLavanderia'); //Vista Detalles de Equipos Lavanderia
@@ -86,3 +89,12 @@ Route::post('/guardar-asignacion-secadora/{id_pedido}', [LavanderiaController::c
 Route::post('/guardar-asignacion-lavadora-secadora/{id_pedido}', [LavanderiaController::class, 'guardarAsignacionLavadoraSecadora'])->name('guardar.asignacionLavadoraSecadora'); // Guardamos la asignación de lavadora y secadora
 
 Route::get('/menuAdmin/Conta', [LavanderiaController::class, 'menuContabilidad'])->name('Conta'); //Vista de Contabilidad
+
+//Reporteria
+Route::get('/Conta/Insumos', [LavanderiaController::class, 'insumos'])->name('inventario.insumos');
+Route::post('/Conta/Insumos/{id}/agregar', [LavanderiaController::class, 'agregarCantidad'])->name('inventario.agregarCantidad');
+Route::get('/Conta/cierre-diario', [CierreDiarioController::class, 'index'])->name('cierre_diario.index');
+Route::post('/Conta/cierre-diario', [CierreDiarioController::class, 'store'])->name('cierre_diario.store');
+Route::get('/Conta/cierre-diario/historico', [CierreDiarioController::class, 'historico'])->name('cierre_diario.historico');
+Route::get('/Conta/cierre-diario/historico/{id}', [CierreDiarioController::class, 'detalle'])->name('cierre_diario.detalle');
+
