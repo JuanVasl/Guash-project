@@ -31,7 +31,7 @@
             <div class="col-6 d-flex justify-content-center">
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px;">
                 <form action="{{ route('secadoras') }}" method="GET">
-                @csrf 
+                @csrf
                     <button type="submit" class="btn w-100 d-flex flex-column align-items-center" style="height: 170px;">
                         <div class="d-flex justify-content-center" style="height: 75%;">
                             <img src="https://cdn-icons-png.flaticon.com/128/17393/17393708.png" alt="Lavadoras" style="max-width: 100%; max-height: 100%;">
@@ -41,13 +41,13 @@
                         </div>
                     </button>
                 </form>
-            </div>     
+            </div>
         </div>
     </div>
 
-        <a href="/menuAdmin" class="btn btn-danger">Cancelar</a>
-        
+        <a href="/menuAdmin" class="btn btn-danger">Regresar</a>
+
     </div>
-    
+
 
 @endsection

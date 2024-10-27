@@ -40,7 +40,7 @@
     <br>
     <div class="links">
         <a href="/equiposLavanderia/secadoras/create" class="btn btn-success">Agregar</a>
-        <a href="/equiposLavanderia" class="btn btn-danger">Cancelar</a>
+        <a href="/equiposLavanderia" class="btn btn-danger">Regresar</a>
     </div>
 </div>
 @endsection
