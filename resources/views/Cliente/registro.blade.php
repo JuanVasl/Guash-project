@@ -6,6 +6,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <style>
@@ -78,6 +79,18 @@
             background-color: #c82333;
         }
 
+        .input-group {
+            position: relative;
+        }
+
+        .input-group-addon {
+            position: absolute;
+            right: 10px;
+            top: 15px;
+            cursor: pointer;
+        }
+
+
 
         /* Logo */
         .logo img {
@@ -104,31 +117,83 @@
     <div class="logo">
         <img src="{{ asset('images/logo_guash.png') }}" alt="GÜASH Logo">
     </div>
+
     <h1>Registrate</h1>
+
     <form method="POST" action="{{ route('registroCliente') }}">
         @csrf
+
         <div class="form-group">
-            <input type="text" name="nombre_cliente" placeholder="Nombre completo" required class="form-control">
+            <input type="text" name="nombre_cliente" placeholder="Nombre completo" required class="form-control {{ $errors->has('nombre_cliente') ? 'is-invalid' : '' }}" value="{{ old('nombre_cliente') }}">
+            @if ($errors->has('nombre_cliente'))
+                <small class="text-danger">{{ $errors->first('nombre_cliente') }}</small>
+            @endif
         </div>
+
         <div class="form-group">
-            <input type="text" name="apellido_cliente" placeholder="Apellidos" required class="form-control">
+            <input type="text" name="apellido_cliente" placeholder="Apellidos" required class="form-control {{ $errors->has('apellido_cliente') ? 'is-invalid' : '' }}" value="{{ old('apellido_cliente') }}">
+            @if ($errors->has('apellido_cliente'))
+                <small class="text-danger">{{ $errors->first('apellido_cliente') }}</small>
+            @endif
         </div>
+
         <div class="form-group">
-            <input type="text" name="correo_cliente" placeholder="Correo" required class="form-control">
+            <input type="email" name="correo_cliente" placeholder="Correo" required class="form-control {{ $errors->has('correo_cliente') ? 'is-invalid' : '' }}" value="{{ old('correo_cliente') }}">
+            @if ($errors->has('correo_cliente'))
+                <small class="text-danger">{{ $errors->first('correo_cliente') }}</small>
+            @endif
         </div>
+
         <div class="form-group">
-            <input type="password" name="contra_cliente" placeholder="Contraseña" required class="form-control">
+            <div class="input-group" id="show_hide_password">
+                <input type="password" name="contra_cliente" id="contra_cliente" placeholder="Contraseña" required class="form-control {{ $errors->has('contra_cliente') ? 'is-invalid' : '' }}">
+                <div class="input-group-addon">
+                    <a href="javascript:void(0);" id="togglePassword">
+                        <i class="fas fa-eye-slash" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            @if ($errors->has('contra_cliente'))
+                <small class="text-danger">{{ $errors->first('contra_cliente') }}</small>
+            @endif
         </div>
+
+
         <div class="form-group">
-            <input type="text" name="tele_cliente" placeholder="Telefono" required class="form-control">
+            <input type="text" name="tele_cliente" placeholder="Teléfono" required class="form-control {{ $errors->has('tele_cliente') ? 'is-invalid' : '' }}" value="{{ old('tele_cliente') }}">
+            @if ($errors->has('tele_cliente'))
+                <small class="text-danger">{{ $errors->first('tele_cliente') }}</small>
+            @endif
         </div>
+
         <button type="submit" class="btn btn-success">Guardar</button>
-        <div class="links">
-            <a href="/" class="btn btn-danger">Cancelar</a>
-        </div>
+        <a href="/" class="btn btn-danger">Cancelar</a>
     </form>
+
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#togglePassword").on('click', function(event) {
+            event.preventDefault();
+            var passwordField = $('#show_hide_password input');
+            var toggleIcon = $('#togglePassword i');
+
+            if(passwordField.attr("type") === "text") {
+                passwordField.attr('type', 'password');
+                toggleIcon.addClass("fa-eye-slash");
+                toggleIcon.removeClass("fa-eye");
+            } else {
+                passwordField.attr('type', 'text');
+                toggleIcon.removeClass("fa-eye-slash");
+                toggleIcon.addClass("fa-eye");
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
+
 
 @endsection
