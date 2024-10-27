@@ -15,11 +15,11 @@
             <div class="col-12">
                 <label for="fecha" class="col-form-label"><strong>Seleccionar fecha:</strong></label>
             </div>
-            <div class="col-9">
+            <div class="col-auto">
                 <input type="date" name="fecha" id="fecha" class="form-control" value="{{ $fecha }}">
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-outline-primary">🔎</button>
+                <button type="submit" class="btn btn-outline-primary"><i class="fas fa-search"></i></button>
             </div>
         </form>
     </div>
@@ -32,8 +32,7 @@
                     <th>ID</th>
                     <th>Cliente</th>
                     <th>Servicio</th>
-                    <th>Total</th>
-                    <th>📂</th>
+                    <th>Ver</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +40,6 @@
                     <tr>
                         <td>{{ $pedido->id_pedido }}</td>
                         <td>{{ $pedido->cliente->nombre_cliente }}</td>
-                        <td>{{ $pedido->precioServicio->servicio }}</td>
                         <td>Q{{ $pedido->total_servicio }}</td>
                         <td>
                             <a href="{{ route('detalle.pedidoHistorico', $pedido->id_pedido) }}" style="color: gray">

@@ -12,6 +12,7 @@ use App\Models\Insumo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Pdf;
 
 class LavanderiaController extends Controller{
 
@@ -405,9 +406,55 @@ class LavanderiaController extends Controller{
         $servicios = $pedido->precioServicio;
         $estados = $pedido->estado;
 
-        return view('Lavanderia.Historial.detallePedidoHistorico', compact('pedido', 'cliente', 'servicios', 'estados'));
+        // Obtener la lavadora asignada
+        $lavadoraAsignada = DB::table('asignacion_maquina')
+            ->join('maquina', 'asignacion_maquina.id_maquina', '=', 'maquina.id_maquina')
+            ->where('asignacion_maquina.id_pedido', $pedido->id_pedido)
+            ->where('maquina.id_tipo', 1) // Cambia a la ID correspondiente para Lavadora
+            ->select('maquina.id_maquina', 'maquina.marca', 'maquina.capacidad')
+            ->first();
+
+        // Obtener la secadora asignada
+        $secadoraAsignada = DB::table('asignacion_maquina')
+            ->join('maquina', 'asignacion_maquina.id_maquina', '=', 'maquina.id_maquina')
+            ->where('asignacion_maquina.id_pedido', $pedido->id_pedido)
+            ->where('maquina.id_tipo', 2) // Cambia a la ID correspondiente para Secadora
+            ->select('maquina.id_maquina', 'maquina.marca', 'maquina.capacidad')
+            ->first();
+
+        return view('Lavanderia.Historial.detallePedidoHistorico', compact('pedido', 'cliente', 'servicios', 'estados', 'lavadoraAsignada', 'secadoraAsignada'));
     }
 
+    public function exportarPedidoPDF($id_pedido){
+        // Obtener datos del pedido y relaciones necesarias
+        $pedido = Pedido::findOrFail($id_pedido);
+        $cliente = $pedido->cliente;
+        $servicios = $pedido->precioServicio;
+        $lavadoraAsignada = $pedido->lavadoraAsignada ?? null;
+        $secadoraAsignada = $pedido->secadoraAsignada ?? null;
+
+         // Obtener la lavadora asignada
+         $lavadoraAsignada = DB::table('asignacion_maquina')
+         ->join('maquina', 'asignacion_maquina.id_maquina', '=', 'maquina.id_maquina')
+         ->where('asignacion_maquina.id_pedido', $pedido->id_pedido)
+         ->where('maquina.id_tipo', 1) // Cambia a la ID correspondiente para Lavadora
+         ->select('maquina.id_maquina', 'maquina.marca', 'maquina.capacidad')
+         ->first();
+
+     // Obtener la secadora asignada
+     $secadoraAsignada = DB::table('asignacion_maquina')
+         ->join('maquina', 'asignacion_maquina.id_maquina', '=', 'maquina.id_maquina')
+         ->where('asignacion_maquina.id_pedido', $pedido->id_pedido)
+         ->where('maquina.id_tipo', 2) // Cambia a la ID correspondiente para Secadora
+         ->select('maquina.id_maquina', 'maquina.marca', 'maquina.capacidad')
+         ->first();
+
+        // Generar el PDF usando la vista correcta
+        $pdf = PDF::loadView('Lavanderia.Historial.pedido_pdf', compact('pedido', 'cliente', 'servicios', 'lavadoraAsignada', 'secadoraAsignada'));
+
+        // Retornar el PDF descargable
+        return $pdf->download('Pedido_'.$id_pedido.'.pdf');
+    }
 
     /*-------------------- Vista de Reporteria Contable --------------------*/
     public function menuContabilidad(){
