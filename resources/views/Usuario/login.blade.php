@@ -99,7 +99,7 @@
     <div class="logo">
         <img src="{{ asset('images/logo_guash.png') }}" alt="GÜASH Logo">
     </div>
-    <h1>Acceder</h1>
+    <h1>Iniciar Sesión</h1>
     <form method="POST" action="{{ route('loginUsuario') }}">
         @csrf
         <div class="form-group">
@@ -111,10 +111,7 @@
         <div class="form-group">
             <input type="password" name="contrasena" placeholder="Contraseña" required class="form-control">
         </div>
-        <button type="submit" class="btn btn-success">Iniciar Sesión</button>
-        <div class="links">
-            <a href="#" class="btn btn-danger">Olvide mi contraseña</a>
-        </div>
+        <button type="submit" class="btn btn-success">Acceder</button>
     </form>
 </div>
 </body>
