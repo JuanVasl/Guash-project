@@ -9,17 +9,6 @@ use App\Http\Controllers\CierreDiarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 /*Cliente*/
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('showLoginForm'); //Vista CLiente
 Route::post('/login', [LoginController::class, 'login'])->name('login'); //Cliente
@@ -92,7 +81,7 @@ Route::get('/menuAdmin/Conta', [LavanderiaController::class, 'menuContabilidad']
 
 //Reporteria
 Route::get('/Conta/Insumos', [LavanderiaController::class, 'insumos'])->name('inventario.insumos');
-Route::post('/Conta/Insumos/{id}/agregar', [LavanderiaController::class, 'agregarCantidad'])->name('inventario.agregarCantidad');
+Route::post('/Conta/Insumos/agregar', [LavanderiaController::class, 'agregarCantidad'])->name('inventario.agregarCantidad');
 Route::get('/Conta/cierre-diario', [CierreDiarioController::class, 'index'])->name('cierre_diario.index');
 Route::post('/Conta/cierre-diario', [CierreDiarioController::class, 'store'])->name('cierre_diario.store');
 Route::get('/Conta/cierre-diario/historico', [CierreDiarioController::class, 'historico'])->name('cierre_diario.historico');
