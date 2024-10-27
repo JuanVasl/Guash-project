@@ -18,31 +18,49 @@ class ClienteController extends Controller
     {
         return view('Cliente.registro');
     }
+
     public function cliente()
     {
         return $this->hasOne(Cliente::class, 'id_cliente');
     }
 
-    public function save(Request $request)
-    {
-        $cliente = $this->validate($request, [
-            'nombre_cliente'   => "required",
-            'apellido_cliente' => "required",
-            'correo_cliente'   => "required",
-            'contra_cliente'   => "required",
-            'tele_cliente'     => "required",
+    public function save(Request $request){
+        // Realiza la validación
+        $request->validate([
+            'nombre_cliente'   => "required|string|max:255",
+            'apellido_cliente' => "required|string|max:255",
+            'correo_cliente'   => "required|email|unique:cliente,correo_cliente",
+            'contra_cliente'   => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',       // Al menos una mayúscula
+                'regex:/[0-9]/',       // Al menos un número
+                'regex:/[@$!%*?&]/'    // Al menos un carácter especial
+            ],
+            'tele_cliente'     => "required|regex:/^[0-9]{8}$/",
         ]);
 
-        $nuevoCliente =cliente::create([
-            'nombre_cliente'   => $cliente['nombre_cliente'],
-            'apellido_cliente' => $cliente['apellido_cliente'],
-            'correo_cliente'   => $cliente['correo_cliente'],
-            'contra_cliente'   => Hash::make($cliente['contra_cliente']),
-            'tele_cliente'     => $cliente['tele_cliente'],
-        ]);
+        // Crea el nuevo cliente en la base de datos
+        try {
+            $nuevoCliente = cliente::create([
+                'nombre_cliente'   => $request->nombre_cliente,
+                'apellido_cliente' => $request->apellido_cliente,
+                'correo_cliente'   => $request->correo_cliente,
+                'contra_cliente'   => Hash::make($request->contra_cliente),
+                'tele_cliente'     => $request->tele_cliente,
+            ]);
 
-        Auth::login($nuevoCliente);
+            // Inicia sesión automáticamente después del registro
+            Auth::login($nuevoCliente);
 
-        return redirect('/menu');
+            // Redirecciona al menú en caso de éxito
+            return redirect('/menu');
+
+        } catch (\Exception $e) {
+            // Redirecciona con un mensaje de error si la creación falla
+            return redirect()->back()->withErrors(['msg' => 'Hubo un problema al registrar el usuario. Inténtalo de nuevo.']);
+        }
     }
+
 }
