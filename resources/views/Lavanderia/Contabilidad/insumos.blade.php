@@ -6,52 +6,71 @@
     <h3 class="text-center my-4"><strong>Inventario de Insumos</strong></h3>
 
     @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '{{ session("success") }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            });
+        </script>
     @endif
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Insumo</th>
-                <th>Disp.</th>
-                <th>Medida</th>
-                <th>Ingreso</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($insumos as $insumo)
+    <form id="insumosForm" action="{{ route('inventario.agregarCantidad') }}" method="POST">
+        @csrf
+        <table class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <td>{{ $insumo->nombre_insumo }}</td>
-                    <td>{{ $insumo->cantidad_disponible }}</td>
-                    <td>{{ $insumo->unidad_medida }}</td>
-                    <td>
-                        <form action="{{ route('inventario.agregarCantidad', $insumo->id_insumo) }}" method="POST">
-                            @csrf
-                            <div class="input-group">
-                                <input type="number" name="cantidad" class="form-control" min="1" required>
-                                <button type="submit" class="btn btn-primary">Agregar</button>
-                            </div>
-                        </form>
-                    </td>
+                    <th>Insumo</th>
+                    <th>Disp.</th>
+                    <th>Medida</th>
+                    <th>Ingreso</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach($insumos as $insumo)
+                    <tr>
+                        <td>{{ $insumo->nombre_insumo }}</td>
+                        <td>{{ $insumo->cantidad_disponible }}</td>
+                        <td>{{ $insumo->unidad_medida }}</td>
+                        <td>
+                            <input type="number" name="cantidades[{{ $insumo->id_insumo }}]" class="form-control" min="1">
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="text-center my-3">
+            <a href="/menuAdmin/Conta" class="btn btn-danger">Regresar</a>
+            <button type="button" onclick="confirmSave()" class="btn btn-primary">Guardar</button>
+
+        </div>
+    </form>
 </div>
 
-<a href="/menuAdmin/Conta" class="btn btn-danger">Regresar</a>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // JavaScript para ocultar el mensaje después de 5 segundos
-    document.addEventListener("DOMContentLoaded", function() {
-        const successMessage = document.getElementById("success-message");
-        if (successMessage) {
-            setTimeout(function() {
-                successMessage.style.display = "none";
-            }, 5000); // 5000 milisegundos = 5 segundos
-        }
-    });
+    // Función para confirmar la acción de guardar
+    function confirmSave() {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Se agregarán las cantidades ingresadas al inventario.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('insumosForm').submit();
+            }
+        });
+    }
 </script>
 @endsection

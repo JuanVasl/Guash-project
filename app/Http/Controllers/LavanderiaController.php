@@ -433,27 +433,29 @@ public function guardarAsignacionLavadoraSecadora(Request $request, $id_pedido) 
         return view('Lavanderia.Contabilidad.contabilidad');
     }
 
-    //Reporteria
-    public function insumos()
-    {
+    // Reporteria
+    public function insumos(){
         // Obtener todos los insumos
         $insumos = Insumo::all();
 
         return view('Lavanderia.Contabilidad.insumos', compact('insumos'));
     }
 
-    // Método para agregar cantidad a un insumo específico
-    public function agregarCantidad(Request $request, $id)
-    {
-        $insumo = Insumo::findOrFail($id);
-        $cantidadAgregar = $request->input('cantidad');
+    // Método para agregar cantidades a múltiples insumos
+    public function agregarCantidad(Request $request){
+        $cantidades = $request->input('cantidades', []);
 
-        // Incrementar la cantidad disponible
-        $insumo->cantidad_disponible += $cantidadAgregar;
-        $insumo->save();
+        foreach ($cantidades as $id => $cantidadAgregar) {
+            if ($cantidadAgregar && $cantidadAgregar > 0) {
+                $insumo = Insumo::findOrFail($id);
+                $insumo->cantidad_disponible += $cantidadAgregar;
+                $insumo->save();
+            }
+        }
 
-        session()->flash('success', 'Cantidad agregada correctamente');
+        session()->flash('success', 'Cantidades agregadas correctamente');
         return redirect()->route('inventario.insumos');
-    }
+}
+
 
 }
