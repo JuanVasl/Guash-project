@@ -104,22 +104,22 @@
     <div class="logo">
         <img src="{{ asset('images/logo_guash.png') }}" alt="GÜASH Logo">
     </div>
-    <h1>Acceder</h1>
+    <h1>Iniciar Sesión</h1>
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="form-group">
             <input type="email" name="correo_cliente" placeholder="Correo" required class="form-control" value="{{ old('correo_cliente') }}">
+        </div>
+        <div class="form-group">
+            <input type="password" name="contra_cliente" placeholder="Contraseña" required class="form-control">
             @error('correo_cliente')
             <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
-        <div class="form-group">
-            <input type="password" name="contra_cliente" placeholder="Contraseña" required class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">Iniciar Sesión</button>
+        <button type="submit" class="btn btn-success">Acceder</button>
         <div class="links">
-            <a href="#" class="btn btn-danger">Olvide mi contraseña</a>
-            <a href="/registro" class="btn btn-warning">Registrarme</a>
+            <!-- <a href="#" class="btn btn-danger">Olvide mi contraseña</a>-->
+            <p>¿Aun no tienes una cuenta? <a href="/registro" style="text-decoration: none;">Registrate</a></p>
         </div>
     </form>
 </div>
