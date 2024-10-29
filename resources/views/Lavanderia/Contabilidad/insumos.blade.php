@@ -44,9 +44,8 @@
             </tbody>
         </table>
         <div class="text-center my-3">
-            <a href="/menuAdmin/Conta" class="btn btn-danger">Regresar</a>
             <button type="button" onclick="confirmSave()" class="btn btn-primary">Guardar</button>
-
+            <a href="/menuAdmin/Conta" class="btn btn-danger">Regresar</a>
         </div>
     </form>
 </div>
