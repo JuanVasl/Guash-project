@@ -43,10 +43,10 @@
                     </form>
                 </div>
             </div>
-        </div> <br>
+        </div>
 
         <!-- Botón central Lavadoras y Secadoras -->
-        <div class="row">
+        <div class="row mt-2">
             <div class="col-12 d-flex justify-content-center">
                 <div class="btn-container p-1" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
                     <a href="/equiposLavanderia" class="btn w-100">
@@ -58,10 +58,9 @@
                 </div>
             </div>
         </div>
-        <br>
 
         <!-- Botón central Cierres Contables-->
-        <div class="row">
+        <div class="row mt-2">
             <div class="col-12 d-flex justify-content-center">
                 <div class="btn-container p-1" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
                     <a href="/menuAdmin/Conta" class="btn w-100">

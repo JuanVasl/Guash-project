@@ -85,7 +85,7 @@ class MotoristaController extends Controller
             ->join('ubicacion', 'cliente.id_ubicacion', '=', 'ubicacion.id_ubicacion')
             ->where('motorista_historial.id_motorista', $idMotorista) // Filtrar por el id del motorista
             ->select('motorista_historial.*', 'pedido.*', 'ubicacion.nombre', 'ubicacion.cod')
-            ->paginate(5);
+            ->paginate(3);
 
         return view('Motorista.historialEntregas', compact('entrega'));
     }

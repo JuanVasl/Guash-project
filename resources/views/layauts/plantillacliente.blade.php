@@ -18,7 +18,7 @@
         }
         .main-content {
             flex: 1;
-            padding-bottom: 15vh; /* Ajusta este valor según la altura de tu footer */
+            padding-bottom: 18vh; /* Ajusta este valor según la altura de tu footer */
         }
         .container {
             text-align: center;
@@ -27,7 +27,7 @@
             margin: auto;
         }
         footer {
-            height: 11vh;
+            height: 15vh;
             background-color: black;
             position: fixed;
             bottom: 0;
@@ -51,7 +51,7 @@
             margin-bottom: 5px;
         }
         .container-fluid .btn-custom + .btn-custom {
-            margin-left: 40px;
+            margin-left: 3vh;
         }
         .btn-custom img {
             width: 50px;
@@ -146,64 +146,17 @@
                     Ayuda
                 </a>
 
-                <!-- Botón para abrir Offcanvas (Más) -->
-                <button class="btn btn-custom" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <img src="https://cdn-icons-png.freepik.com/256/459/459545.png" alt="Más">
-                    Más
-                </button>
+                <!-- Botón para Cerrar Sesión -->
+                <form action="{{ route('logout') }}" method="POST" >
+                    @csrf
+                    <button class="btn btn-custom" type="submit">
+                        <img src="https://cdn-icons-png.flaticon.com/128/1176/1176383.png" alt="Más">
+                        Cerrar Sesión
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
 </footer>
-
-<!-- Offcanvas -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <!-- Header con la ficha del cliente -->
-    <div class="offcanvas-header">
-        <!-- Contenedor de imagen (1/3) -->
-        <div class="image-container">
-            <img src="https://cdn-icons-png.freepik.com/256/11748/11748483.png" alt="Foto de perfil">
-        </div>
-        <!-- Contenedor de datos (2/3) -->
-        <div class="data-container">
-            <p><strong>{{ Auth::user()->nombre_cliente }} {{ Auth::user()->apellido_cliente }}</strong></p>
-            <p><strong>+502 {{ Auth::user()->tele_cliente }}</strong></p>
-            <p><strong>{{ Auth::user()->correo_cliente }}</strong></p>
-        </div>
-    </div>
-
-    <!-- Offcanvas body -->
-    <div class="offcanvas-body">
-        <ul class="list-unstyled">
-            <li>
-                <img src="https://cdn-icons-png.freepik.com/256/8647/8647311.png" alt="Mi Cuenta">
-                <a href="#" class="text-decoration-none">Mi Cuenta</a>
-            </li>
-            <li>
-                <img src="https://cdn-icons-png.freepik.com/256/8567/8567809.png" alt="Notificaciones">
-                <a href="#" class="text-decoration-none">Notificaciones</a>
-            </li>
-            <li>
-                <img src="https://cdn-icons-png.freepik.com/256/16096/16096220.png" alt="Información">
-                <a href="https://wa.me/50254749500?text=Necesito%20información%20sobre%20Güash,%20en%20..." class="text-decoration-none">Información</a>
-            </li>
-            <li>
-                <img src="https://cdn-icons-png.freepik.com/256/12343/12343346.png" alt="Términos y Condiciones">
-                <a href="https://www.gnu.org/licenses/gpl-3.0.html#license-text" class="text-decoration-none">Términos y Condiciones</a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Sección de Cerrar sesión y Versión -->
-    <div class="logout-section">
-        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-            @csrf
-            <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
-        </form>
-        <br>
-        <p>Versión 1.0.3</p>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-</div>
 </body>
 </html>

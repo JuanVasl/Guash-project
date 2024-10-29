@@ -52,4 +52,22 @@
 
         <a href="/menuAdmin" class="btn btn-danger mt-4">Regresar</a>
 
+        @if(session('success'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: '{{ session("success") }}',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                });
+            </script>
+        @endif
+
+    </div>
+
+
+
 @endsection

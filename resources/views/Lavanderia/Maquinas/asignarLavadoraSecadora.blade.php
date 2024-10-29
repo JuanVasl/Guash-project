@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="btn-container mt-4 p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%; text-align:center;">
-        <h3><strong>Asignar Lavadora y Secadora <br> Pedido #{{ $pedido->id_pedido }}</strong></h3>
+        <h3><strong>Asignar Equipos a <br> Pedido #{{ $pedido->id_pedido }}</strong></h3>
 
         <!-- Formulario para asignar lavadora y secadora -->
         <form action="{{ route('guardar.asignacionLavadoraSecadora', $pedido->id_pedido) }}" method="POST">
@@ -12,7 +12,6 @@
 
             <!-- Seleccionar Lavadora -->
             <div class="form-group mt-3">
-                <label for="id_lavadora" class="form-label">Seleccionar Lavadora:</label>
                 <div class="custom-select-container d-flex align-items-center">
                     <img src="https://cdn-icons-png.flaticon.com/128/2796/2796427.png" alt="Lavadoras" class="icon-lavadora">
                     <select name="id_lavadora" id="id_lavadora" class="form-select" required>
@@ -28,7 +27,6 @@
 
             <!-- Seleccionar Secadora -->
             <div class="form-group mt-3">
-                <label for="id_secadora" class="form-label">Seleccionar Secadora:</label>
                 <div class="custom-select-container d-flex align-items-center">
                     <img src="https://cdn-icons-png.flaticon.com/128/17393/17393708.png" alt="Secadoras" class="icon-secadora">
                     <select name="id_secadora" id="id_secadora" class="form-select" required>

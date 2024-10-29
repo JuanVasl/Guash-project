@@ -81,4 +81,6 @@
             </div>
         </div>
     </div>
+
+    <a href="/menu" class="btn btn-danger mt-4">Regresar</a>
 @endsection

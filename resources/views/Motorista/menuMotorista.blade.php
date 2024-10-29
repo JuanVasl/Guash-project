@@ -30,7 +30,7 @@
                         <img src="https://cdn-icons-png.freepik.com/256/5457/5457874.png" alt="Programar pedido" style="max-width: 100%; max-height: 100%;">
                     </div>
                     <div class="d-flex justify-content-center align-items-center" style="height: 25%;">
-                        <p class="mt-5 text-center"><strong>Historial de entregas</strong></p>
+                        <p class="mt-5 text-center"><strong>Historial Entregas</strong></p>
                     </div>
                 </a>
             </div>

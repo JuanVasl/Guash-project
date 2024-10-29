@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="btn-container mt-4 p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%; text-align:center;">
-        <h3><strong>Asignar Secadora <br> Pedido #{{ $pedido->id_pedido }}</strong></h3>
+        <h3><strong>Asignar Equipo a <br> Pedido #{{ $pedido->id_pedido }}</strong></h3>
 
         <!-- Formulario para asignar secadora -->
         <form action="{{ route('guardar.asignacionSecadora', $pedido->id_pedido) }}" method="POST">

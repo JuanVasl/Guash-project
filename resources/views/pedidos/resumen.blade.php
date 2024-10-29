@@ -2,7 +2,7 @@
 @section('title', 'Cliente')
 @section('content')
     <div class="container">
-        <div class="container mt-5">
+        <div class="container mt-3">
             <div class="col-12">
                 <h3 class="text-start"><strong>Detalle del Pedido</strong></h3>
             </div>
@@ -13,38 +13,38 @@
             <div class="col-12 d-flex justify-content-center">
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
                     <div class="row">
-                        <div class="col-6 text-end">
+                        <div class="col-4 text-start">
                             <p><strong>No:</strong></p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-8">
                             <p>{{ $pedido->id_pedido }}</p>
                         </div>
 
-                        <div class="col-6 text-end">
+                        <div class="col-4 text-start">
                             <p><strong>Fecha y hora:</strong></p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-8">
                             <p>{{ \Carbon\Carbon::parse($pedido->fecha)->format('d/m/Y H:i') }}</p>
                         </div>
 
-                        <div class="col-6 text-end">
+                        <div class="col-4 text-start">
                             <p><strong>Dirección del Cliente:</strong></p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-8">
                             <p>{{ $pedido->cliente->direccion }}, {{ $pedido->cliente->referencia }}, en {{ $pedido->cliente->ubicacion->nombre }}</p>
                         </div>
 
-                        <div class="col-6 text-end">
+                        <div class="col-4 text-start">
                             <p><strong>Servicio(s):</strong></p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-8">
                             <p>{{ $pedido->precioServicio->servicio }}</p>
                         </div>
 
-                        <div class="col-6 text-end">
+                        <div class="col-4 text-start">
                             <p><strong>Precio:</strong></p>
                         </div>
-                        <div class="col-6">
+                        <div class="col-8">
                             <p>Pendiente de confirmar por lavandería</p>
                         </div>
                     </div>
