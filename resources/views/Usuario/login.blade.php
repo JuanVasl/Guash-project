@@ -92,6 +92,17 @@
                 padding: 20px;
             }
         }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group-addon {
+            position: absolute;
+            right: 10px;
+            top: 15px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -104,12 +115,19 @@
         @csrf
         <div class="form-group">
             <input type="text" name="usuario" placeholder="Usuario" required class="form-control" value="{{ old('usuario') }}">
-            @error('usuario')
-            <span class="text-danger">{{ $message }}</span>
-            @enderror
         </div>
         <div class="form-group">
-            <input type="password" name="contrasena" placeholder="Contraseña" required class="form-control">
+            <div class="input-group" id="show_hide_password">
+                <input type="password" name="contrasena" id="contrasena" placeholder="Contraseña" required class="form-control">
+                <div class="input-group-addon">
+                    <a href="javascript:void(0);" id="togglePassword">
+                        <i class="fas fa-eye-slash" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            @error('usuario')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
         <button type="submit" class="btn btn-success">Acceder</button>
     </form>
@@ -118,3 +136,24 @@
 </html>
 
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#togglePassword").on('click', function(event) {
+            event.preventDefault();
+            var passwordField = $('#show_hide_password input');
+            var toggleIcon = $('#togglePassword i');
+
+            if(passwordField.attr("type") === "text") {
+                passwordField.attr('type', 'password');
+                toggleIcon.addClass("fa-eye-slash");
+                toggleIcon.removeClass("fa-eye");
+            } else {
+                passwordField.attr('type', 'text');
+                toggleIcon.removeClass("fa-eye-slash");
+                toggleIcon.addClass("fa-eye");
+            }
+        });
+    });
+</script>

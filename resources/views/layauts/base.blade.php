@@ -18,7 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 80vh;
+            height: 100vh;
             margin: 0;
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
@@ -28,8 +28,12 @@
             width: 100%;
             max-width: 400px;
         }
+        .main-content {
+            flex: 1;
+            padding-bottom: 18vh; /* Ajusta este valor según la altura de tu footer */
+        }
         footer {
-            height: 13vh;
+            height: 15vh;
             background-color: black;
         }
         .offcanvas-end {
@@ -113,58 +117,60 @@
 
 </head>
 <body style="background-color: white">
-<div class="container">
-    <!-- Logotipo y Texto de Bienvenida -->
-    <div class="row mt-5">
-        <div class="col-4 justify-content-center">
-            <img src="{{ asset('images/logo_guash.png') }}" alt="Logotipo" class="img-fluid">
-        </div>
-        <div class="col-8 d-flex flex-column justify-content-center align-items-center">
-            <h2 class="text-center"><strong>Bienvenido(a)</strong></h2>
-            <p class="text-center"><strong>{{ Auth::guard('usuarios')->user()->nombre_usuario }}</strong></p>
-        </div>
-    </div>
-
-    <div class="container">
-        @yield('content') <!-- es para que se herede en todas las plantillas-->
-        @yield('scripts')
-    </div>
-    <!-- Footer con Navbar -->
-    <footer class="text-center text-lg-start fixed-bottom">
+    <div class="main-content">
         <div class="container">
-            <nav class="navbar navbar-light">
-                <div class="container-fluid justify-content-center">
-
-                    <!-- Botón Inicio -->
-                    <a class="btn btn-custom"
-                       @if (Auth::guard('usuarios')->user()->id_rol == 1) href="{{ url('/usuarioMaster') }}"
-                       @elseif (Auth::guard('usuarios')->user()->id_rol == 2) href="{{ url('/menuAdmin') }}"
-                       @elseif (Auth::guard('usuarios')->user()->id_rol == 3) href="{{ url('/menuLavan') }}"
-                       @elseif (Auth::guard('usuarios')->user()->id_rol == 4) href="{{ url('/menuMoto') }}" @endif>
-                    <img src="https://cdn-icons-png.freepik.com/256/3672/3672451.png" alt="Inicio">
-                    Inicio
-                    </a>
-
-
-                    <!-- Botón Ayuda (WhatsApp) -->
-                    <a href="https://wa.me/50254749500?text=Soy%20cliente%20de%20Güash,%20necesito%20ayuda%20con..." target="_blank" class="btn btn-custom">
-                        <img src="https://cdn-icons-png.freepik.com/256/1688/1688401.png" alt="Ayuda">
-                        Ayuda
-                    </a>
-
-                    <!-- Botón para Cerrar Sesión -->
-                    <form action="{{ route('logoutUsuario') }}" method="POST" >
-                        @csrf
-                        <button class="btn btn-custom ms-3" type="submit">
-                            <img src="https://cdn-icons-png.flaticon.com/128/1176/1176383.png" alt="Más">
-                            Cerrar Sesión
-                        </button>
-                    </form>
+            <!-- Logotipo y Texto de Bienvenida -->
+            <div class="row mt-5">
+                <div class="col-4 justify-content-center">
+                    <img src="{{ asset('images/logo_guash.png') }}" alt="Logotipo" class="img-fluid">
                 </div>
-            </nav>
-        </div>
-    </footer>
+                <div class="col-8 d-flex flex-column justify-content-center align-items-center">
+                    <h2 class="text-center"><strong>Bienvenido(a)</strong></h2>
+                    <p class="text-center"><strong>{{ Auth::guard('usuarios')->user()->nombre_usuario }}</strong></p>
+                </div>
+            </div>
 
+            <div class="container">
+                @yield('content') <!-- es para que se herede en todas las plantillas-->
+                @yield('scripts')
+            </div>
+            <!-- Footer con Navbar -->
+            <footer class="text-center text-lg-start fixed-bottom">
+                <div class="container">
+                    <nav class="navbar navbar-light">
+                        <div class="container-fluid justify-content-center">
+
+                            <!-- Botón Inicio -->
+                            <a class="btn btn-custom"
+                            @if (Auth::guard('usuarios')->user()->id_rol == 1) href="{{ url('/usuarioMaster') }}"
+                            @elseif (Auth::guard('usuarios')->user()->id_rol == 2) href="{{ url('/menuAdmin') }}"
+                            @elseif (Auth::guard('usuarios')->user()->id_rol == 3) href="{{ url('/menuLavan') }}"
+                            @elseif (Auth::guard('usuarios')->user()->id_rol == 4) href="{{ url('/menuMoto') }}" @endif>
+                            <img src="https://cdn-icons-png.freepik.com/256/3672/3672451.png" alt="Inicio">
+                            Inicio
+                            </a>
+
+
+                            <!-- Botón Ayuda (WhatsApp) -->
+                            <a href="https://wa.me/50254749500?text=Soy%20cliente%20de%20Güash,%20necesito%20ayuda%20con..." target="_blank" class="btn btn-custom">
+                                <img src="https://cdn-icons-png.freepik.com/256/1688/1688401.png" alt="Ayuda">
+                                Ayuda
+                            </a>
+
+                            <!-- Botón para Cerrar Sesión -->
+                            <form action="{{ route('logoutUsuario') }}" method="POST" >
+                                @csrf
+                                <button class="btn btn-custom ms-3" type="submit">
+                                    <img src="https://cdn-icons-png.flaticon.com/128/1176/1176383.png" alt="Más">
+                                    Cerrar Sesión
+                                </button>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+    </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
