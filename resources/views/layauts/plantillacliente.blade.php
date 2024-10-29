@@ -18,7 +18,7 @@
         }
         .main-content {
             flex: 1;
-            padding-bottom: 15vh; /* Ajusta este valor según la altura de tu footer */
+            padding-bottom: 18vh; /* Ajusta este valor según la altura de tu footer */
         }
         .container {
             text-align: center;
@@ -27,7 +27,7 @@
             margin: auto;
         }
         footer {
-            height: 11vh;
+            height: 15vh;
             background-color: black;
             position: fixed;
             bottom: 0;

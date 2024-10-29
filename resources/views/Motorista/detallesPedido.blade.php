@@ -37,7 +37,7 @@
                 @if ($pedido->id_estado == 1 || $pedido->id_estado == 6 || $pedido->id_estado == 9) <!-- Estado inicial -->
                 <div class="links mt-3">
                     <button type="submit" name="estado" value="15" class="btn btn-success">Aceptar</button>
-                    <a href="/entregas" class="btn btn-danger mt-2">Retroceder</a>
+                    <a href="/entregas" class="btn btn-danger">Retroceder</a>
                 </div>
                 @elseif ($pedido->id_estado == 15)
                     <!-- Estado cuando el motorista está en camino -->
@@ -46,12 +46,12 @@
                             <!-- Si id_lavandero NO es nulo, muestra solo el botón Finalizar -->
                             <button type="submit" name="estado" value="7" class="btn btn-success"
                                     id="btnFinalizar">Finalizar Pedido</button>
-                            <button type="submit" name="estado" value="9" class="btn btn-danger mt-2">No Entregado</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-danger">No Entregado</button>
                         @else
                             <!-- Si id_lavandero es nulo, muestra los botones Recolectado y No recolectado -->
                             <button type="submit" name="estado" value="2" class="btn btn-success"
                                     id="btnRecolectado">Recolectado</button>
-                            <button type="submit" name="estado" value="9" class="btn btn-danger mt-2">No recolectado</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-danger">No recolectado</button>
                         @endif
                     </div>
                 @endif
