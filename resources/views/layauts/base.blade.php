@@ -18,7 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 95vh;
             margin: 0;
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
@@ -54,7 +54,7 @@
             margin-bottom: 5px;
         }
         .container-fluid .btn-custom + .btn-custom {
-            margin-left: 40px;
+            margin-left: 3vh;
         }
         .btn-custom img {
             width: 50px;
@@ -160,7 +160,7 @@
                             <!-- Botón para Cerrar Sesión -->
                             <form action="{{ route('logoutUsuario') }}" method="POST" >
                                 @csrf
-                                <button class="btn btn-custom ms-3" type="submit">
+                                <button class="btn btn-custom" type="submit">
                                     <img src="https://cdn-icons-png.flaticon.com/128/1176/1176383.png" alt="Más">
                                     Cerrar Sesión
                                 </button>

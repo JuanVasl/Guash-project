@@ -2,19 +2,18 @@
 @section('title', 'Detalles del Pedido')
 @section('content')
     <div class="container">
-        <h3 class="my-4">Detalles del pedido</h3>
+        <h3 class="my-2">Detalles del pedido <strong># {{ $pedido->id_pedido }}</strong></h3>
         <div class="card" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
             <div class="card-body">
-                <p class="text-start"><strong># {{ $pedido->id_pedido }}</strong></p>
                 <p><strong>{{ \Carbon\Carbon::parse($pedido->fecha)->format('d/m/Y H:i') }}</strong></p>
                 <p><strong>Dirección:</strong> {{ $pedido->cliente->direccion }}, {{ $pedido->cliente->referencia }}, en {{ $pedido->cliente->ubicacion->nombre }}</p>
                 <p><strong>Servicio:</strong> {{ $pedido->precioServicio->servicio ?? 'N/A' }}</p>
                 <p><strong>Estado:</strong> {{ $pedido->estado->estado ?? 'N/A' }}</p>
-                <p><strong>Precio final:</strong> {{ $pedido->total_servicio ?? 'Pendiente de confirmación' }}</p>
+                <p><strong>Precio final (Q):</strong> {{ $pedido->total_servicio ?? 'Pendiente de confirmación' }}</p>
             </div>
         </div>
         <!-- Botón central Historial de pedidos -->
-        <div class="row mt-4">
+        <div class="row mt-2">
             <div class="col-12 d-flex justify-content-center">
                 <div class="btn-container p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; width: 100%;">
                     <a href="{{ route('pedidos.historial') }}" class="btn w-100">

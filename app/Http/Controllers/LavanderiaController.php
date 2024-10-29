@@ -87,13 +87,13 @@ class LavanderiaController extends Controller{
                 $cantidad_a_restar = intval(ceil($cant_canasto / 2));
 
                 // Obtener los insumos
-                $detergente = Insumo::where('nombre', 'detergente')->first();
-                $suavizante = Insumo::where('nombre', 'suavizante')->first();
+                $detergente = Insumo::where('nombre_insumo', 'detergente')->first();
+                $suavizante = Insumo::where('nombre_insumo', 'suavizante')->first();
 
                 if ($detergente && $suavizante) {
                     // Restar los insumos y guardar los cambios en la base de datos
-                    $detergente->cantidad -= $cantidad_a_restar;
-                    $suavizante->cantidad -= $cantidad_a_restar;
+                    $detergente->cantidad_disponible -= $cantidad_a_restar;
+                    $suavizante->cantidad_disponible -= $cantidad_a_restar;
                     $detergente->save();
                     $suavizante->save();
 
