@@ -34,7 +34,11 @@
                             <td>{{ $cierre->fecha }}</td>
                             <td>{{ $cierre->total_pedidos }}</td>
                             <td>{{ $cierre->total_ingresos }}</td>
-                            <td><a href="{{ route('cierre_diario.detalle', $cierre->id_cierre) }}"><i class="far fa-file-pdf"></i></a></td>
+                            <td>
+                                <a href="{{ route('cierre_diario.pdf', $cierre->id_cierre) }}" class="btn btn-primary">
+                                    <i class="far fa-file-pdf"></i>
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -47,7 +51,9 @@
         </div>
 
         <a href="/menuAdmin/Conta" class="btn btn-danger">Regresar</a>
-        <a href="" class="btn btn-primary" target="_blank"><i class="far fa-file-pdf"></i> Exportar a PDF</a>
+        <a href="{{ route('cierre_mensual.pdf', ['month' => request('month')]) }}" class="btn btn-primary" target="_blank">
+            <i class="far fa-file-pdf"></i> Exportar a PDF
+        </a>
     </div>
 </div>
 
