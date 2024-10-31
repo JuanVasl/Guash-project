@@ -1,18 +1,109 @@
-@section('title', 'Detalles del Pedido PDF')
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles del Pedido - PDF</title>
+    <style>
+        /* Colores y estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f8f9fa;
+        }
 
-<!-- Contenido de Detalles del Pedido para Exportación PDF -->
-<div class="container">
-    <div class="text-center">
-        <h3><strong>Detalles de Pedido</strong></h3>
-        <h5><strong>Pedido ID: {{ $pedido->id_pedido }} - Fecha: {{ \Carbon\Carbon::parse($pedido->fecha)->format('d/m/y') }}</strong></h5>
+        /* Encabezado */
+        .header {
+            background-color: #ffffff;
+            color: #4A90E2;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Espacio entre el logo y el texto */
+        }
+
+        .header img {
+            width: 100px;
+            height: auto;
+        }
+
+        .header h1 {
+            color: #4A90E2;
+            margin: 0; /* Elimina margen para un mejor alineamiento */
+        }
+
+        .header p {
+            font-size: 20px;
+            margin: 0; /* Elimina margen para un mejor alineamiento */
+            color: #4A90E2; /* Asegúrate de que el texto sea visible */
+        }
+
+        h2 {
+            color: #4A90E2;
+            margin: 0;
+        }
+
+        /* Estilo de la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background-color: #4A90E2;
+            color: white;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Pie de Página */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Estilo adicional para el contenedor */
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px; /* Limitar el ancho de la tabla */
+            margin: 0 auto; /* Centrar el contenedor */
+            background-color: rgb(217, 217, 217);
+            border-radius: 15px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Encabezado -->
+    <div class="header">
+        <div style="text-align: center; flex-grow: 1;">
+            <<h1><strong>Detalles de Pedido #{{ $pedido->id_pedido }}</strong></h1>
+            <h2>Impreso Por: {{Auth::guard('usuarios')->user()->nombre_usuario}}</h2>
+            <p>Fecha: {{ \Carbon\Carbon::parse($pedido->fecha)->format('d/m/y') }}</p>
+        </div>
     </div>
 
-    <div class="p-3" style="background-color: rgb(217, 217, 217); border-radius: 15px; max-width: 600px; margin: auto;">
-        <table style="width: 100%; border-collapse: collapse;">
+    <!-- Contenido de Detalles del Pedido -->
+    <div class="container">
+                <table>
             <thead>
                 <tr>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Descripción</th>
-                    <th style="border: 1px solid #000; padding: 8px; text-align: left;">Detalles</th>
+                    <th>Descripción</th>
+                    <th>Detalles</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,32 +156,11 @@
             </tbody>
         </table>
     </div>
-</div>
 
-<style>
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 80vh;
-        margin: 0;
-        background-color: #f8f9fa;
-        font-family: Arial, sans-serif;
-    }
-    .container {
-        text-align: center;
-        width: 100%;
-        max-width: 600px; /* Limitar el ancho de la tabla */
-        margin: 0 auto; /* Centrar el contenedor */
-    }
-    table {
-        margin: 0 auto; /* Centrar la tabla */
-    }
-    th, td {
-        border: 1px solid #000; /* Bordes para la tabla */
-        padding: 8px; /* Espaciado interno */
-    }
-    th {
-        background-color: #f2f2f2; /* Color de fondo para encabezados */
-    }
-</style>
+    <!-- Pie de Página -->
+    <div class="footer">
+        <p>&copy; {{ date('Y') }} Sistema de Lavandería - Detalles del Pedido</p>
+    </div>
+
+</body>
+</html>

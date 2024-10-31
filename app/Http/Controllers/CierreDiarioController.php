@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Pedido;
 use App\Models\CierreDiario;
 use Illuminate\Http\Request;
+use App\Models\Cliente;
+use App\Models\Estado;
+use App\Models\Lavanderia;
+use App\Models\PrecioServicio;
+use App\Models\Maquina;
+use App\Models\Insumo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Pdf;
 
-class CierreDiarioController extends Controller
-{
+class CierreDiarioController extends Controller{
     public function index(){
         // Obtener la fecha actual
         $fechaActual = date('Y-m-d');
@@ -59,11 +68,70 @@ class CierreDiarioController extends Controller
         return view('Lavanderia.Contabilidad.cierreHistorico', compact('cierres', 'mesSeleccionado'));
     }
 
+    public function historicoPDF(Request $request){
+        $month = $request->get('month', date('Y-m'));
+        $cierres = CierreDiario::whereYear('fecha', date('Y', strtotime($month)))
+                         ->whereMonth('fecha', date('m', strtotime($month)))
+                         ->get();
 
+        // Calcular totales
+        $totalPedidos = $cierres->sum('total_pedidos');
+        $totalIngresos = $cierres->sum('total_ingresos');
+        $totalDetergente = $cierres->sum('detergente_usado');
+        $totalSuavizante = $cierres->sum('suavizante_usado');
+        $totalEnergia = $cierres->sum('energia_consumida');
+        $totalAgua = $cierres->sum('agua_consumida');
+        $totalGas = $cierres->sum('gas_consumido');
 
-    public function detalle($id)
-    {
-        $cierre = CierreDiario::findOrFail($id); // Encuentra el cierre por ID
-        return view('Lavanderia.Contabilidad.cierreDetalle', compact('cierre')); // Pasa el cierre a la vista
+        // Obtener la fecha actual
+        $fechaImpresion = now()->format('d/m/Y');
+
+        // Crear el PDF
+        $pdf = PDF::loadView('lavanderia.contabilidad.mesHistorico', [
+            'month' => $month,
+            'cierres' => $cierres,
+            'totalPedidos' => $totalPedidos,
+            'totalIngresos' => $totalIngresos,
+            'totalDetergente' => $totalDetergente,
+            'totalSuavizante' => $totalSuavizante,
+            'totalEnergia' => $totalEnergia,
+            'totalAgua' => $totalAgua,
+            'totalGas' => $totalGas,
+            'fechaImpresion' => $fechaImpresion,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download('cirres_de' . date('F_Y', strtotime($month)) . '.pdf');
     }
+
+    public function detallePDF($id){
+        // Recupera el cierre diario específico por ID
+        $cierre = CierreDiario::findOrFail($id);
+
+        // Variables para la vista
+        $fechaCierre = Carbon::parse($cierre->fecha)->format('d-m-Y'); // Formatea la fecha
+        $totalPedidos = $cierre->total_pedidos;
+        $totalIngresos = $cierre->total_ingresos;
+        $totalDetergente = $cierre->detergente_usado;
+        $totalSuavizante = $cierre->suavizante_usado;
+        $energiaConsumida = $cierre->energia_consumida;
+        $aguaConsumida = $cierre->agua_consumida;
+        $gasConsumido = $cierre->gas_consumido;
+
+        // Cargar la vista para el PDF
+        $pdf = PDF::loadView('Lavanderia.Contabilidad.cierreDetalle', compact(
+            'cierre',
+            'fechaCierre',
+            'totalPedidos',
+            'totalIngresos',
+            'totalDetergente',
+            'totalSuavizante',
+            'energiaConsumida',
+            'aguaConsumida',
+            'gasConsumido'
+        ));
+
+        // Devuelve el PDF como descarga
+        return $pdf->download('cierre_diario_' . $fechaCierre . '.pdf');
+    }
+
 }

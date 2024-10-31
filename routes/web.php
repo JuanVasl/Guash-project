@@ -83,7 +83,9 @@ Route::post('/Conta/Insumos/agregar', [LavanderiaController::class, 'agregarCant
 Route::get('/Conta/cierre-diario', [CierreDiarioController::class, 'index'])->name('cierre_diario.index');
 Route::post('/Conta/cierre-diario', [CierreDiarioController::class, 'store'])->name('cierre_diario.store');
 Route::get('/Conta/cierre-diario/historico', [CierreDiarioController::class, 'historico'])->name('cierre_diario.historico');
-Route::get('/Conta/cierre-diario/historico/{id}', [CierreDiarioController::class, 'detalle'])->name('cierre_diario.detalle');
+Route::get('/Conta/cierre-diario/historico/pdf', [CierreDiarioController::class, 'historicoPDF'])->name('cierre_mensual.pdf');
+Route::get('/Conta/cierre-diario/historico/pdf/{id}', [CierreDiarioController::class, 'detallePDF'])->name('cierre_diario.pdf');
+
 
 //Historico de Pedidos
 Route::get('/menuLavan/historial-pedidos', [LavanderiaController::class, 'historialPedidos'])->name('historial.pedidos'); //Vista de historial de pedidos
