@@ -106,10 +106,12 @@ class LavanderiaController extends Controller{
             $pedido->save(); // Guarda los cambios en el pedido
         }
 
+        if ($request->estado == 6) {
+            session()->flash('success', 'Servicio Concluido, Esperando Motorista...');
+        }
         // Redirigir a la misma vista del pedido con el estado actualizado
         return redirect()->route('detallesPedido', $pedido->id_pedido);
     }
-
 
     public function calcularCanastos($id_pedido){
         // Obtener el pedido con el precio del servicio relacionado
@@ -179,6 +181,8 @@ class LavanderiaController extends Controller{
             'capacidad' => $request->capacidad,
             'estado_id_estado' => 10, // Valor fijo
         ]);
+
+        session()->flash('success', 'Lavadora Creada con Éxito');
         return redirect()->route('lavadoras');
     }
 
@@ -244,6 +248,8 @@ class LavanderiaController extends Controller{
             'capacidad' => $request->capacidad,
             'estado_id_estado' => 10, // Valor fijo
         ]);
+
+        session()->flash('success', 'Secadora Creada con Éxito');
 
         return redirect()->route('secadoras');
     }

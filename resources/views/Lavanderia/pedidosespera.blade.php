@@ -35,7 +35,7 @@
     </div>
     <br>
     <div class="links">
-        <a href="/menuAdmin" class="btn btn-danger">Cancelar</a>
+        <a href="/menuAdmin" class="btn btn-danger">Regresar</a>
     </div>
 </div>
 @endsection

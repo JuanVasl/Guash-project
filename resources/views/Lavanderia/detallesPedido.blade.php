@@ -143,4 +143,15 @@
         </div>
     </div>
 </div>
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 3000
+        });
+    </script>
+@endif
 @endsection
