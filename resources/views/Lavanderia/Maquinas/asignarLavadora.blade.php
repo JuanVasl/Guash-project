@@ -26,7 +26,7 @@
 
             <!-- Botón de asignar -->
             <button type="submit" class="btn btn-success mt-4" style="width: 100%;">Asignar Lavadora</button>
-            <a href="{{ route('detallesPedido', $pedido->id_pedido) }}" class="btn btn-danger mt-2" style="width: 100%;">Retroceder</a>
+            <a href="{{ route('detallesPedido', $pedido->id_pedido) }}" class="btn btn-danger mt-2" style="width: 100%;">Regresar</a>
         </form>
     </div>
 </div>

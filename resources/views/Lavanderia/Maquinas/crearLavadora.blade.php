@@ -1,4 +1,4 @@
-@extends('layauts.base') 
+@extends('layauts.base')
 @section('title', 'Nueva Lavadora')
 @section('content')
 
@@ -49,6 +49,7 @@
         </div>
 
         <button type="submit" class="btn btn-success mt-2">Agregar</button>
-        <a href="/equiposLavanderia/lavadoras" class="btn btn-danger mt-2">Cancelar</a>    
+        <a href="/equiposLavanderia/lavadoras" class="btn btn-danger mt-2">Cancelar</a>
+
 
 @endsection

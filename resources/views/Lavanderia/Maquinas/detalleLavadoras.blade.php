@@ -1,4 +1,4 @@
-@extends('layauts.base') 
+@extends('layauts.base')
 @section('title', 'Detalle Lavadora')
 @section('content')
 
@@ -51,11 +51,23 @@
                 </div>
                 <div class="links mt-3">
                     <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                    <a href="/equiposLavanderia/lavadoras" class="btn btn-danger">Retroceder</a>
+                    <a href="/equiposLavanderia/lavadoras" class="btn btn-danger">Regresar</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2500
+        });
+    </script>
+@endif
 
 @endsection

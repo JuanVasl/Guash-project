@@ -66,7 +66,7 @@
                     </div>
 
                     <div class="links mt-2">
-                        <button type="submit" class="btn btn-primary">Aplicar</button>
+                        <button type="button" class="btn btn-primary" id="btn-aplicar">Aplicar</button>
                         <a href="/menuAdmin/Conta" class="btn btn-danger">Regresar</a>
                     </div>
                 </form>
@@ -74,4 +74,36 @@
         </div>
     </div>
 </div>
+
+@if(session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'Aceptar'
+        });
+    </script>
+@endif
+
+<script>
+    document.getElementById('btn-aplicar').addEventListener('click', function(event) {
+        Swal.fire({
+            title: '¿Estás seguro de realizar el Cierre?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger ms-2'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.querySelector('form').submit();
+            }
+        });
+    });
+</script>
 @endsection
