@@ -33,7 +33,7 @@
 
                 <form>
                     <div class="links mt-3">
-                        <a href="/historial" class="btn btn-danger mt-2">Retroceder</a>
+                        <a href="/historial" class="btn btn-danger mt-2">Regresar</a>
                     </div>
                 </form>
             </div>

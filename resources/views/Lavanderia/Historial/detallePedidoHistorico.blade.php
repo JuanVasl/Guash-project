@@ -60,7 +60,7 @@
             @endif
 
             <div class="links">
-                <a href="{{ route('historial.pedidos') }}" class="btn btn-danger">Retroceder</a> <!-- Solo botón para retroceder -->
+                <a href="{{ route('historial.pedidos') }}" class="btn btn-danger">Regresar</a> <!-- Solo botón para Regresar -->
                 <a href="{{ route('pedido.exportar.pdf', ['id' => $pedido->id_pedido]) }}" class="btn btn-primary" target="_blank"><i class="far fa-file-pdf"></i> Exportar a PDF</a>
             </div>
         </div>

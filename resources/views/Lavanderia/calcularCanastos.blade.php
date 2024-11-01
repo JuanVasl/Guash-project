@@ -38,7 +38,7 @@
         <div class="col-12 d-flex justify-content-center mt-4">
             <div class="links d-flex flex-column align-items-center">
                 <button type="submit" class="btn btn-success mb-2" style="width: 200px;">Guardar Canastos</button>
-                <a href="{{ route('detallesPedido', $pedido->id_pedido) }}" class="btn btn-danger" style="width: 200px;">Retroceder</a>
+                <a href="{{ route('detallesPedido', $pedido->id_pedido) }}" class="btn btn-danger" style="width: 200px;">Regresar</a>
             </div>
         </div>
     </form>

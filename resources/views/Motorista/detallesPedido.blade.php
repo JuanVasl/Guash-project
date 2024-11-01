@@ -37,7 +37,7 @@
                 @if ($pedido->id_estado == 1 || $pedido->id_estado == 6 || $pedido->id_estado == 9) <!-- Estado inicial -->
                 <div class="links mt-3">
                     <button type="submit" name="estado" value="15" class="btn btn-success">Aceptar</button>
-                    <a href="/entregas" class="btn btn-danger">Retroceder</a>
+                    <a href="/entregas" class="btn btn-danger">Regresar</a>
                 </div>
                 @elseif ($pedido->id_estado == 15)
                     <!-- Estado cuando el motorista está en camino -->

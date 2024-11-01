@@ -47,8 +47,8 @@
                     </div>
                     <button id="btnSolicitado" type="submit" class="btn btn-success mt-3">Finalizar</button>
                 </form>
-                <!-- Botón para retroceder a la vista de servicios -->
-                <a href="{{ route('pedidos.servicios', ['pedido' => $pedido->id_pedido]) }}" class="btn btn-danger mt-3">Retroceder</a>
+                <!-- Botón para Regresar a la vista de servicios -->
+                <a href="{{ route('pedidos.servicios', ['pedido' => $pedido->id_pedido]) }}" class="btn btn-danger mt-3">Regresar</a>
             </div>
         </div>
     </div>

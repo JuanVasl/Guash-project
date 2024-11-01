@@ -179,9 +179,7 @@ class LavanderiaController extends Controller{
             'capacidad' => $request->capacidad,
             'estado_id_estado' => 10, // Valor fijo
         ]);
-
-        return redirect()->back();
-
+        return redirect()->route('lavadoras');
     }
 
     public function detalleLavadoras($id){
@@ -247,8 +245,7 @@ class LavanderiaController extends Controller{
             'estado_id_estado' => 10, // Valor fijo
         ]);
 
-        return redirect()->back();
-
+        return redirect()->route('secadoras');
     }
 
     public function detalleSecadoras($id){
