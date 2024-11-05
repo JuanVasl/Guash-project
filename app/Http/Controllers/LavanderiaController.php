@@ -22,7 +22,8 @@ class LavanderiaController extends Controller{
     }
 
     public function indexAdministrador(){
-        return view('Lavanderia.menuAdministrador');
+        $usuario = Auth::guard('usuarios')->user();
+        return view('Lavanderia.menuAdministrador', compact('usuario'));
     }
 
     /*-------------------- Trabajando con Pedidos --------------------*/
@@ -38,7 +39,7 @@ class LavanderiaController extends Controller{
             ->select('pedido.*', 'ubicacion.nombre','ubicacion.cod')
             ->paginate(5);
 
-        return view('Lavanderia.pedidosespera', compact('pedido'));
+        return view('Lavanderia.pedidosespera', compact('pedido','usuario'));
     }
 
     public function detallesPedido($id_pedido){
@@ -377,6 +378,8 @@ class LavanderiaController extends Controller{
 
     /*-------------------- Historial de los Pedidos --------------------*/
     public function historialPedidos(Request $request){
+        $usuario = Auth::guard('usuarios')->user();
+
         // Obtener la fecha de la solicitud o usar la fecha de hoy por defecto
         $fecha = $request->input('fecha', now()->format('Y-m-d'));
 
@@ -386,7 +389,7 @@ class LavanderiaController extends Controller{
                         ->paginate(3);
 
         // Pasar los pedidos y la fecha actual a la vista
-        return view('Lavanderia.Historial.historialPedidos', compact('pedidos', 'fecha'));
+        return view('Lavanderia.Historial.historialPedidos', compact('pedidos', 'fecha', 'usuario'));
     }
 
     public function detallePedidoHistorico($id) {

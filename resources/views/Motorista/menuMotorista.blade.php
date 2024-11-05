@@ -36,6 +36,14 @@
             </div>
         </div>
     </div>
+    <!--Boton para el usuario master-->
+    <?php if ($usuario->id_rol == 1): ?>
+    <div class="links">
+        <a href="/usuarioMaster" class="btn btn-danger">Regresar</a>
+    </div>
+    <?php endif; ?>
+
+</div>
 </div>
 @endsection
 

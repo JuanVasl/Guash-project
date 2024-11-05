@@ -13,7 +13,8 @@ class MotoristaController extends Controller
 {
     public function indexMotorista()
     {
-        return view('Motorista.menuMotorista');
+        $usuario = Auth::guard('usuarios')->user();
+        return view('Motorista.menuMotorista', compact('usuario'));
     }
 
     public function entregas()
