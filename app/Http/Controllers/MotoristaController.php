@@ -17,29 +17,47 @@ class MotoristaController extends Controller
         return view('Motorista.menuMotorista', compact('usuario'));
     }
 
-    public function entregas()
+    public function entregas(Request $request)
     {
         // Obtener el id del usuario logeado
         $usuario = Auth::guard('usuarios')->user();
         $idMotorista = $usuario->id_usuario;
 
-        $entrega = DB::table('pedido')
+        // Inicializar la consulta
+        $query = DB::table('pedido')
             ->join('cliente', 'pedido.id_cliente', '=', 'cliente.id_cliente')
             ->join('ubicacion', 'cliente.id_ubicacion', '=', 'ubicacion.id_ubicacion')
-            ->where(function($query) use ($idMotorista) {
+            ->where(function($q) use ($idMotorista) {
                 // Condiciones para los estados de los pedidos
-                $query->whereIn('pedido.id_estado', [1, 6, 9]) // Mostrar todos los de estado 1 y 9
-                ->orWhere(function($query) use ($idMotorista) {
-                    // Para el estado 15, solo mostrar si el id_motorista es igual al logeado
-                    $query->where('pedido.id_estado', 15)
-                        ->where('pedido.id_motorista', $idMotorista);
-                });
-            })
-            ->select('pedido.*', 'ubicacion.nombre', 'ubicacion.cod')
-            ->paginate(5);
+                $q->whereIn('pedido.id_estado', [1, 6, 9])
+                    ->orWhere(function($q) use ($idMotorista) {
+                        // Para el estado 15, solo mostrar si el id_motorista es igual al logeado
+                        $q->where('pedido.id_estado', 15)
+                            ->where('pedido.id_motorista', $idMotorista);
+                    });
+            });
 
-        return view('Motorista.entregasPendientes', compact('entrega'));
+        // Filtrar por fecha si se proporciona
+        if ($request->has('fecha') && $request->fecha) {
+            $query->whereDate('pedido.fecha', $request->fecha);
+        }
+
+        // Filtrar por ubicación si se proporciona
+        if ($request->has('ubicacion') && $request->ubicacion) {
+            $query->where('cliente.id_ubicacion', $request->ubicacion);
+        }
+
+        // Ejecutar la consulta y paginar los resultados
+        $entrega = $query->select('pedido.*', 'ubicacion.nombre', 'ubicacion.cod')
+            ->orderBy('pedido.fecha', 'asc')
+            ->paginate(3);
+
+        // Obtener todas las ubicaciones para el filtro
+        $ubicaciones = DB::table('ubicacion')->get();
+
+        return view('Motorista.entregasPendientes', compact('entrega', 'ubicaciones'));
     }
+
 
 
     public function detallesPedidoMotorista($id_pedido){
@@ -74,22 +92,39 @@ class MotoristaController extends Controller
     }
 
 
-    public function historial()
+    public function historial(Request $request)
     {
         // Obtener el id del usuario logeado
         $usuario = Auth::guard('usuarios')->user();
         $idMotorista = $usuario->id_usuario;
 
-        $entrega = DB::table('motorista_historial')
+        // Obtener ubicaciones únicas para el menú de selección
+        $ubicaciones = DB::table('ubicacion')->select('nombre')->distinct()->get();
+
+        // Iniciar la consulta base
+        $query = DB::table('motorista_historial')
             ->join('pedido', 'motorista_historial.id_pedido', '=', 'pedido.id_pedido')
             ->join('cliente', 'pedido.id_cliente', '=', 'cliente.id_cliente')
             ->join('ubicacion', 'cliente.id_ubicacion', '=', 'ubicacion.id_ubicacion')
-            ->where('motorista_historial.id_motorista', $idMotorista) // Filtrar por el id del motorista
-            ->select('motorista_historial.*', 'pedido.*', 'ubicacion.nombre', 'ubicacion.cod')
-            ->paginate(3);
+            ->where('motorista_historial.id_motorista', $idMotorista)
+            ->select('motorista_historial.*', 'pedido.*', 'ubicacion.nombre', 'ubicacion.cod');
 
-        return view('Motorista.historialEntregas', compact('entrega'));
+        // Filtro por fecha del pedido
+        if ($request->has('fecha') && $request->fecha != '') {
+            $query->whereDate('pedido.fecha', '=', $request->fecha);
+        }
+
+        // Filtro por ubicación (select)
+        if ($request->has('ubicacion') && $request->ubicacion != '') {
+            $query->where('ubicacion.nombre', '=', $request->ubicacion);
+        }
+
+        // Obtener los resultados con paginación
+        $entrega = $query->paginate(3);
+
+        return view('Motorista.historialEntregas', compact('entrega', 'ubicaciones'));
     }
+
 
     public function historialDetallesPedido($id_historial){
 

@@ -27,8 +27,18 @@ class ClienteController extends Controller
     public function save(Request $request){
         // Realiza la validación
         $request->validate([
-            'nombre_cliente'   => "required|string|max:255",
-            'apellido_cliente' => "required|string|max:255",
+            'nombre_cliente'   => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-záéíóúÁÉÍÓÚñÑ ]+$/', // Solo letras y espacios
+            ],
+            'apellido_cliente' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-záéíóúÁÉÍÓÚñÑ ]+$/', // Solo letras y espacios
+            ],
             'correo_cliente'   => "required|email|unique:cliente,correo_cliente",
             'contra_cliente'   => [
                 'required',
