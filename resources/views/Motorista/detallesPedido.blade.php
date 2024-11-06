@@ -46,17 +46,17 @@
                             <!-- Si id_lavandero NO es nulo, muestra solo el botón Finalizar -->
                             <button type="submit" name="estado" value="7" class="btn btn-success"
                                     id="btnFinalizar">Finalizar Pedido</button>
-                            <button type="submit" name="estado" value="9" class="btn btn-danger" id="btnNoCliente">No Entregado</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-warning" id="btnNoCliente">No Entregado</button>
                         @else
                             <!-- Si id_lavandero es nulo, muestra los botones Recolectado y No recolectado -->
                             <button type="submit" name="estado" value="2" class="btn btn-success"
                                     id="btnRecolectado">Recolectado</button>
-                            <button type="submit" name="estado" value="9" class="btn btn-danger" id="btnNoCliente">No recolectado</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-warning" id="btnNoCliente">No recolectado</button>
                         @endif
                     </div>
                     <br>
                     <div class="links">
-                        <a href="/entregas" class="btn btn-danger" style="background-color: darkgoldenrod; border-color:darkgoldenrod">Regresar</a>
+                        <a href="/entregas" class="btn btn-danger">Regresar</a>
                     </div>
                 @endif
             </form>

@@ -15,14 +15,14 @@
             <!-- Filtro por fecha del pedido -->
             <div class="form-group mx-sm-3 mb-2">
                 <label for="fecha" class="sr-only">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" value="{{ request('fecha') }}">
+                <input type="date" class="form-control" style="width: 250px;height: 45px" id="fecha" name="fecha" value="{{ request('fecha') }}">
             </div>
             <!-- Botón de búsqueda -->
             <button type="submit" class="btn mb-2 ml-3">🔎</button>
             <!-- Filtro por ubicación -->
             <div class="form-group mx-sm-3 mb-2">
                 <label for="ubicacion" class="sr-only">Ubicación</label>
-                <select class="form-control" id="ubicacion" name="ubicacion">
+                <select class="form-control" style="width: 250px; height: 45px" id="ubicacion" name="ubicacion">
                     <option value="">Seleccionar ubicación</option>
                     @foreach($ubicaciones as $ubicacion)
                         <option value="{{ $ubicacion->nombre }}" {{ request('ubicacion') == $ubicacion->nombre ? 'selected' : '' }}>
