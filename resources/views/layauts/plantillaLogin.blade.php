@@ -23,3 +23,16 @@
 </body>
 </html>
 
+<!-- Acceso Denegado -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Verificar si existe un mensaje de error en la sesión
+    @if (session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '{{ session('error') }}',
+    });
+    @endif
+</script>

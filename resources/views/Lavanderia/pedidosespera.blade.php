@@ -34,8 +34,20 @@
         </div>
     </div>
     <br>
+
+    <!--Boton para administrador-->
+    <?php if ($usuario->id_rol == 2): ?>
+        <div class="links">
+            <a href="/menuAdmin" class="btn btn-danger">Regresar</a>
+        </div>
+    <?php endif; ?>
+
+    <!--Boton para lavandero-->
+   <?php if ($usuario->id_rol == 3): ?>
     <div class="links">
-        <a href="/menuAdmin" class="btn btn-danger">Regresar</a>
+        <a href="/menuLavan" class="btn btn-danger">Regresar</a>
     </div>
+    <?php endif; ?>
+
 </div>
 @endsection

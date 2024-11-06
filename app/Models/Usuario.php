@@ -22,4 +22,15 @@ class Usuario extends Authenticatable
     {
         return $this->contrasena;
     }
+
+    public function rol()
+    {
+        return $this->belongsTo(rol::class, 'id_rol');
+    }
+
+    // Accesor para obtener el nombre del rol directamente
+    public function getNombreRolAttribute()
+    {
+        return $this->rol->nombre_rol ?? null;
+    }
 }
