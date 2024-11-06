@@ -36,7 +36,7 @@
                 @csrf
                 @if ($pedido->id_estado == 1 || $pedido->id_estado == 6 || $pedido->id_estado == 9) <!-- Estado inicial -->
                 <div class="links mt-3">
-                    <button type="submit" name="estado" value="15" class="btn btn-success">Aceptar</button>
+                    <button type="submit" name="estado" value="15" class="btn btn-success" id="btnAceptar">Aceptar</button>
                     <a href="/entregas" class="btn btn-danger">Regresar</a>
                 </div>
                 @elseif ($pedido->id_estado == 15)
@@ -46,13 +46,17 @@
                             <!-- Si id_lavandero NO es nulo, muestra solo el botón Finalizar -->
                             <button type="submit" name="estado" value="7" class="btn btn-success"
                                     id="btnFinalizar">Finalizar Pedido</button>
-                            <button type="submit" name="estado" value="9" class="btn btn-danger">No Entregado</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-danger" id="btnNoCliente">No Entregado</button>
                         @else
                             <!-- Si id_lavandero es nulo, muestra los botones Recolectado y No recolectado -->
                             <button type="submit" name="estado" value="2" class="btn btn-success"
                                     id="btnRecolectado">Recolectado</button>
-                            <button type="submit" name="estado" value="9" class="btn btn-danger">No recolectado</button>
+                            <button type="submit" name="estado" value="9" class="btn btn-danger" id="btnNoCliente">No recolectado</button>
                         @endif
+                    </div>
+                    <br>
+                    <div class="links">
+                        <a href="/entregas" class="btn btn-danger" style="background-color: darkgoldenrod; border-color:darkgoldenrod">Regresar</a>
                     </div>
                 @endif
             </form>
@@ -67,8 +71,29 @@
             const formData = new FormData(event.target);
             console.log('Form Data:', Array.from(formData.entries()));
 
+            const isAceptar = event.submitter && event.submitter.id === 'btnAceptar';
             const isRecolectado = event.submitter && event.submitter.id === 'btnRecolectado';
             const isFinalizar = event.submitter && event.submitter.id === 'btnFinalizar';
+            const isNoCliente = event.submitter && event.submitter.id === 'btnNoCliente';
+
+            if (isAceptar) {
+                event.preventDefault();
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pedido Aceptado',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    const estadoInput = document.createElement('input');
+                    estadoInput.type = 'hidden';
+                    estadoInput.name = 'estado';
+                    estadoInput.value = '15'; // Valor para "Aceptar"
+                    event.target.appendChild(estadoInput);
+
+                    this.submit();
+                });
+            }
 
             if (isRecolectado) {
                 event.preventDefault();
@@ -79,7 +104,6 @@
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    // Asegúrate de que el estado se envíe correctamente
                     const estadoInput = document.createElement('input');
                     estadoInput.type = 'hidden';
                     estadoInput.name = 'estado';
@@ -99,11 +123,29 @@
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {
-                    // Asegúrate de que el estado se envíe correctamente
                     const estadoInput = document.createElement('input');
                     estadoInput.type = 'hidden';
                     estadoInput.name = 'estado';
                     estadoInput.value = '7'; // Valor para "Finalizado"
+                    event.target.appendChild(estadoInput);
+
+                    this.submit();
+                });
+            }
+
+            if (isNoCliente) {
+                event.preventDefault();
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cliente No Encontrado',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    const estadoInput = document.createElement('input');
+                    estadoInput.type = 'hidden';
+                    estadoInput.name = 'estado';
+                    estadoInput.value = '9'; // Valor para Cuando no se encuentra el cliente
                     event.target.appendChild(estadoInput);
 
                     this.submit();
