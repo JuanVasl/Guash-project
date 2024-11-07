@@ -39,6 +39,8 @@ Route::middleware(['role:cliente'])->group(function () {
     Route::post('/pedidos/iniciar-programacion', [PedidoController::class, 'iniciarProgramacion'])->name('pedidos.iniciarProgramacion');
     Route::get('/pedidos/{pedido}/programar', [PedidoController::class, 'programar'])->name('pedidos.programar');
     Route::post('/pedidos/{pedido}/programar', [PedidoController::class, 'guardarProgramacion'])->name('pedidos.guardarProgramacion');
+    Route::get('/pedidos/verificar-intentos-programacion', [PedidoController::class, 'verificarIntentosProgramacion'])->name('pedidos.verificarIntentosProgramacion');
+    Route::get('/pedidos/verificar-intentos', [PedidoController::class, 'verificarIntentos'])->name('pedidos.verificarIntentos');
 });
 
 /*Usuario Master*/
