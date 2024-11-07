@@ -53,6 +53,7 @@ class UsuarioController extends Controller
     public function logoutUsuario(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate(); // Invalida la sesión
         return redirect('/loginUsuario'); // Redirigir al formulario de login
     }
 }
