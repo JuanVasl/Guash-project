@@ -10,22 +10,35 @@ use App\Models\PrecioServicio;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PedidoController extends Controller
 {
     public function inicioPedido(Request $request)
     {
+        $userId = auth()->user()->id_cliente;
+
+        // Genera una clave única para el usuario en caché
+        $cacheKey = "user_{$userId}_pedido_count";
+        $currentCount = Cache::get($cacheKey, 0);
+
+        if ($currentCount >= 3) {
+            return redirect()->back()->withErrors(['message' => 'Has alcanzado el límite de 3 pedidos por hora. Inténtalo más tarde.']);
+        }
+
         if ($request->isMethod('post')) {
             $fecha = Carbon::now('America/Guatemala');
-            $idCliente = auth()->user()->id_cliente;
             $pedido = Pedido::create([
                 'fecha' => $fecha,
-                'id_cliente' => $idCliente,
+                'id_cliente' => $userId,
                 'programado' => 0,
                 'id_estado' => 1,
             ]);
 
+            // Incrementa el contador y establece el tiempo de expiración a 1 hora
+            Cache::put($cacheKey, $currentCount + 1, now()->addHour());
         }
+
         return redirect()->route('pedidos.servicios', $pedido);
     }
     public function direccion($pedido)
@@ -158,13 +171,29 @@ class PedidoController extends Controller
     {
         if ($request->isMethod('post')) {
             $idCliente = auth()->user()->id_cliente;
+            $cacheKey = "user_{$idCliente}_programacion_count";
+
+            // Obtiene el número actual de intentos de programación
+            $currentCount = Cache::get($cacheKey, 0);
+
+            if ($currentCount >= 3) {
+                return redirect()->route('pedidos.programar')
+                    ->with('error', 'Has alcanzado el límite de 3 intentos de programación por hora.');
+            }
+
+            // Incrementa el contador de intentos en el caché
+            Cache::increment($cacheKey);
+            Cache::put($cacheKey, $currentCount + 1, now()->addHour());
+
+            // Crea el pedido programado
             $pedido = Pedido::create([
                 'id_cliente' => $idCliente,
                 'programado' => 1,
                 'id_estado' => 1,
             ]);
+
+            return redirect()->route('pedidos.programar', $pedido);
         }
-        return redirect()->route('pedidos.programar', $pedido);
     }
 
     public function programar(Pedido $pedido)
@@ -184,4 +213,23 @@ class PedidoController extends Controller
 
         return redirect()->route('pedidos.servicios', $pedido);
     }
+    public function verificarIntentosProgramacion()
+    {
+        $userId = auth()->user()->id_cliente;
+        $cacheKey = "user_{$userId}_programacion_count";
+        $currentCount = Cache::get($cacheKey, 0);
+        $intentosRestantes = max(0, 3 - $currentCount);
+
+        return response()->json(['intentos_restantes' => $intentosRestantes]);
+    }
+    public function verificarIntentos()
+    {
+        $userId = auth()->user()->id_cliente;
+        $cacheKey = "user_{$userId}_pedido_count";
+        $currentCount = Cache::get($cacheKey, 0);
+        $intentosRestantes = max(0, 3 - $currentCount);
+
+        return response()->json(['intentos_restantes' => $intentosRestantes]);
+    }
+
 }
