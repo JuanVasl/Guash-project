@@ -72,7 +72,7 @@
                         <div class="row justify-content-center">
                             <div class="col-auto">
                                 <div class="items-center">
-                                    {{ $pedidos->links() }}
+                                    {{ $pedidos->onEachSide(0)->links() }}
                                 </div>
                             </div>
                         </div>

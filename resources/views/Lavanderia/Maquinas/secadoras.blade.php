@@ -33,7 +33,7 @@
                         </tbody>
                     </table>
                     <!-- Paginacion -->
-                    {{ $secadora->links() }}
+                    {{ $secadora->onEachSide(0)->links() }}
                 </div>
             </div>
         </div>

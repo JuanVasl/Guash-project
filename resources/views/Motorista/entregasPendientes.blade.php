@@ -57,7 +57,7 @@
                 </tbody>
             </table>
             <!-- Paginacion -->
-            {{ $entrega->links() }}
+            {{ $entrega->onEachSide(0)->links() }}
         </div>
     </div>
 </div>

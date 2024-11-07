@@ -57,7 +57,7 @@
 
         <!-- Mostrar la paginación -->
         <div class="d-flex justify-content-center">
-            {{ $pedidos->appends(['fecha' => $fecha])->links() }}
+            {{ $pedidos->appends(['fecha' => $fecha])->onEachSide(0)->links() }}
         </div>
     </div>
             </div>

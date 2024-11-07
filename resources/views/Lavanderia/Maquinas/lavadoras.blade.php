@@ -33,7 +33,7 @@
                         </tbody>
                     </table>
                     <!-- Paginacion -->
-                    {{ $lavadora->links() }}
+                    {{ $lavadora->onEachSide(0)->links() }}
                 </div>
             </div>
         </div>

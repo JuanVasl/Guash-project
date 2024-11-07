@@ -29,7 +29,7 @@
                     </tbody>
                 </table>
                 <!-- Paginacion -->
-                {{ $pedido->links() }}
+                {{ $pedido->onEachSide(0)->links() }}
             </div>
         </div>
     </div>
