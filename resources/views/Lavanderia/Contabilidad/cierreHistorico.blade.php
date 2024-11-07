@@ -47,7 +47,7 @@
 
         <!-- Paginación -->
         <div class="d-flex justify-content-center">
-            {{ $cierres->links() }}
+            {{ $cierres->onEachSide(0)->links() }}
         </div>
 
         <a href="/menuAdmin/Conta" class="btn btn-danger">Regresar</a>
