@@ -37,6 +37,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate(); // Invalida la sesión
         return redirect('/'); // Redirigir al formulario de login
     }
 }
